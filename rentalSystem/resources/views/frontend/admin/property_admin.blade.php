@@ -37,50 +37,85 @@
                 @method('PUT')
             @endif
 
+            <!-- Title Field -->
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{ old('title', $property->title ?? '') }}" required>
             </div>
 
+            <!-- Description Field -->
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea class="form-control" name="description" id="description" rows="4" required>{{ old('description', $property->description ?? '') }}</textarea>
             </div>
 
+            <!-- Address Field -->
             <div class="form-group">
                 <label for="address">Address</label>
                 <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="{{ old('address', $property->address ?? '') }}" required>
             </div>
 
+            <!-- Location Field -->
             <div class="form-group">
                 <label for="location">Location</label>
                 <input type="text" class="form-control" name="location" id="location" placeholder="Location" value="{{ old('location', $property->location ?? '') }}" required>
             </div>
 
+            <!-- Price per Day Field -->
             <div class="form-group">
                 <label for="price_per_day">Price per Day</label>
                 <input type="number" step="0.01" class="form-control" name="price_per_day" id="price_per_day" placeholder="Price per Day" value="{{ old('price_per_day', $property->price_per_day ?? '') }}" required>
             </div>
 
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" name="availability" id="availability" value="1" {{ old('availability', $property->availability ?? true) ? 'checked' : '' }}>
-                <label class="form-check-label" for="availability">Available</label>
+            <!-- Availability Field -->
+
+            <div class="form-group">
+                <label for="number_of_rooms">Number of Rooms</label>
+                <input type="number" class="form-control" name="number_of_rooms" id="number_of_rooms" placeholder="Number of Rooms" value="{{ old('number_of_rooms', $property->number_of_rooms ?? '') }}">
             </div>
 
             <div class="form-group">
-                <label for="photos">Upload Photos</label>
-                <input type="file" name="photos[]" class="file-upload-default" multiple>
-                {{-- <div class="input-group col-xs-12"> --}}
-                    <input type="file" class="form-control file-upload-info" name="photo_url" placeholder="Upload Image">
-                    {{-- <span class="input-group-append">
-                        <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                    </span> --}}
-                {{-- </div> --}}
+                <label for="number_of_bathrooms">Number of Bathrooms</label>
+                <input type="number" class="form-control" name="number_of_bathrooms" id="number_of_bathrooms" placeholder="Number of Bathrooms" value="{{ old('number_of_bathrooms', $property->number_of_bathrooms ?? '') }}">
             </div>
 
+            <div class="form-group">
+                <label for="number_of_bedrooms">Number of Bedrooms</label>
+                <input type="number" class="form-control" name="number_of_bedrooms" id="number_of_bedrooms" placeholder="Number of Bedrooms" value="{{ old('number_of_bedrooms', $property->number_of_bedrooms ?? '') }}">
+            </div>
+
+            <div class="form-group">
+                <label for="number_of_garage">Number of Garage</label>
+                <input type="number" class="form-control" name="number_of_garage" id="number_of_garage" placeholder="Number of Garage" value="{{ old('number_of_garage', $property->number_of_garage ?? '') }}">
+             </div>
+             <div class="form-group d-flex align-items-center justify-content-between ml-4 mr-4">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="AC" id="AC" value="1" {{ old('AC', $property->AC ?? false) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="AC">Air Conditioning</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="WIFI" id="WIFI" value="1" {{ old('WIFI', $property->WIFI ?? false) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="WIFI">WIFI</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="pool" id="pool" value="1" {{ old('pool', $property->pool ?? false) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="pool">Pool</label>
+                </div>
+            </div>
+        
+
+            <!-- Photos Upload Field -->
+            <div class="form-group">
+                <label for="photos">Upload Photos</label>
+                <input type="file" name="photos[]" class="file-upload-default" multiple>
+                <input type="file" class="form-control file-upload-info" name="photo_url" placeholder="Upload Image">
+            </div>
+
+            <!-- Submit Button -->
             <button type="submit" class="btn btn-primary mr-2">{{ isset($property) ? 'Update Property' : 'Create Property' }}</button>
             <button class="btn btn-light">Cancel</button>
         </form>
+
       </div>
     </div>
   </div>

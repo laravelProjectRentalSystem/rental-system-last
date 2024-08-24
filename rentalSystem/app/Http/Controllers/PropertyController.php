@@ -128,36 +128,48 @@ class PropertyController extends Controller
             'address' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'price_per_day' => 'required|numeric',
-            'availability' => 'boolean',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'number_of_rooms' => 'nullable|integer',
+            'number_of_bathrooms' => 'nullable|integer',
+            'number_of_bedrooms' => 'nullable|integer',
+            'number_of_garage' => 'nullable|integer',
+            'AC' => 'boolean',
+            'WIFI' => 'boolean',
+            'pool' => 'boolean',
+            'photos' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if (auth()->id()) {
-            $property = Property::create([
-                'user_id' => auth()->id(),
-                'title' => $request->title,
-                'description' => $request->description,
-                'address' => $request->address,
-                'location' => $request->location,
-                'price_per_day' => $request->price_per_day,
-                'availability' => $request->has('availability') ? $request->availability : true,
-            ]);
+        $property = Property::create([
+            'user_id' => auth()->id(),
+            'title' => $request->title,
+            'description' => $request->description,
+            'address' => $request->address,
+            'location' => $request->location,
+            'price_per_day' => $request->price_per_day,
+            'number_of_rooms' => $request->number_of_rooms,
+            'number_of_bathrooms' => $request->number_of_bathrooms,
+            'number_of_bedrooms' => $request->number_of_bedrooms,
+            'number_of_garage' => $request->number_of_garage,
+            'AC' => $request->has('AC'),
+            'WIFI' => $request->has('WIFI'),
+            'pool' => $request->has('pool'),
+        ]);
 
-            if ($request->hasFile('photos')) {
-                foreach ($request->file('photos') as $photo) {
-                    $path = $photo->store('property_photos', 'public');
-                    PropertyPhoto::create([
-                        'property_id' => $property->id,
-                        'photo_url' => $path,
-                    ]);
-                }
+        if ($request->hasFile('photos')) {
+
+                $path = $photo->store('property_photos', 'public');
+                PropertyPhoto::create([
+                    'property_id' => $property->id,
+                    'photo_url' => $path,
+                ]);
             }
 
-            return redirect()->route('property.index')->with('success', 'Property created successfully.');
-        } else {
-            return redirect()->route('property.index')->withErrors('Error', 'Cannot create property. You need to log in.');
-        }
+
+        return redirect()->route('property.index')->with('success', 'Property created successfully.');
+
+
     }
+
+
     public function indexbooking()
     {
         // Retrieve bookings that are related to properties owned by the authenticated user, with eager loading for property and renter relationships
@@ -174,38 +186,53 @@ class PropertyController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Property $property)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
-            'address' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'price_per_day' => 'required|numeric',
-            'availability' => 'boolean',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required',
+        'address' => 'required|string|max:255',
+        'location' => 'required|string|max:255',
+        'price_per_day' => 'required|numeric',
+        'availability' => 'boolean',
+        'number_of_rooms' => 'nullable|integer',
+        'number_of_bathrooms' => 'nullable|integer',
+        'number_of_bedrooms' => 'nullable|integer',
+        'number_of_garage' => 'nullable|integer',
+        'AC' => 'boolean',
+        'WIFI' => 'boolean',
+        'pool' => 'boolean',
+        'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $property->update($request->only([
-            'title',
-            'description',
-            'address',
-            'location',
-            'price_per_day',
-            'availability'
-        ]));
+    $property->update($request->only([
+        'title',
+        'description',
+        'address',
+        'location',
+        'price_per_day',
+        'availability',
+        'number_of_rooms',
+        'number_of_bathrooms',
+        'number_of_bedrooms',
+        'number_of_garage',
+        'AC',
+        'WIFI',
+        'pool',
+    ]));
 
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('property_photos', 'public');
-                PropertyPhoto::create([
-                    'property_id' => $property->id,
-                    'photo_url' => $path,
-                ]);
-            }
+    if ($request->hasFile('photos')) {
+        foreach ($request->file('photos') as $photo) {
+            $path = $photo->store('property_photos', 'public');
+            PropertyPhoto::create([
+                'property_id' => $property->id,
+                'photo_url' => $path,
+            ]);
         }
-
-        return redirect()->route('property.index')->with('success', 'Property updated successfully.');
     }
+
+    return redirect()->route('property.index')->with('success', 'Property updated successfully.');
+}
+
 
     /**
      * Remove the specified resource from storage.

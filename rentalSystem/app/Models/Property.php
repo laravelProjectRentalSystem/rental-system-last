@@ -16,8 +16,15 @@ class Property extends Model
         'address',
         'location',
         'price_per_day',
-        'availability',
+        'number_of_rooms',
+        'number_of_bathrooms',
+        'number_of_bedrooms',
+        'number_of_garage',
+        'AC',
+        'WIFI',
+        'pool',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
