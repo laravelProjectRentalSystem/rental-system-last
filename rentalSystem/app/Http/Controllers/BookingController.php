@@ -6,9 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Models\User;
 
 class BookingController extends Controller
 {
+
+    public function showDashboard()
+    {
+        // Calculate the total number of accepted bookings
+        $acceptedTotal = Booking::where('status', 'accepted')
+                                ->whereDate('updated_at', Carbon::today())
+                                ->count();
+                                $acceptedTotalLongTime = Booking::where('status', 'accepted')
+                                ->count();
+                                $adminCount = User::where('role', 'lessor')->count();
+                                $renterCount = User::where('role', 'renter')->count();
+                                $totalBookingPrice = Booking::where('status', 'accepted')
+                                ->sum('total_price');
+                                $totalBookingPriceToday = Booking::where('status', 'accepted')
+                                                 ->whereDate('updated_at', Carbon::today())
+                                                 ->sum('total_price');
+        return view('frontend.admin.dashboard', ['acceptedTotal' => $acceptedTotal,
+        'acceptedTotalLongTime'=>$acceptedTotalLongTime,
+        'adminCount'=> $adminCount,
+        'renterCount'=>$renterCount,
+        'totalBookingPrice'=>$totalBookingPrice,
+        'totalBookingPriceToday'=>$totalBookingPriceToday
+    ]);
+    }
     /**
      * Display a listing of the resource.
      */
