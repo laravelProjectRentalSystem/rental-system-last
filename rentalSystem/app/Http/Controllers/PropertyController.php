@@ -213,7 +213,7 @@ class PropertyController extends Controller
     public function destroy(Property $property)
     {
         $property->delete();
-        return redirect()->route('property.admin')->with('success', 'Property deleted successfully.');
+        return redirect()->route('property.index')->with('success', 'Property deleted successfully.');
     }
 
 
