@@ -102,13 +102,11 @@
                     <label class="form-check-label" for="pool">Pool</label>
                 </div>
             </div>
-        
 
-            <!-- Photos Upload Field -->
+
             <div class="form-group">
                 <label for="photos">Upload Photos</label>
-                <input type="file" name="photos[]" class="file-upload-default" multiple>
-                <input type="file" class="form-control file-upload-info" name="photo_url" placeholder="Upload Image">
+                <input type="file" name="photos[]" class="form-control file-upload-info" id="photos" placeholder="Upload Images" multiple>
             </div>
 
             <!-- Submit Button -->

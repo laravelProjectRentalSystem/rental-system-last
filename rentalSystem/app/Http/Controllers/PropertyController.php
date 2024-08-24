@@ -135,7 +135,7 @@ class PropertyController extends Controller
             'AC' => 'boolean',
             'WIFI' => 'boolean',
             'pool' => 'boolean',
-            'photos' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $property = Property::create([
@@ -154,20 +154,21 @@ class PropertyController extends Controller
             'pool' => $request->has('pool'),
         ]);
 
+        // Store the photos and save their paths in the database
         if ($request->hasFile('photos')) {
-
+            foreach ($request->file('photos') as $photo) {
                 $path = $photo->store('property_photos', 'public');
+
                 PropertyPhoto::create([
                     'property_id' => $property->id,
                     'photo_url' => $path,
                 ]);
             }
-
+        }
 
         return redirect()->route('property.index')->with('success', 'Property created successfully.');
-
-
     }
+
 
 
     public function indexbooking()
