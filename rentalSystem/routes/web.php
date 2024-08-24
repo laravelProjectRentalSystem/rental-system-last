@@ -120,6 +120,7 @@ Route::put('/dashboardB/{id}/update-status', [PropertyController::class, 'update
 // ------------------------------------ for sillar----------------------------------
 
 // ------------------------------------ for sillar----------------------------------
+Route::get('/create_property', [PropertyController::class, 'indexx'])->name('property.create');
 
 // Route for viewing a list of properties
 // Property routes
@@ -131,7 +132,7 @@ Route::put('/sprofile/update', [PropertyController::class, 'supdate'])->name('sp
 Route::get('/sprofile', [PropertyController::class, 'showprof'])->name('sprofile.page')->middleware('auth');
 
 
-Route::get('/create_property', [PropertyController::class, 'indexx'])->name('property.create');
+
 Route::get('/property_index', [PropertyController::class, 'index'])->name('property.index');
 
 Route::get('/property_admin/{property?}', [PropertyController::class, 'manage'])->name('properties.manage');

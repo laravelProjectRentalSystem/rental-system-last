@@ -15,7 +15,7 @@ class PropertyController extends Controller
 
         $booking = Booking::findOrFail($id);
         $booking->status = $request->input('status');
-        
+
         $booking->save();
 
         return redirect()->back()->with('success', 'Booking status updated successfully.');
@@ -62,7 +62,15 @@ class PropertyController extends Controller
 
         return redirect()->route('sprofile.page')->with('success', 'Profile updated successfully!');
     }
+    public function indexx()
+    {
+        // Retrieve all properties and bookings
+        $properties = Property::all();
+        $bookings = Booking::all();
 
+        // Pass the filtered properties and bookings to the view
+        return view('frontend.admin.property_create', compact('properties', 'bookings'));
+    }
 
     /**
      * Display a listing of the resource.
