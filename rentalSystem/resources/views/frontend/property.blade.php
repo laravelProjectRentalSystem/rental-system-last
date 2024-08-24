@@ -13,6 +13,11 @@
     width: 32%;
     margin-bottom: 2%;
     height: 45px;
+
+}
+select option{
+    overflow: auto;
+
 }
 </style>
 <!-- Breadcrumb Section Begin -->
@@ -23,7 +28,7 @@
                 <div class="breadcrumb-text">
                     <h4>Property Grid</h4>
                     <div class="bt-option">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <a href="{{ route('home') }}"  style="text-decoration: none"><i class="fa fa-home" ></i> Home</a>
                         <span>Property</span>
                     </div>
                 </div>
@@ -78,6 +83,7 @@
         <div class="search-form-content">
             <form action="{{ route('searchProperty') }}" method="POST" class="filter-form">
                 @csrf
+
                 <select class="sm-width" name="location">
                     <option value="" selected disabled>Choose The City</option>
                     <option value="amman">Amman</option>
@@ -93,7 +99,6 @@
                     <option value="jerash">Jerash</option>
                     <option value="al-Salt">Al-Salt</option>
                 </select>
-
                     <input value=""class="sm-width" placeholder="search" name="search">
 
                 <select class="sm-width" name="availability">
@@ -233,9 +238,9 @@
                         </div>
                                             </div>
                     <div class="pi-text">
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt" ></span></a>
                         <div class="pt-price">{{ $propertiy->price_per_day }}<span>/Day</span></div>
-                        <h5><a href="{{ route('viewProperty', ['id' => $propertiy->id]) }}">{{ $propertiy->title }}</a></h5>
+                        <h5><a href="{{ route('viewProperty', ['id' => $propertiy->id]) }}"style="text-decoration: none;">{{ $propertiy->title }}</a></h5>
                         <p><span class="icon_pin_alt"></span> {{ $propertiy->location }}</p>
                         <ul>
                             <li><i class="fa fa-object-group"></i> 2, 283</li>
@@ -250,7 +255,7 @@
                                     <h6>{{ $propertiy->user->name }}</h6>
                                 </div>
                                 <div class="pa-text">
-                                    123-455-688
+                                    {{ $propertiy->user->phone_number }}
                                 </div>
                             </div>
                         </div>
