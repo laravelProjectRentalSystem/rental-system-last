@@ -129,8 +129,8 @@
                     <div class="profile-image-container profile-image-only">
                         @if(auth()->user()->profile_picture)
                             <img src="{{ Storage::url(auth()->user()->profile_picture) }}" alt="Profile Picture">
-                        @else
-                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture">
+                        {{-- @else
+                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture"> --}}
                         @endif
                     </div>
                 </div>
