@@ -35,8 +35,8 @@
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <p class="card-title">Order Details</p>
-                <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
+                <p class="card-title">Total Price Details</p>
+                {{-- <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p> --}}
                 <div class="d-flex flex-wrap mb-5">
                   <div class="mr-5 mt-3">
                     <p class="text-muted">Total Accepted Booking Price</p>
