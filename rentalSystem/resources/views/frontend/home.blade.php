@@ -8,72 +8,79 @@
 <section class="hero-section">
     <div class="container">
         <div class="hs-slider owl-carousel">
-            <div class="hs-item set-bg" data-setbg="img/hero/hero-1.jpg">
+            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[0]->photos->first()->photo_url) }}">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hc-inner-text">
                             <div class="hc-text">
-                                <h4>Balaji Symphony</h4>
-                                <p><span class="icon_pin_alt"></span> Panvel, Navi Mumbai</p>
-                                <div class="label">For Rent</div>
-                                <h5>$ 65.0<span>/month</span></h5>
+                                <h4>{{ $properties[0]->title }}</h4>
+                                <p><span class="icon_pin_alt"></span> {{ $properties[0]->location }}</p>
+                                <div class="label" style="{{ $properties[0]->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
+                                    {{ $properties[0]->availability == 1 ? 'available' : 'rented' }}
+                                </div>
+                                <h5>{{ $properties[0]->price_per_day }}<span>/day</span></h5>
                             </div>
                             <div class="hc-widget">
                                 <ul>
                                     <li><i class="fa fa-object-group"></i> 2, 283</li>
-                                    <li><i class="fa fa-bathtub"></i> 03</li>
-                                    <li><i class="fa fa-bed"></i> 05</li>
-                                    <li><i class="fa fa-automobile"></i> 01</li>
+                                    <li><i class="fa fa-bathtub"></i> 0{{ $properties[0]->number_of_bathrooms }}</li>
+                                    <li><i class="fa fa-bed"></i> 0{{ $properties[0]->number_of_bedrooms }}</li>
+                                    <li><i class="fa fa-automobile"></i> 0{{ $properties[0]->number_of_garage }}</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hs-item set-bg" data-setbg="img/hero/hero-2.jpg">
+            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[1]->photos->first()->photo_url) }}">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hc-inner-text">
                             <div class="hc-text">
-                                <h4>Balaji Symphony</h4>
-                                <p><span class="icon_pin_alt"></span> Panvel, Navi Mumbai</p>
-                                <div class="label">For Rent</div>
-                                <h5>$ 65.0<span>/month</span></h5>
+                                <h4>{{ $properties[1]->title }}</h4>
+                                <p><span class="icon_pin_alt"></span> {{ $properties[1]->location }}</p>
+                                <div class="label" style="{{ $properties[1]->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
+                                    {{ $properties[1]->availability == 1 ? 'available' : 'rented' }}
+                                </div>
+                                <h5>{{ $properties[1]->price_per_day }}<span>/day</span></h5>
                             </div>
                             <div class="hc-widget">
                                 <ul>
                                     <li><i class="fa fa-object-group"></i> 2, 283</li>
-                                    <li><i class="fa fa-bathtub"></i> 03</li>
-                                    <li><i class="fa fa-bed"></i> 05</li>
-                                    <li><i class="fa fa-automobile"></i> 01</li>
+                                    <li><i class="fa fa-bathtub"></i> 0{{ $properties[1]->number_of_bathrooms }}</li>
+                                    <li><i class="fa fa-bed"></i> 0{{ $properties[1]->number_of_bedrooms }}</li>
+                                    <li><i class="fa fa-automobile"></i> 0{{ $properties[1]->number_of_garage }}</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="hs-item set-bg" data-setbg="img/hero/hero-3.jpg">
+            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[2]->photos->first()->photo_url) }}">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hc-inner-text">
                             <div class="hc-text">
-                                <h4>Balaji Symphony</h4>
-                                <p><span class="icon_pin_alt"></span> Panvel, Navi Mumbai</p>
-                                <div class="label">For Rent</div>
-                                <h5>$ 65.0<span>/month</span></h5>
+                                <h4>{{ $properties[2]->title }}</h4>
+                                <p><span class="icon_pin_alt"></span> {{ $properties[2]->location }}</p>
+                                <div class="label" style="{{ $properties[2]->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
+                                    {{ $properties[2]->availability == 1 ? 'available' : 'rented' }}
+                                </div>
+                                <h5>{{ $properties[2]->price_per_day }}<span>/day</span></h5>
                             </div>
                             <div class="hc-widget">
                                 <ul>
                                     <li><i class="fa fa-object-group"></i> 2, 283</li>
-                                    <li><i class="fa fa-bathtub"></i> 03</li>
-                                    <li><i class="fa fa-bed"></i> 05</li>
-                                    <li><i class="fa fa-automobile"></i> 01</li>
+                                    <li><i class="fa fa-bathtub"></i> 0{{ $properties[2]->number_of_bathrooms }}</li>
+                                    <li><i class="fa fa-bed"></i> 0{{ $properties[2]->number_of_bedrooms }}</li>
+                                    <li><i class="fa fa-automobile"></i> 0{{ $properties[2]->number_of_garage }}</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
