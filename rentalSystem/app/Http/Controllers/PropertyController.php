@@ -25,10 +25,9 @@ class PropertyController extends Controller
     }
     public function showprof()
     {
-        // Get the authenticated user's details
-        $user = auth()->user(); // This fetches the authenticated user's data
 
-        // Retrieve bookings for properties owned by the authenticated user
+        $user = auth()->user();
+
         $bookings = Booking::whereHas('property', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->get();
@@ -271,11 +270,14 @@ class PropertyController extends Controller
     // Data for one property
     public function property(string $id)
     {
+        $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();// try get all
+        // dd($propertPhoto[0]->photo_url);
+
         $property = Property::with('user')->findOrFail($id);
         $countOfReview = Review::where('property_id', $id)->count();
         $reviews = Review::with('renter')->where('property_id', $id)->get();
 
-        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews'));
+        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto'));
     }
     // listing all property
     public function AllProperty( Request $request )

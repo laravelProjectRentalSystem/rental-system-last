@@ -11,6 +11,10 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RenterController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\UserDashboardController;
+
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -139,6 +143,8 @@ Route::get('/property_admin/{property?}', [PropertyController::class, 'manage'])
 Route::post('/property_admin', [PropertyController::class, 'store'])->name('properties.store');
 Route::put('/property_index/{property}', [PropertyController::class, 'update'])->name('properties.update');
 Route::delete('/property_admin/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+Route::delete('/reviews/{id}', [BookingController::class, 'deleteReview'])->name('delete');
+
 // Route::get('/view_property', function () {
 //     return view('frontend.admin.property_create');
 // })->name('property_admin');
@@ -169,16 +175,15 @@ Route::resource('bookings', BookingController::class);
 
 
 // ProfileController
-use App\Http\Controllers\ProfileController;
+
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-use App\Http\Controllers\Auth\UserDashboardController;
+
 Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard')->middleware('auth');
 
 Route::get('/bookings', [BookingController::class, 'index'])->name('bookings');
 
-use App\Http\Controllers\ReviewController;
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 
