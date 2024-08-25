@@ -8,7 +8,7 @@
 <section class="hero-section">
     <div class="container">
         <div class="hs-slider owl-carousel">
-            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[0]->photos->first()->photo_url) }}">
+            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[0]->photos->first()->photo_url) }} " style="height: 600px;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hc-inner-text">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[1]->photos->first()->photo_url) }}">
+            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[1]->photos->first()->photo_url) }} " style="height: 600px;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hc-inner-text">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[2]->photos->first()->photo_url) }}">
+            <div class="hs-item set-bg" data-setbg="{{ asset('storage/' . $properties[2]->photos->first()->photo_url) }}" style="height: 600px;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hc-inner-text">
