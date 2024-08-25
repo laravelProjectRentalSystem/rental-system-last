@@ -60,24 +60,37 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'property_id' => 'required|exists:properties,id',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'total_price' => 'required|numeric|min:0',
         ]);
-        $bookingData = $request->all();
-        if(auth()->id()){
-            $bookingData['renter_id'] = auth()->id();
-        }else{
 
-            return redirect()->route('viewProperty',$bookingData['property_id'])->with('loginError', 'You need to create account or login to book');
+
+        if (!auth()->check()) {
+            return redirect()->route('viewProperty', $request->property_id)
+                             ->with('loginError', 'You need to create an account or log in to book.');
         }
 
-    Booking::create($bookingData);
 
-        return redirect()->route('viewProperty',$bookingData['property_id'])->with('successBook', 'Booking created successfully.');
+        $bookingData = $request->all();
+        $bookingData['renter_id'] = auth()->id();
+
+
+        $booking = Booking::create($bookingData);
+
+
+        $property = Property::find($booking->property_id);
+        if ($property) {
+            $property->updateAvailability();
+        }
+
+        return redirect()->route('viewProperty', $request->property_id)
+                         ->with('successBook', 'Booking created successfully.');
     }
+
 
 
 
@@ -121,6 +134,9 @@ class BookingController extends Controller
         $bookingData = $request->all();
         $bookingData['renter_id'] = auth()->id();
 
+
+
+        // Update the booking with the new data
         $booking->update($bookingData);
 
         return redirect()->route('bookings.index')->with('success', 'Booking updated successfully.');

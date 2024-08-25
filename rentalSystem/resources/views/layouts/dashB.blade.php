@@ -300,7 +300,7 @@
           </li>
           <li class="nav-item">
            <a class="nav-link" href="{{ route('property.index') }}">
-            <i class=" icon-grid mdi mdi-home-modern"></i> 
+            <i class=" icon-grid mdi mdi-home-modern"></i>
               <span class="menu-title">Manage Property</span>
             </a>
           </li>
@@ -312,7 +312,7 @@
            </li>
            <li class="nav-item">
             <a class="nav-link" href="{{ route('sreview') }}">
-                <i class=" icon-grid mdi mdi-thumb-up"></i> 
+                <i class=" icon-grid mdi mdi-thumb-up"></i>
                <span class="menu-title">Reviews</span>
              </a>
            </li>
