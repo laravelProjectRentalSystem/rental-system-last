@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="{{ asset('vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/ti-icons/css/themify-icons.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('js/select.dataTables.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('../../vendors/mdi/css/materialdesignicons.min.css') }}">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
@@ -35,65 +36,43 @@
         </button>
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
-            </div>
+
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
-                  </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+                  <i class="icon-bell mx-0"></i>
+                  <span class="count"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                  <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+
+                  @foreach($bookings as $booking)
+                  <a class="dropdown-item preview-item">
+                    <div class="preview-thumbnail">
+                      <div class="preview-icon bg-success">
+                        <i class="ti-info-alt mx-0"></i>
+                      </div>
+                    </div>
+                    <div class="preview-item-content">
+                      <h6 class="preview-subject font-weight-normal">
+                        {{ $booking->renter->name }}
+                        @if($booking->status == 'pending')
+                          - Pending
+                        @else
+                          - {{ ucfirst($booking->status) }}
+                        @endif
+                      </h6>
+                      <p class="font-weight-light small-text mb-0 text-muted">
+                        {{ $booking->created_at->diffForHumans() }}
+                      </p>
+                    </div>
+                  </a>
+                  @endforeach
+
                 </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="ti-settings mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="ti-user mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
+              </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="{{ asset('images/faces/face28.jpg') }}" alt="profile"/>
@@ -103,10 +82,13 @@
                 <i class="ti-settings text-primary"></i>
                 Settings
               </a>
-              <a class="dropdown-item">
+              <form id="logout-form" action="{{ route('destroy') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
+                <span class="menu-title">Logout</span>
+            </a>
             </div>
           </li>
           <li class="nav-item nav-settings d-none d-lg-flex">
@@ -297,34 +279,34 @@
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">
-              <i class="icon-grid menu-icon"></i>
+                <i class="icon-grid mdi mdi-view-dashboard"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
-              <i class="icon-grid menu-icon"></i>
+                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
               <span class="menu-title">Manage Users</span>
             </a>
           </li>
           <li class="nav-item">
            <a class="nav-link" href="{{ route('profile.profileAdmin', Auth::user()->id) }}">
-                <i class="icon-grid menu-icon"></i>
+            <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
                 <span class="menu-title">Manage Your Profile</span>
             </a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="{{ route('property.create') }}">
-            <i class="icon-grid menu-icon"></i>
+            <i class=" icon-grid mdi mdi-home-modern"></i>
             <span class="menu-title">Manage Property</span>
           </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="{{ route('destroy') }}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Logout</span>
             </a>
-        </li>
+        </li> --}}
 
 
         </ul>

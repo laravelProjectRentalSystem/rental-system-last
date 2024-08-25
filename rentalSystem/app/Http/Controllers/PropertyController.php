@@ -65,10 +65,14 @@ class PropertyController extends Controller
 
         return redirect()->route('sprofile.page')->with('success', 'Profile updated successfully!');
     }
-    public function indexx()
+    public function indexx(Request $request)
     {
-        // Retrieve all properties and bookings
-        $properties = Property::all();
+        $search = $request->input('search');
+
+        // Retrieve properties filtered by title
+        $properties = Property::when($search, function ($query, $search) {
+            return $query->where('title', 'like', '%' . $search . '%');
+        })->get();
         $bookings = Booking::all();
 
         // Pass the filtered properties and bookings to the view
@@ -98,17 +102,23 @@ class PropertyController extends Controller
 
 
     public function showReviews()
-    {       $bookings = Booking::whereHas('property', function ($query) {
-            $query->where('user_id', auth()->user()->id);
-        })->get();
-        // Get the properties owned by the authenticated user
+    {
+        // Fetch properties owned by the authenticated user
         $properties = Property::where('user_id', Auth::id())->pluck('id');
 
         // Fetch reviews where property_id matches the user's properties
-        $reviews = Review::whereIn('property_id', $properties)->get();
+        $reviews = Review::whereIn('property_id', $properties)
+                         ->with('renter') // Eager load the renter relationship
+                         ->get();
+
+        // Fetch bookings related to the user's properties
+        $bookings = Booking::whereHas('property', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })->get();
 
         return view('frontend.admin.sreview', compact('reviews', 'bookings'));
     }
+
 
 
     /**

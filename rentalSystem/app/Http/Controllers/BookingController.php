@@ -5,36 +5,59 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Property;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\Review;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
 
     public function showDashboard()
-    {
-        // Calculate the total number of accepted bookings
-        $acceptedTotal = Booking::where('status', 'accepted')
-                                ->whereDate('updated_at', Carbon::today())
-                                ->count();
-                                $acceptedTotalLongTime = Booking::where('status', 'accepted')
-                                ->count();
-                                $adminCount = User::where('role', 'lessor')->count();
-                                $renterCount = User::where('role', 'renter')->count();
-                                $totalBookingPrice = Booking::where('status', 'accepted')
+{
+    // Get the properties belonging to the authenticated user
+    $properties = Property::where('user_id', Auth::id())->pluck('id');
+
+    // Fetch reviews with property name and renter name
+    $reviews = Review::whereIn('property_id', $properties)
+                     ->with(['property', 'renter']) // Eager load the property and renter relationships
+                     ->get();
+
+    // Fetch bookings related to the user's properties
+    $bookings = Booking::whereHas('property', function ($query) {
+        $query->where('user_id', auth()->user()->id);
+    })->get();
+
+    $acceptedTotal = Booking::where('status', 'accepted')
+                            ->whereDate('updated_at', Carbon::today())
+                            ->count();
+
+    $acceptedTotalLongTime = Booking::where('status', 'accepted')
+                                    ->count();
+
+    $adminCount = User::where('role', 'lessor')->count();
+    $renterCount = User::where('role', 'renter')->count();
+
+    $totalBookingPrice = Booking::where('status', 'accepted')
                                 ->sum('total_price');
-                                $totalBookingPriceToday = Booking::where('status', 'accepted')
-                                                 ->whereDate('updated_at', Carbon::today())
-                                                 ->sum('total_price');
-        return view('frontend.admin.dashboard', ['acceptedTotal' => $acceptedTotal,
-        'acceptedTotalLongTime'=>$acceptedTotalLongTime,
-        'adminCount'=> $adminCount,
-        'renterCount'=>$renterCount,
-        'totalBookingPrice'=>$totalBookingPrice,
-        'totalBookingPriceToday'=>$totalBookingPriceToday
+
+    $totalBookingPriceToday = Booking::where('status', 'accepted')
+                                     ->whereDate('updated_at', Carbon::today())
+                                     ->sum('total_price');
+
+    return view('frontend.admin.dashboard', [
+        'acceptedTotal' => $acceptedTotal,
+        'acceptedTotalLongTime' => $acceptedTotalLongTime,
+        'adminCount' => $adminCount,
+        'renterCount' => $renterCount,
+        'totalBookingPrice' => $totalBookingPrice,
+        'totalBookingPriceToday' => $totalBookingPriceToday,
+        'bookings' => $bookings,
+        'reviews' => $reviews // Pass the reviews to the view
     ]);
-    }
+}
+
     /**
      * Display a listing of the resource.
      */
