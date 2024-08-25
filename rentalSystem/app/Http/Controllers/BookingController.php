@@ -15,6 +15,7 @@ class BookingController extends Controller
     public function showDashboard()
     {
         // Calculate the total number of accepted bookings
+        $bookings = Booking::all();
         $acceptedTotal = Booking::where('status', 'accepted')
                                 ->whereDate('updated_at', Carbon::today())
                                 ->count();
@@ -32,7 +33,8 @@ class BookingController extends Controller
         'adminCount'=> $adminCount,
         'renterCount'=>$renterCount,
         'totalBookingPrice'=>$totalBookingPrice,
-        'totalBookingPriceToday'=>$totalBookingPriceToday
+        'totalBookingPriceToday'=>$totalBookingPriceToday,
+        'bookings'=>$bookings
     ]);
     }
     /**

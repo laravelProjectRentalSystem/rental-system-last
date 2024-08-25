@@ -65,10 +65,14 @@ class PropertyController extends Controller
 
         return redirect()->route('sprofile.page')->with('success', 'Profile updated successfully!');
     }
-    public function indexx()
+    public function indexx(Request $request)
     {
-        // Retrieve all properties and bookings
-        $properties = Property::all();
+        $search = $request->input('search');
+
+        // Retrieve properties filtered by title
+        $properties = Property::when($search, function ($query, $search) {
+            return $query->where('title', 'like', '%' . $search . '%');
+        })->get();
         $bookings = Booking::all();
 
         // Pass the filtered properties and bookings to the view

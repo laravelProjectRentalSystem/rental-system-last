@@ -8,10 +8,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        $search = $request->input('search');
+
+        $users = User::when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })->get();
+
+        return view('users.index', compact('users', 'search'));
     }
 
     public function create()
