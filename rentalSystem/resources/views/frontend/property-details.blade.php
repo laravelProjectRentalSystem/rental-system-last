@@ -38,37 +38,41 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <div class="property-pic-slider owl-carousel">
+    <div class="property-pic-slider slider owl-carousel">
+
+
+
         <div class="ps-item">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-lg-12 p-0">
-                                <div class="ps-item-inner large-item set-bg" data-setbg="{{ asset('img/property/slider/ps-1.jpg') }}"></div>
+                                <div class="ps-item-inner large-item set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[0]->photo_url) }}"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg=" {{ asset('img/property/slider/ps-2.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg=" {{ asset('storage/'.$propertPhoto[1]->photo_url) }}"></div>
                             </div>
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('img/property/slider/ps-3.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[2]->photo_url) }}"></div>
                             </div>
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('img/property/slider/ps-4.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[3]->photo_url) }}"></div>
                             </div>
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('img/property/slider/ps-5.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[4]->photo_url) }}"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="ps-item">
+
+        {{-- <div class="ps-item">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6">
@@ -96,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <div class="container">
         <div class="row">

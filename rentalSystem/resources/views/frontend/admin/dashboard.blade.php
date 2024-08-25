@@ -107,20 +107,28 @@
                     <thead>
                         <tr>
                             <th>Property ID</th>
+                            <th>title</th>
                             <th>Reviewer Name</th>
                             <th>Rating</th>
                             <th>Review</th>
                             <th>Date</th>
+                            <th>action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($reviews as $review)
                             <tr>
                                 <td>{{ $review->property_id }}</td>
+                                <td>{{ $review->property->title }}</td>
                                 <td>{{ $review->renter->name }}</td>
                                 <td>{{ $review->rating }}</td>
                                 <td>{{ $review->comment }}</td>
                                 <td>{{ $review->created_at->format('Y-m-d') }}</td>
+                                <td><form action="{{ route('delete' ,$review->id ) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-md"> delete</button>
+                                </form></td>
                             </tr>
                         @endforeach
                     </tbody>

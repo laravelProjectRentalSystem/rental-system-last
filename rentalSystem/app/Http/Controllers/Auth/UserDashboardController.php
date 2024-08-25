@@ -17,3 +17,4 @@ class UserDashboardController extends Controller
         return view('auth.user_dashboard', compact('user', 'bookings', 'reviews'));
     }
 }
+
