@@ -1,18 +1,24 @@
 @extends('layouts.dashB')
 
 @section('content')
+
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
             <div class="col-md-12 grid-margin">
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                        <h3 class="font-weight-bold">Your Property Reviews</h3>
+                        <h3 class="font-weight-bold">
+                            @if(Auth::check())
+                                Welcome, {{ Auth::user()->name }}!
+                            @else
+                                Welcome, Guest!
+                            @endif
+                        </h3>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Reviews Table</h4>
@@ -34,9 +40,9 @@
                                 @foreach($reviews as $review)
                                     <tr>
                                         <td>{{ $review->property_id }}</td>
-                                        <td>{{ $review->reviewer_name }}</td>
+                                        <td>{{ $review->renter->name }}</td>
                                         <td>{{ $review->rating }}</td>
-                                        <td>{{ $review->review }}</td>
+                                        <td>{{ $review->comment }}</td>
                                         <td>{{ $review->created_at->format('Y-m-d') }}</td>
                                     </tr>
                                 @endforeach
