@@ -187,3 +187,6 @@ Route::get('/bookings', [BookingController::class, 'index'])->name('bookings');
 
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 
+
+
+Route::patch('/bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
