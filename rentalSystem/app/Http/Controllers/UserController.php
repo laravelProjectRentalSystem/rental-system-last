@@ -82,7 +82,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {Auth::logout();
-        // $user->delete();
+         $user->delete();
         return redirect('/login_register')->with('success', 'User deleted successfully.');
     }
     public function profile()
