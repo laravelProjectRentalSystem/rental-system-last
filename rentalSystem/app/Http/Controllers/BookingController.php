@@ -59,43 +59,52 @@ class BookingController extends Controller
     }
 
     public function store(Request $request)
-    {
+{
+    $request->validate([
+        'property_id' => 'required|exists:properties,id',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'total_price' => 'required|numeric|min:0',
+    ]);
 
-        $request->validate([
-            'property_id' => 'required|exists:properties,id',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'total_price' => 'required|numeric|min:0',
-        ]);
-
-
-        if (!auth()->check()) {
-            return redirect()->route('viewProperty', $request->property_id)
-                             ->with('loginError', 'You need to create an account or log in to book.');
-        }
-
-
-        $bookingData = $request->all();
-        $bookingData['renter_id'] = auth()->id();
-
-
-        $booking = Booking::create($bookingData);
-
-
-        $property = Property::find($booking->property_id);
-        if ($property) {
-            $property->updateAvailability();
-        }
-
+    if (!auth()->check()) {
         return redirect()->route('viewProperty', $request->property_id)
-                         ->with('successBook', 'Booking created successfully.');
+                         ->with('loginError', 'You need to create an account or log in to book.');
     }
 
+    // Check if the property is already booked during the requested dates with status 'accepted'
+    $overlappingBooking = Booking::where('property_id', $request->property_id)
+        ->where('status', 'accepted')
+        ->where(function ($query) use ($request) {
+            $query->whereBetween('start_date', [$request->start_date, $request->end_date])
+                  ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
+                  ->orWhere(function ($query) use ($request) {
+                      $query->where('start_date', '<=', $request->start_date)
+                            ->where('end_date', '>=', $request->end_date);
+                  });
+        })
+        ->exists();
 
+    if ($overlappingBooking) {
+        return redirect()->route('viewProperty', $request->property_id)
+                         ->with('bookingError', 'The property is already booked for the selected dates.');
+    }
 
+    $bookingData = $request->all();
+    $bookingData['renter_id'] = auth()->id();
 
+    // Create the booking
+    $booking = Booking::create($bookingData);
 
+    // Update property availability (if applicable)
+    $property = Property::find($booking->property_id);
+    if ($property) {
+        $property->updateAvailability();
+    }
 
+    return redirect()->route('viewProperty', $request->property_id)
+                     ->with('successBook', 'Booking created successfully.');
+}
     /**
      * Display the specified resource.
      */

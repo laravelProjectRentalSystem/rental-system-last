@@ -252,7 +252,9 @@ class PropertyController extends Controller
     public function home()
     {
         $properties = Property::with(['user', 'amenities'])->paginate(6);
-        return view('frontend.home', compact('properties'));
+        $oneProperty = Property::with(['user', 'amenities'])->paginate(1);
+
+        return view('frontend.home', compact('properties' ,'oneProperty' ));
     }
 
     // Data for one property
