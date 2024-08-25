@@ -38,37 +38,41 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <div class="property-pic-slider owl-carousel">
+    <div class="property-pic-slider slider owl-carousel">
+
+
+
         <div class="ps-item">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-lg-12 p-0">
-                                <div class="ps-item-inner large-item set-bg" data-setbg="{{ asset('img/property/slider/ps-1.jpg') }}"></div>
+                                <div class="ps-item-inner large-item set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[0]->photo_url) }}"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg=" {{ asset('img/property/slider/ps-2.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg=" {{ asset('storage/'.$propertPhoto[1]->photo_url) }}"></div>
                             </div>
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('img/property/slider/ps-3.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[2]->photo_url) }}"></div>
                             </div>
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('img/property/slider/ps-4.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[3]->photo_url) }}"></div>
                             </div>
                             <div class="col-sm-6 p-0">
-                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('img/property/slider/ps-5.jpg') }}"></div>
+                                <div class="ps-item-inner set-bg" data-setbg="{{ asset('storage/'.$propertPhoto[4]->photo_url) }}"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="ps-item">
+
+        {{-- <div class="ps-item">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6">
@@ -96,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <div class="container">
         <div class="row">
@@ -105,7 +109,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="pd-title">
-                                <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                {{-- <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a> --}}
                                 <div class="label" style="{{ $property->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
                                     {{ $property->availability == 1 ? 'available' : 'rented' }}
                                 </div>
@@ -114,7 +118,7 @@
                                 <p><span class="icon_pin_alt"></span> {{ $property->address }}</p>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        {{-- <div class="col-lg-6">
                             <div class="pd-social">
 
                                 <a href="#"><i class="fa fa-mail-forward"></i></a>
@@ -123,7 +127,7 @@
                                 <a href="#"><i class="fa fa-mail-forward"></i></a>
                                 <a href="#"><i class="fa fa-cloud-download"></i></a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="pd-board">
                         <div class="tab-board">
@@ -238,7 +242,7 @@
                             <div class="pr-item">
                                 <div class="pr-avatar">
                                     <div class="pr-pic">
-                                        <img src="{{ asset('img/property/details/review/review-1.jpg') }}" alt="">
+                                        <img src="{{ Storage::url($property->user->profile_picture) }}" alt="">
                                     </div>
                                     <div class="pr-text">
                                         <h6>{{ $review->renter->name }}</h6>
@@ -303,11 +307,11 @@
                         </div>
                         <div class="top-agent">
                             <div class="ta-item">
-                                <div class="ta-pic set-bg" data-setbg="{{ asset('img/property/details/sidebar/ta-1.jpg') }}"></div>
+                                <div class="ta-pic set-bg" data-setbg="{{ Storage::url($property->user->profile_picture) }}"></div>
                                 <div class="ta-text">
-                                    <h6><a href="#">{{ $property->user->name }}</a></h6>
+                                    <h6><a  style="text-decoration: none">{{ $property->user->name }}</a></h6>
                                     {{-- <span>Team Leader</span> --}}
-                                    <div class="ta-num">123-455-688</div>
+                                    <div class="ta-num">{{ $property->user->phone_number }}</div>
                                 </div>
                             </div>
 
@@ -338,38 +342,36 @@
             @endforeach
         </ul>
     </div>
-@endif --}}
-<form action="{{ route('bookings.store' , $property->id) }}" method="POST" class="calculator-form">
+@endif --}}<!-- Flatpickr CSS -->
+
+<!-- Booking Form -->
+<form action="{{ route('bookings.store', $property->id) }}" method="POST" class="calculator-form">
     @csrf
-    <!-- Hidden input to store property_id -->
-        <input type="hidden" id="property_id" name="property_id" value="{{$property->id }}">
+    <input type="hidden" id="property_id" name="property_id" value="{{ $property->id }}">
+
+
     <div class="filter-input">
         <p>Start Date</p>
-            <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}">
+        <input type="text" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
     </div>
 
     <div class="filter-input">
         <p>End Date</p>
-            <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}">
+        <input type="text" id="end_date" name="end_date" value="{{ old('end_date') }}" required>
     </div>
 
     <div class="filter-input">
         <p>Total Price</p>
-        <input type="text" id="total_price" name="total_price" placeholder="$" value="{{ $property->price_per_day }}">
+        <input type="text" id="total_price" name="total_price" placeholder="$" value="{{ $property->price_per_day }}" required>
     </div>
 
     <button type="submit" class="site-btn">Book</button>
 </form>
-</div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Property Details Section End -->
+<!-- Flatpickr JS -->
+<script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
 
-    </form>
+
 </div>
 
                 </div>
@@ -381,8 +383,40 @@
 
 
 <!-- Contact Section Begin -->
+<link href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css' rel='stylesheet' />
 
     <script>
+         document.addEventListener('DOMContentLoaded', function () {
+        var bookedDates = @json($bookedDates);
+
+        var disabledDates = bookedDates.flatMap(dateRange => {
+            const start = new Date(dateRange.start_date);
+            const end = new Date(dateRange.end_date);
+            let dates = [];
+
+            while (start <= end) {
+                dates.push(start.toISOString().split('T')[0]); // Format as yyyy-mm-dd
+                start.setDate(start.getDate() + 1);
+            }
+
+            return dates;
+        });
+
+        flatpickr("#start_date", {
+            minDate: "today",
+            disable: disabledDates,
+            onChange: function(selectedDates, dateStr, instance) {
+                var endDateInput = document.getElementById('end_date');
+                endDateInput.disabled = false;
+                flatpickr("#end_date").set('minDate', dateStr);
+            }
+        });
+
+        flatpickr("#end_date", {
+            minDate: "today",
+            disable: disabledDates
+        });
+    });
 document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll('.rating .stars i');
     const ratingInput = document.getElementById('rating');

@@ -48,38 +48,7 @@ select option{
             </div>
 
         </div>
-        {{-- <div class="newcont" >
-            <select class="sm-width">
-                <option value="" selected disabled>Choose The City</option>
-                <option value="amman">Amman</option>
-                <option value="aqaba">Aqaba</option>
-                <option value="irbid">Irbid</option>
-                <option value="zarqa">Zarqa</option>
-                <option value="mafraq">Mafraq</option>
-                <option value="karak">Karak</option>
-                <option value="madaba">Madaba</option>
-                <option value="tafilah">Tafilah</option>
-                <option value="ma'an">Ma'an</option>
-                <option value="ajloun">Ajloun</option>
-                <option value="jerash">Jerash</option>
-                <option value="al-Salt">Al-Salt</option>
-            </select>
-            <select class="sm-width">
-                <option value="" selected disabled>Choose The City</option>
-                <option value="amman">Amman</option>
-                <option value="aqaba">Aqaba</option>
-                <option value="irbid">Irbid</option>
-                <option value="zarqa">Zarqa</option>
-                <option value="mafraq">Mafraq</option>
-                <option value="karak">Karak</option>
-                <option value="madaba">Madaba</option>
-                <option value="tafilah">Tafilah</option>
-                <option value="ma'an">Ma'an</option>
-                <option value="ajloun">Ajloun</option>
-                <option value="jerash">Jerash</option>
-                <option value="al-Salt">Al-Salt</option>
-            </select>
-        </div> --}}
+
         <div class="search-form-content">
             <form action="{{ route('searchProperty') }}" method="POST" class="filter-form">
                 @csrf
@@ -106,13 +75,6 @@ select option{
                     <option value="1">available</option>
                     <option value="0">not available</option>
                 </select>
-                {{-- <select class="sm-width">
-                    <option value="">Property Type</option>
-                </select> --}}
-
-                {{-- <input type="number" placeholder="No Of Rooms" class="sm-width"name="number_of_rooms"> --}}
-                {{-- <input type="number" placeholder="No Of Bedrooms" class="sm-width"name="number_of_bedrooms"> --}}
-                {{-- <input type="number" placeholder="No Of Bathrooms" class="sm-width"name="number_of_bathrooms"> --}}
 
 
                 <div class="price-range-wrap sm-width">
@@ -238,20 +200,20 @@ select option{
                         </div>
                                             </div>
                     <div class="pi-text">
-                        <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt" ></span></a>
+                        {{-- <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt" ></span></a> --}}
                         <div class="pt-price">{{ $propertiy->price_per_day }}<span>/Day</span></div>
                         <h5><a href="{{ route('viewProperty', ['id' => $propertiy->id]) }}"style="text-decoration: none;">{{ $propertiy->title }}</a></h5>
                         <p><span class="icon_pin_alt"></span> {{ $propertiy->location }}</p>
                         <ul>
-                            <li><i class="fa fa-object-group"></i> 2, 283</li>
-                            <li><i class="fa fa-bathtub"></i> 03</li>
-                            <li><i class="fa fa-bed"></i> 05</li>
-                            <li><i class="fa fa-automobile"></i> 01</li>
+                            {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
+                            <li><i class="fa fa-bathtub"></i> 0{{ $propertiy->number_of_bathrooms }}</li>
+                            <li><i class="fa fa-bed"></i> 0{{ $propertiy->number_of_bedrooms }}</li>
+                            <li><i class="fa fa-automobile"></i> 0{{ $propertiy->number_of_garage }}</li>
                         </ul>
                         <div class="pi-agent">
                             <div class="pa-item">
                                 <div class="pa-info">
-                                    <img src="img/property/posted-by/pb-1.jpg" alt="">
+                                    <img src="{{ Storage::url($propertiy->user->profile_picture) }}" alt="Profile Picture">
                                     <h6>{{ $propertiy->user->name }}</h6>
                                 </div>
                                 <div class="pa-text">

@@ -17,7 +17,7 @@ class PropertyController extends Controller
         $booking->status = $request->input('status');
 
          if ($booking->status == 'accepted') {
-            Property::where('id', $booking->property_id)->update(['availability' => 0]);
+            Property::where('id', $booking->status)->update(['availability' => 0]);
         }
         $booking->save();
 
@@ -25,10 +25,9 @@ class PropertyController extends Controller
     }
     public function showprof()
     {
-        // Get the authenticated user's details
-        $user = auth()->user(); // This fetches the authenticated user's data
 
-        // Retrieve bookings for properties owned by the authenticated user
+        $user = auth()->user();
+
         $bookings = Booking::whereHas('property', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->get();
@@ -115,23 +114,23 @@ class PropertyController extends Controller
 
 
 
-    public function showReviews()
-    {
-        // Fetch properties owned by the authenticated user
-        $properties = Property::where('user_id', Auth::id())->pluck('id');
+   public function showReviews()
+{
+    // Fetch properties owned by the authenticated user
+    $properties = Property::where('user_id', Auth::id())->pluck('id');
 
-        // Fetch reviews where property_id matches the user's properties
-        $reviews = Review::whereIn('property_id', $properties)
-                         ->with('renter') // Eager load the renter relationship
-                         ->get();
+    // Fetch reviews where property_id matches the user's properties
+    $reviews = Review::whereIn('property_id', $properties)
+                     ->with('renter') // Eager load the renter relationship
+                     ->get();
 
-        // Fetch bookings related to the user's properties
-        $bookings = Booking::whereHas('property', function ($query) {
-            $query->where('user_id', auth()->user()->id);
-        })->get();
+    // Fetch bookings related to the user's properties
+    $bookings = Booking::whereHas('property', function ($query) {
+        $query->where('user_id', auth()->user()->id);
+    })->get();
 
-        return view('frontend.admin.sreview', compact('reviews', 'bookings'));
-    }
+    return view('frontend.admin.sreview', compact('reviews', 'bookings'));
+}
 
 
 
@@ -275,9 +274,8 @@ class PropertyController extends Controller
     // Fetching data for home page
     public function home()
     {
-        $property = Property::with(['user', 'photos'])->get();
-        $properties = Property::with(['user', 'photos'])->paginate(6);
-        $oneProperty = Property::with(['user', 'photos'])->paginate(1);
+        $properties = Property::with(['user', 'amenities'])->paginate(6);
+        $oneProperty = Property::with(['user', 'amenities'])->paginate(1);
 
         return view('frontend.home', compact('properties' ,'oneProperty' ));
     }
@@ -285,11 +283,17 @@ class PropertyController extends Controller
     // Data for one property
     public function property(string $id)
     {
+        $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();// try get all
+        // dd($propertPhoto[0]->photo_url);
+        $bookedDates = Booking::where('property_id', $id)
+        ->where('status', 'accepted')
+        ->get(['start_date', 'end_date']);
+
         $property = Property::with('user')->findOrFail($id);
         $countOfReview = Review::where('property_id', $id)->count();
         $reviews = Review::with('renter')->where('property_id', $id)->get();
 
-        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews'));
+        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates'));
     }
     // listing all property
     public function AllProperty( Request $request )

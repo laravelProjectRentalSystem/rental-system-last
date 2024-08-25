@@ -24,7 +24,7 @@ protected $fillable = [
     'profile_picture',
     'role',
     'address',
-    'phone',
+    'phone_number',
 ];
 
     /**

@@ -57,6 +57,17 @@ class BookingController extends Controller
         'reviews' => $reviews // Pass the reviews to the view
     ]);
 }
+public function deleteReview($id)
+    {
+        // Find the review by ID
+        $review = Review::findOrFail($id);
+
+        // Delete the review
+        $review->delete();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Review deleted successfully.');
+    }
 
     /**
      * Display a listing of the resource.

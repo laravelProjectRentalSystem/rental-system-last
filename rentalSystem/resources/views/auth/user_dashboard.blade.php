@@ -101,6 +101,9 @@
         .hide-image {
             display: none;
         }
+        .table th, .table td {
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -126,8 +129,8 @@
                     <div class="profile-image-container profile-image-only">
                         @if(auth()->user()->profile_picture)
                             <img src="{{ Storage::url(auth()->user()->profile_picture) }}" alt="Profile Picture">
-                        @else
-                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture">
+                        {{-- @else
+                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture"> --}}
                         @endif
                     </div>
                 </div>
@@ -155,11 +158,38 @@
                     @if($bookings->isEmpty())
                         <p>You have no bookings.</p>
                     @else
-                        <ul>
-                            @foreach($bookings as $booking)
-                                <li>Booking ID: {{ $booking->id }} - Created At: {{ $booking->created_at }}</li>
-                            @endforeach
-                        </ul>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Property</th> <!-- عمود لاسم العقار -->
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($bookings as $booking)
+                                    <tr>
+                                        <td>{{ $booking->id }}</td>
+                                        <td>{{ $booking->property->title }}</td> <!-- سحب اسم العقار -->
+                                        <td>{{ $booking->start_date }}</td>
+                                        <td>{{ $booking->end_date }}</td>
+                                        <td>{{ ucfirst($booking->status) }}</td>
+                                        <td>
+                                            @if($booking->status !== 'canceled')
+                                                <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST" style="display:inline-block;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-danger btn-sm">Cancel Booking</button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     @endif
                 </div>
             </div>
@@ -192,18 +222,20 @@
                         @csrf
                         @method('PUT')
 
-                        <!-- Profile Picture -->
-                        <div class="form-group">
-                            <label for="profile_picture">Profile Picture</label>
-                            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
-                            @if(auth()->user()->profile_picture)
-                                <img src="{{ Storage::url(auth()->user()->profile_picture) }}" alt="Profile Picture" class="img-thumbnail mt-2" width="120">
-                                <!-- Commented out delete button -->
-                                <!-- <button type="button" class="btn btn-danger mt-2" id="delete-profile-picture">Delete Profile Picture</button> -->
-                            @else
-                                <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture" class="img-thumbnail mt-2" width="120">
-                            @endif
-                        </div>
+<!-- Profile Picture -->
+<div class="form-group">
+    <label for="profile_picture">Profile Picture</label>
+    <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+    @if(auth()->user()->profile_picture)
+        <img src="{{ asset('storage/'.auth()->user()->profile_picture) }}" alt="Profile Picture" class="img-thumbnail mt-2" width="120">
+        <!-- Commented out delete button -->
+        <!-- <button type="button" class="btn btn-danger mt-2" id="delete-profile-picture">Delete Profile Picture</button> -->
+    @else
+        <img src="{{ asset('storage/profile_pictures/default-profile.jpg') }}" alt="Default Profile Picture" class="img-thumbnail mt-2" width="120">
+    @endif
+</div>
+
+
 
                         <!-- Name -->
                         <div class="form-group">
@@ -221,48 +253,46 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="password">
-                            <small class="form-text text-muted">Leave blank if you do not want to change the password.</small>
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div class="form-group">
-                            <label for="password_confirmation">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                            <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-custom">Save Changes</button>
+                        <button type="submit" class="btn btn-custom">Update Profile</button>
                     </form>
                 </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="text-center mt-4">
-                <a href="{{ url('/home') }}" class="btn btn-custom">Back to Home</a>
             </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.nav-link').on('click', function(event) {
-                event.preventDefault();
-                var target = $(this).data('target');
-                
-                // Hide all tab contents
-                $('.tab-content').removeClass('active');
-                
-                // Show the selected tab content
-                $('.' + target).addClass('active');
-                
-                // Highlight the active link
-                $('.nav-link').removeClass('active');
-                $(this).addClass('active');
-            });
+        // Handle tab navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('data-target');
 
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+
+                document.querySelector(`.${target}`).classList.add('active');
+
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                this.classList.add('active');
+            });
+        });
+
+        // Handle delete profile picture
+        document.getElementById('delete-profile-picture')?.addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete your profile picture?')) {
+                document.querySelector('form').submit();
+            }
         });
     </script>
 </body>
