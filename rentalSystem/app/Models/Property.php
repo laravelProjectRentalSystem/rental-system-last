@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Property extends Model
 {
     use HasFactory;
@@ -16,6 +16,7 @@ class Property extends Model
         'address',
         'location',
         'price_per_day',
+        'availability',
         'number_of_rooms',
         'number_of_bathrooms',
         'number_of_bedrooms',
@@ -53,6 +54,18 @@ class Property extends Model
     {
         return $this->hasMany(Review::class);
     }
+    public function updateAvailability()
+    {
+        $today = Carbon::today();
 
+        $isBooked = $this->bookings()
+            ->where('status', 'accepted')
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
+            ->exists();
+
+        $this->availability = !$isBooked;
+        $this->save();
+    }
 
 }
