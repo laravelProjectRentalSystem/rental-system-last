@@ -20,6 +20,8 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone_number' => ['required'],
+            'address' => ['required'],
             'role' => ['required', 'in:lessor,renter'],
         ]);
 
@@ -36,7 +38,9 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'profile_picture' => $defaultProfilePicture, 
+            'profile_picture' => $defaultProfilePicture,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
         ]);
 
         // Optionally, you can log in the user automatically after registration

@@ -60,7 +60,7 @@
                             </div>
                             <div class="input-group">
                                 <i class='bx bx-phone'></i>
-                                <input type="tel" name="phone" id="registerPhone" placeholder="Phone">
+                                <input type="tel" name="phone_number" id="registerPhone" placeholder="Phone">
                                 <span id="errorPhone" class="error-message"></span>
                             </div>
                         </div>
