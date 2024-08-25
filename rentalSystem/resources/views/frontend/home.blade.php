@@ -133,7 +133,7 @@
                         <div class="pi-agent">
                             <div class="pa-item">
                                 <div class="pa-info">
-                                    <img src="img/property/posted-by/pb-1.jpg" alt="">
+                                    <img src="{{ Storage::url($property->user->profile_picture) }}" alt="">
                                     <h6>{{ $property->user->name }}</h6>
                                 </div>
                                 <div class="pa-text">

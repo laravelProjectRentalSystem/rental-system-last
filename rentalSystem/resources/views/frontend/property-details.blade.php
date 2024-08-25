@@ -242,7 +242,7 @@
                             <div class="pr-item">
                                 <div class="pr-avatar">
                                     <div class="pr-pic">
-                                        <img src="{{ asset('img/property/details/review/review-1.jpg') }}" alt="">
+                                        <img src="{{ Storage::url($property->user->profile_picture) }}" alt="">
                                     </div>
                                     <div class="pr-text">
                                         <h6>{{ $review->renter->name }}</h6>
@@ -307,7 +307,7 @@
                         </div>
                         <div class="top-agent">
                             <div class="ta-item">
-                                <div class="ta-pic set-bg" data-setbg="{{ asset('img/property/details/sidebar/ta-1.jpg') }}"></div>
+                                <div class="ta-pic set-bg" data-setbg="{{ Storage::url($property->user->profile_picture) }}"></div>
                                 <div class="ta-text">
                                     <h6><a href="#">{{ $property->user->name }}</a></h6>
                                     {{-- <span>Team Leader</span> --}}

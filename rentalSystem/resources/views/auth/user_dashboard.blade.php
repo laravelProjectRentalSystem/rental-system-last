@@ -129,8 +129,8 @@
                     <div class="profile-image-container profile-image-only">
                         @if(auth()->user()->profile_picture)
                             <img src="{{ Storage::url(auth()->user()->profile_picture) }}" alt="Profile Picture">
-                        @else
-                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture">
+                        {{-- @else
+                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture"> --}}
                         @endif
                     </div>
                 </div>
@@ -222,20 +222,18 @@
                         @csrf
                         @method('PUT')
 
-                        <!-- Profile Picture -->
-                        <div class="form-group">
-                            <label for="profile_picture">Profile Picture</label>
-                            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
-                            @if(auth()->user()->profile_picture)
-                                <img src="{{ asset('storage/'.(auth()->user()->profile_picture)) }}" alt="Profile Picture" class="img-thumbnail mt-2" width="120">
-                                <!-- Commented out delete button -->
-                                <!-- <button type="button" class="btn btn-danger mt-2" id="delete-profile-picture">Delete Profile Picture</button> -->
-                            @else
-                                <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture" class="img-thumbnail mt-2" width="120">
-                            @endif
-                        </div>
-
-
+<!-- Profile Picture -->
+<div class="form-group">
+    <label for="profile_picture">Profile Picture</label>
+    <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+    @if(auth()->user()->profile_picture)
+        <img src="{{ asset('storage/'.auth()->user()->profile_picture) }}" alt="Profile Picture" class="img-thumbnail mt-2" width="120">
+        <!-- Commented out delete button -->
+        <!-- <button type="button" class="btn btn-danger mt-2" id="delete-profile-picture">Delete Profile Picture</button> -->
+    @else
+        <img src="{{ asset('storage/profile_pictures/default-profile.jpg') }}" alt="Default Profile Picture" class="img-thumbnail mt-2" width="120">
+    @endif
+</div>
 
 
 
@@ -275,17 +273,17 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = this.getAttribute('data-target');
-                
+
                 document.querySelectorAll('.tab-content').forEach(tab => {
                     tab.classList.remove('active');
                 });
-                
+
                 document.querySelector(`.${target}`).classList.add('active');
-                
+
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                 });
-                
+
                 this.classList.add('active');
             });
         });
