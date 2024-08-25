@@ -55,7 +55,14 @@
                     @if($user->profile_picture)
                         <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile Picture" width="100">
                     @endif
-                    <input type="file" name="profile_picture" class="file-upload-default">
+                    <!-- Integrated Profile Picture Upload Field -->
+
+
+                        <input type="file" class="form-control" id="profilePicture" name="profile_picture">
+                        @if ($errors->has('profile_picture'))
+                            <span class="text-danger">{{ $errors->first('profile_picture') }}</span>
+                        @endif
+
                 </div>
                 <button type="submit" class="btn btn-primary mr-2">Update Profile</button>
                 <a href="{{ route('dashboard') }}" class="btn btn-light">Cancel</a>

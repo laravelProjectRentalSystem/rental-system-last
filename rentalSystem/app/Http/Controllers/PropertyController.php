@@ -78,7 +78,21 @@ class PropertyController extends Controller
         // Pass the filtered properties and bookings to the view
         return view('frontend.admin.property_create', compact('properties', 'bookings'));
     }
+    public function indexBookingAdmin()
+    {
+        $bookings = Booking::all();
 
+        // Pass the bookings data to the view
+        return view('users.bookings', compact('bookings'));
+    }
+
+    public function removeProperty($id)
+    {
+        $property = Property::findOrFail($id);
+        $property->delete();
+
+        return redirect()->route('property.create')->with('success', 'Property deleted successfully.');
+    }
     /**
      * Display a listing of the resource.
      */
