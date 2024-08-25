@@ -22,8 +22,8 @@ class UserController extends Controller
     }
 
     public function create()
-    {
-        return view('users.create');
+    { $bookings = Booking::all();
+        return view('users.create',compact('bookings'));
     }
 
     public function store(Request $request)
@@ -57,8 +57,8 @@ class UserController extends Controller
     }
 
     public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
+    {$bookings = Booking::all();
+        return view('users.edit', compact('user','bookings'));
     }
 
     public function update(Request $request, User $user)
