@@ -342,39 +342,25 @@
             @endforeach
         </ul>
     </div>
-@endif --}}<!-- Booking Form -->
+@endif --}}<!-- Flatpickr CSS -->
+<link href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css' rel='stylesheet' />
+
+<!-- Booking Form -->
 <form action="{{ route('bookings.store', $property->id) }}" method="POST" class="calculator-form">
     @csrf
-    <!-- Hidden input to store property_id -->
     <input type="hidden" id="property_id" name="property_id" value="{{ $property->id }}">
 
-    <!-- Display Accepted Booking Dates -->
-    <div class="accepted-booking-dates mb-4">
-        <p>Accepted Booking Dates:</p>
-        @if(count($bookedDates) > 0)
-            <ul>
-                @foreach($bookedDates as $booking)
-                    <li>{{ \Carbon\Carbon::parse($booking['start_date'])->format('d M, Y') }} - {{ \Carbon\Carbon::parse($booking['end_date'])->format('d M, Y') }}</li>
-                @endforeach
-            </ul>
-        @else
-            <p>No bookings found for this property.</p>
-        @endif
-    </div>
 
-    <!-- Start Date Input -->
     <div class="filter-input">
         <p>Start Date</p>
-        <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
+        <input type="text" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
     </div>
 
-    <!-- End Date Input -->
     <div class="filter-input">
         <p>End Date</p>
-        <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" required>
+        <input type="text" id="end_date" name="end_date" value="{{ old('end_date') }}" required>
     </div>
 
-    <!-- Total Price Input -->
     <div class="filter-input">
         <p>Total Price</p>
         <input type="text" id="total_price" name="total_price" placeholder="$" value="{{ $property->price_per_day }}" required>
@@ -382,6 +368,42 @@
 
     <button type="submit" class="site-btn">Book</button>
 </form>
+
+<!-- Flatpickr JS -->
+<script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var bookedDates = @json($bookedDates);
+
+        var disabledDates = bookedDates.flatMap(dateRange => {
+            const start = new Date(dateRange.start_date);
+            const end = new Date(dateRange.end_date);
+            let dates = [];
+
+            while (start <= end) {
+                dates.push(start.toISOString().split('T')[0]); // Format as yyyy-mm-dd
+                start.setDate(start.getDate() + 1);
+            }
+
+            return dates;
+        });
+
+        flatpickr("#start_date", {
+            minDate: "today",
+            disable: disabledDates,
+            onChange: function(selectedDates, dateStr, instance) {
+                var endDateInput = document.getElementById('end_date');
+                endDateInput.disabled = false;
+                flatpickr("#end_date").set('minDate', dateStr);
+            }
+        });
+
+        flatpickr("#end_date", {
+            minDate: "today",
+            disable: disabledDates
+        });
+    });
+</script>
 
 </div>
 
