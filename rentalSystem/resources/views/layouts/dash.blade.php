@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="{{ asset('vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/ti-icons/css/themify-icons.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('js/select.dataTables.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('../../vendors/mdi/css/materialdesignicons.min.css') }}">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
@@ -103,10 +104,13 @@
                 <i class="ti-settings text-primary"></i>
                 Settings
               </a>
-              <a class="dropdown-item">
+              <form id="logout-form" action="{{ route('destroy') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
+                <span class="menu-title">Logout</span>
+            </a>
             </div>
           </li>
           <li class="nav-item nav-settings d-none d-lg-flex">
@@ -297,34 +301,34 @@
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">
-              <i class="icon-grid menu-icon"></i>
+                <i class="icon-grid mdi mdi-view-dashboard"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
-              <i class="icon-grid menu-icon"></i>
+                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
               <span class="menu-title">Manage Users</span>
             </a>
           </li>
           <li class="nav-item">
            <a class="nav-link" href="{{ route('profile.profileAdmin', Auth::user()->id) }}">
-                <i class="icon-grid menu-icon"></i>
+            <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
                 <span class="menu-title">Manage Your Profile</span>
             </a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="{{ route('property.create') }}">
-            <i class="icon-grid menu-icon"></i>
+            <i class=" icon-grid mdi mdi-home-modern"></i> 
             <span class="menu-title">Manage Property</span>
           </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="{{ route('destroy') }}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Logout</span>
             </a>
-        </li>
+        </li> --}}
 
 
         </ul>

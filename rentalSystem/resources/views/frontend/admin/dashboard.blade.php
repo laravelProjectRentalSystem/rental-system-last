@@ -33,23 +33,26 @@
       </div>
       <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
-          <div class="card tale-bg">
-            <div class="card-people mt-auto">
-              <img src="images/dashboard/people.svg" alt="people">
-              <div class="weather-info">
-                <div class="d-flex">
-                  <div>
-                    <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>31<sup>C</sup></h2>
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title">Order Details</p>
+                <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
+                <div class="d-flex flex-wrap mb-5">
+                  <div class="mr-5 mt-3">
+                    <p class="text-muted">Total Accepted Booking Price</p>
+                    <h3 class="text-primary fs-30 font-weight-medium">{{ number_format($totalBookingPrice, 0) }}$</h3>
                   </div>
-                  <div class="ml-2">
-                    <h4 class="location font-weight-normal">Amman</h4>
-                    <h6 class="font-weight-normal">Jordan</h6>
+                  <div class="mr-5 mt-3">
+                    <p class="text-muted">Total Accepted Booking Price (Today)</p>
+                    <h3 class="text-primary fs-30 font-weight-medium">{{ number_format($totalBookingPriceToday, 0) }}$</h3>
                   </div>
+
+
                 </div>
+                {{-- <canvas id="order-chart"></canvas> --}}
               </div>
             </div>
           </div>
-        </div>
         <div class="col-md-6 grid-margin transparent">
           <div class="row">
             <div class="col-md-6 mb-4 stretch-card transparent">
@@ -115,19 +118,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-             <div class="d-flex justify-content-between">
-              <p class="card-title">Sales Report</p>
-              <a href="#" class="text-info">View all</a>
-             </div>
-              <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
-              <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
-              <canvas id="sales-chart"></canvas>
-            </div>
-          </div>
-        </div>
+
       </div>
       <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
