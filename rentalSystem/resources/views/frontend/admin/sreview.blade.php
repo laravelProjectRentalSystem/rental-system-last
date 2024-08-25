@@ -22,9 +22,15 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Reviews Table</h4>
-                    <p class="card-description">
-                        Here are the reviews for your properties.
-                    </p>
+                    <!-- Search Form -->
+                    <form action="" method="GET" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ request()->input('search') }}">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
