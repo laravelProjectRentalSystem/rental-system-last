@@ -17,7 +17,7 @@ class PropertyController extends Controller
         $booking->status = $request->input('status');
 
          if ($booking->status == 'accepted') {
-            Property::where('id', $booking->property_id)->update(['availability' => 0]);
+            Property::where('id', $booking->status)->update(['availability' => 0]);
         }
         $booking->save();
 
@@ -100,23 +100,23 @@ class PropertyController extends Controller
 
 
 
-    public function showReviews()
-    {
-        // Fetch properties owned by the authenticated user
-        $properties = Property::where('user_id', Auth::id())->pluck('id');
+   public function showReviews()
+{
+    // Fetch properties owned by the authenticated user
+    $properties = Property::where('user_id', Auth::id())->pluck('id');
 
-        // Fetch reviews where property_id matches the user's properties
-        $reviews = Review::whereIn('property_id', $properties)
-                         ->with('renter') // Eager load the renter relationship
-                         ->get();
+    // Fetch reviews where property_id matches the user's properties
+    $reviews = Review::whereIn('property_id', $properties)
+                     ->with('renter') // Eager load the renter relationship
+                     ->get();
 
-        // Fetch bookings related to the user's properties
-        $bookings = Booking::whereHas('property', function ($query) {
-            $query->where('user_id', auth()->user()->id);
-        })->get();
+    // Fetch bookings related to the user's properties
+    $bookings = Booking::whereHas('property', function ($query) {
+        $query->where('user_id', auth()->user()->id);
+    })->get();
 
-        return view('frontend.admin.sreview', compact('reviews', 'bookings'));
-    }
+    return view('frontend.admin.sreview', compact('reviews', 'bookings'));
+}
 
 
 
@@ -260,9 +260,8 @@ class PropertyController extends Controller
     // Fetching data for home page
     public function home()
     {
-        $property = Property::with(['user', 'photos'])->get();
-        $properties = Property::with(['user', 'photos'])->paginate(6);
-        $oneProperty = Property::with(['user', 'photos'])->paginate(1);
+        $properties = Property::with(['user', 'amenities'])->paginate(6);
+        $oneProperty = Property::with(['user', 'amenities'])->paginate(1);
 
         return view('frontend.home', compact('properties' ,'oneProperty' ));
     }
