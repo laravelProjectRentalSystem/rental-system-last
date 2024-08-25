@@ -12,9 +12,7 @@
                 @else
                     Welcome, Guest!
                 @endif</h3>
-
             </div>
-
           </div>
         </div>
       </div>
@@ -81,4 +79,5 @@
     </div>
 </div>
     </div>
+
 @endsection

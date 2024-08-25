@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\Booking;
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -15,13 +15,15 @@ class UserController extends Controller
         $users = User::when($search, function ($query, $search) {
             return $query->where('name', 'like', '%' . $search . '%');
         })->get();
+        $bookings = Booking::all();
 
-        return view('users.index', compact('users', 'search'));
+        // Pass both users and bookings to the view
+        return view('users.index', compact('users', 'bookings', 'search'));
     }
 
     public function create()
-    {
-        return view('users.create');
+    { $bookings = Booking::all();
+        return view('users.create',compact('bookings'));
     }
 
     public function store(Request $request)
@@ -55,8 +57,8 @@ class UserController extends Controller
     }
 
     public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
+    {$bookings = Booking::all();
+        return view('users.edit', compact('user','bookings'));
     }
 
     public function update(Request $request, User $user)
@@ -91,8 +93,8 @@ class UserController extends Controller
         return redirect('/login_register')->with('success', 'User deleted successfully.');
     }
     public function profile()
-{
+{ $bookings = Booking::all();
     $user = Auth::user();
-    return view('users.profile', compact('user'));
+    return view('users.profile', compact('user','bookings'));
 }
 }
