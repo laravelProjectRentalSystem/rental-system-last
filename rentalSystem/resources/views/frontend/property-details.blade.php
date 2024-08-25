@@ -137,9 +137,9 @@
                                 </li>
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
-                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="tab-pane active" id="tabs-1" role="tabpanel" >
                                     <div class="tab-details">
-                                        <ul class="left-table">
+                                        <ul class="left-table"style="padding-left: 0; !importent">
                                             <li>
                                                 <span class="type-name">Property Type</span>
                                                 <span class="type-value">House</span>
@@ -182,7 +182,7 @@
                                                 <span class="type-value">{{ $property->user->name }}</span>
                                             </li>
                                         </ul>
-                                        <ul class="right-table">
+                                        <ul class="right-table"style="padding-left: 0; !importent">
                                             <li>
                                                 <span class="type-name">Home Area</span>
                                                 <span class="type-value">1200 sqft</span>
@@ -227,7 +227,7 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-3" role="tabpanel">
                                     <div class="tab-details">
-                                        <ul class="left-table">
+                                        <ul class="left-table" style="padding-left: 0; !importent">
                                             <li>
                                                 <span class="type-name">Property Type</span>
                                                 <span class="type-value">House</span>
@@ -253,7 +253,7 @@
                                                 <span class="type-value">Ashton Kutcher</span>
                                             </li>
                                         </ul>
-                                        <ul class="right-table">
+                                        <ul class="right-table" style="padding-left: 0; !importent">
                                             <li>
                                                 <span class="type-name">Home Area</span>
                                                 <span class="type-value">1200 sqft</span>
