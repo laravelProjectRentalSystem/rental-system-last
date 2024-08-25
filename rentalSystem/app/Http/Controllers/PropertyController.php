@@ -17,7 +17,7 @@ class PropertyController extends Controller
         $booking->status = $request->input('status');
 
          if ($booking->status == 'accepted') {
-            Property::where('id', $booking->status)->update(['availability' => 0]);
+            Property::where('id', $booking->property_id)->update(['availability' => 0]);
         }
         $booking->save();
 
