@@ -251,8 +251,9 @@ class PropertyController extends Controller
     // Fetching data for home page
     public function home()
     {
-        $properties = Property::with(['user', 'amenities'])->paginate(6);
-        $oneProperty = Property::with(['user', 'amenities'])->paginate(1);
+        $property = Property::with(['user', 'photos'])->get();
+        $properties = Property::with(['user', 'photos'])->paginate(6);
+        $oneProperty = Property::with(['user', 'photos'])->paginate(1);
 
         return view('frontend.home', compact('properties' ,'oneProperty' ));
     }
