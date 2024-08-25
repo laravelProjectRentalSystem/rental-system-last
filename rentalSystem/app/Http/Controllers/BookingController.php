@@ -81,7 +81,7 @@ class BookingController extends Controller
 
         $booking = Booking::create($bookingData);
 
-       
+
         $property = Property::find($booking->property_id);
         if ($property) {
             $property->updateAvailability();
@@ -134,6 +134,9 @@ class BookingController extends Controller
         $bookingData = $request->all();
         $bookingData['renter_id'] = auth()->id();
 
+
+
+        // Update the booking with the new data
         $booking->update($bookingData);
 
         return redirect()->route('bookings.index')->with('success', 'Booking updated successfully.');
