@@ -305,13 +305,13 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('sprofile.page') }}">
-               <i class="icon-grid menu-icon"></i>
+                <i class="icon-head menu-icon"></i>
                <span class="menu-title">Manage profile</span>
              </a>
            </li>
            <li class="nav-item">
             <a class="nav-link" href="{{ route('sreview') }}">
-               <i class="icon-grid menu-icon"></i>
+                <i class="icon-paper menu-icon"></i>
                <span class="menu-title">Reviews</span>
              </a>
            </li>
