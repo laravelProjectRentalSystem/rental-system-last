@@ -271,12 +271,15 @@ class PropertyController extends Controller
     {
         $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();// try get all
         // dd($propertPhoto[0]->photo_url);
+        $bookedDates = Booking::where('property_id', $id)
+        ->where('status', 'accepted')
+        ->get(['start_date', 'end_date']);
 
         $property = Property::with('user')->findOrFail($id);
         $countOfReview = Review::where('property_id', $id)->count();
         $reviews = Review::with('renter')->where('property_id', $id)->get();
 
-        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto'));
+        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates'));
     }
     // listing all property
     public function AllProperty( Request $request )

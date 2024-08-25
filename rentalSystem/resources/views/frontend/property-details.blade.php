@@ -342,38 +342,47 @@
             @endforeach
         </ul>
     </div>
-@endif --}}
-<form action="{{ route('bookings.store' , $property->id) }}" method="POST" class="calculator-form">
+@endif --}}<!-- Booking Form -->
+<form action="{{ route('bookings.store', $property->id) }}" method="POST" class="calculator-form">
     @csrf
     <!-- Hidden input to store property_id -->
-        <input type="hidden" id="property_id" name="property_id" value="{{$property->id }}">
+    <input type="hidden" id="property_id" name="property_id" value="{{ $property->id }}">
+
+    <!-- Display Accepted Booking Dates -->
+    <div class="accepted-booking-dates mb-4">
+        <p>Accepted Booking Dates:</p>
+        @if(count($bookedDates) > 0)
+            <ul>
+                @foreach($bookedDates as $booking)
+                    <li>{{ \Carbon\Carbon::parse($booking['start_date'])->format('d M, Y') }} - {{ \Carbon\Carbon::parse($booking['end_date'])->format('d M, Y') }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>No bookings found for this property.</p>
+        @endif
+    </div>
+
+    <!-- Start Date Input -->
     <div class="filter-input">
         <p>Start Date</p>
-            <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}">
+        <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
     </div>
 
+    <!-- End Date Input -->
     <div class="filter-input">
         <p>End Date</p>
-            <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}">
+        <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" required>
     </div>
 
+    <!-- Total Price Input -->
     <div class="filter-input">
         <p>Total Price</p>
-        <input type="text" id="total_price" name="total_price" placeholder="$" value="{{ $property->price_per_day }}">
+        <input type="text" id="total_price" name="total_price" placeholder="$" value="{{ $property->price_per_day }}" required>
     </div>
 
     <button type="submit" class="site-btn">Book</button>
 </form>
-</div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Property Details Section End -->
-
-    </form>
 </div>
 
                 </div>
