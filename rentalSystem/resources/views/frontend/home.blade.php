@@ -124,11 +124,11 @@
                         <p><span class="icon_pin_alt"></span> {{ $property->location }}</p>
                         <ul>
                             {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
-                             @foreach ($property->amenities as $amenity)
-                                <li><i class="fa fa-bathtub"></i> {{ $amenity->amenity_name }}</li>
-                            @endforeach
-                            {{-- <li><i class="fa fa-bed"></i> 05</li>
-                            <li><i class="fa fa-automobile"></i> 01</li> --}}
+
+                                <li><i class="fa fa-bathtub"></i> 0{{ $property->number_of_bathrooms }}</li>
+
+                            <li><i class="fa fa-bed"></i> 0{{ $property->number_of_bedrooms }}</li>
+                            <li><i class="fa fa-automobile"></i> 0{{ $property->number_of_garage }}</li>
                         </ul>
                         <div class="pi-agent">
                             <div class="pa-item">
