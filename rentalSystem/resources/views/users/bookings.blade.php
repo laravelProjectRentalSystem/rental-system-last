@@ -26,9 +26,9 @@
             <div class="card-body">
               <h4 class="card-title">Bordered table</h4>
               <!-- Search Form -->
-                    <form action="" method="GET" class="mb-4">
+                    <form action="{{ route('admin.bookings') }}"  method="GET" class="mb-4">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ request()->input('search') }}">
+                            <input type="text" name="search" class="form-control" placeholder="Search by renter's name" value="{{ request('search') }}">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </div>

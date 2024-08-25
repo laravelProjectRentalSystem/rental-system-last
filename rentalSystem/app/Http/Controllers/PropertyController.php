@@ -77,13 +77,24 @@ class PropertyController extends Controller
         // Pass the filtered properties and bookings to the view
         return view('frontend.admin.property_create', compact('properties', 'bookings'));
     }
-    public function indexBookingAdmin()
-    {
-        $bookings = Booking::all();
+    public function indexBookingAdmin(Request $request)
+{
+    // Get the search term from the request
+    $search = $request->input('search');
 
-        // Pass the bookings data to the view
-        return view('users.bookings', compact('bookings'));
-    }
+    // Retrieve all bookings with eager loading for property and renter relationships
+    $bookings = Booking::with(['property', 'renter'])
+        ->when($search, function ($query, $search) {
+            // Filter bookings by renter's name if a search term is provided
+            return $query->whereHas('renter', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            });
+        })
+        ->get();
+
+    // Pass the filtered bookings data and search term to the view
+    return view('users.bookings', compact('bookings','search'));
+}
 
     public function removeProperty($id)
     {
@@ -95,21 +106,27 @@ class PropertyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // Retrieve properties that belong to the authenticated user and their related bookings
-        $properties = Property::with('bookings')
-            ->where('user_id', auth()->user()->id)
-            ->get();
+    public function index(Request $request)
+{
 
-        // Retrieve bookings that are related to the properties owned by the authenticated user
-        $bookings = Booking::whereHas('property', function ($query) {
-            $query->where('user_id', auth()->user()->id);
-        })->get();
+    $search = $request->input('search');
 
-        // Pass the filtered properties and bookings to the view
-        return view('frontend.admin.property_index', compact('properties', 'bookings'));
-    }
+
+    $properties = Property::with('bookings')
+        ->where('user_id', auth()->user()->id)
+        ->when($search, function ($query, $search) {
+            return $query->where('title', 'like', '%' . $search . '%');
+        })
+        ->get();
+
+
+    $bookings = Booking::whereHas('property', function ($query) {
+        $query->where('user_id', auth()->user()->id);
+    })->get();
+
+
+    return view('frontend.admin.property_index', compact('properties', 'bookings', 'search'));
+}
 
 
 
@@ -197,16 +214,29 @@ class PropertyController extends Controller
 
 
 
-    public function indexbooking()
+    public function indexbooking(Request $request)
     {
-        // Retrieve bookings that are related to properties owned by the authenticated user, with eager loading for property and renter relationships
+        // Get the search term from the request
+        $search = $request->input('search');
+
+        // Retrieve bookings related to properties owned by the authenticated user, with eager loading for property and renter relationships
         $bookings = Booking::with(['property', 'renter'])
             ->whereHas('property', function ($query) {
                 $query->where('user_id', auth()->user()->id);
-            })->get();
+            })
+            ->when($search, function ($query, $search) {
+                // Filter by property title or renter's name
+                $query->whereHas('property', function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('renter', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                });
+            })
+            ->get();
 
-        // Pass the filtered bookings data to the view
-        return view('frontend.admin.dashboardB', compact('bookings'));
+        // Pass the filtered bookings data and search term to the view
+        return view('frontend.admin.dashboardB', compact('bookings', 'search'));
     }
 
     /**
