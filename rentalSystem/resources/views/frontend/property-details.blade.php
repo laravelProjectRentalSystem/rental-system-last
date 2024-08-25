@@ -106,7 +106,9 @@
                         <div class="col-lg-6">
                             <div class="pd-title">
                                 <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                                <div class="label">For rent</div>
+                                <div class="label" style="{{ $property->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
+                                    {{ $property->availability == 1 ? 'available' : 'rented' }}
+                                </div>
                                 <div class="pt-price">{{ $property->price_per_day }}<span>/day</span></div>
                                 <h3>{{ $property->title }}</h3>
                                 <p><span class="icon_pin_alt"></span> {{ $property->address }}</p>
@@ -132,9 +134,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Description</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Amenities</a>
-                                </li>
+
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel" >
@@ -225,62 +225,7 @@
                                         <p>{{ $property->description }}</p>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                    <div class="tab-details">
-                                        <ul class="left-table" style="padding-left: 0; !importent">
-                                            <li>
-                                                <span class="type-name">Property Type</span>
-                                                <span class="type-value">House</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Property ID</span>
-                                                <span class="type-value">#219</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Price</span>
-                                                <span class="type-value">$ 289.0/mounth</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Year Built</span>
-                                                <span class="type-value">2019</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Contract type</span>
-                                                <span class="type-value">Rent</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Agent</span>
-                                                <span class="type-value">Ashton Kutcher</span>
-                                            </li>
-                                        </ul>
-                                        <ul class="right-table" style="padding-left: 0; !importent">
-                                            <li>
-                                                <span class="type-name">Home Area</span>
-                                                <span class="type-value">1200 sqft</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Rooms</span>
-                                                <span class="type-value">9</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Bedrooms</span>
-                                                <span class="type-value">4</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Bathrooms</span>
-                                                <span class="type-value">3</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Garages</span>
-                                                <span class="type-value">2</span>
-                                            </li>
-                                            <li>
-                                                <span class="type-name">Parking lots</span>
-                                                <span class="type-value">2</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -376,6 +321,12 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                                </div>
                                                @endif
+                       @if (session('bookingError'))
+                                           <div class="alert alert-danger   alert-dismissible fade show" role="alert">
+                                                {{ session('bookingError') }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                               </div>
+                                               @endif
     <div class="section-title sidebar-title">
         <h5>Mortgage Calculator</h5>
     </div>
@@ -427,48 +378,7 @@
 
 
 <!-- Contact Section Begin -->
-<section class="contact-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="contact-info">
-                    <div class="ci-item">
-                        <div class="ci-icon">
-                            <i class="fa fa-map-marker"></i>
-                        </div>
-                        <div class="ci-text">
-                            <h5>Address</h5>
-                            <p>160 Pennsylvania Ave NW, Washington, Castle, PA 16101-5161</p>
-                        </div>
-                    </div>
-                    <div class="ci-item">
-                        <div class="ci-icon">
-                            <i class="fa fa-mobile"></i>
-                        </div>
-                        <div class="ci-text">
-                            <h5>Phone</h5>
-                            <ul>
-                                <li>125-711-811</li>
-                                <li>125-668-886</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="ci-item">
-                        <div class="ci-icon">
-                            <i class="fa fa-headphones"></i>
-                        </div>
-                        <div class="ci-text">
-                            <h5>Support</h5>
-                            <p>Support.aler@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="cs-map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d735515.5813275519!2d-80.41163541934742!3d43.93644386501528!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882a55bbf3de23d7%3A0x3ada5af229b47375!2sMono%2C%20ON%2C%20Canada!5e0!3m2!1sen!2sbd!4v1583262687289!5m2!1sen!2sbd" height="450" style="border:0;" allowfullscreen=""></iframe>
-    </div>
+
     <script>
 document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll('.rating .stars i');
