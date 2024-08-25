@@ -22,10 +22,17 @@
         <div class="col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <!-- Search Form -->
+                    <form action="" method="GET" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ request()->input('search') }}">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
                     <h4 class="card-title">Properties Table</h4>
-                    <p class="card-description">
-                        Add class <code>.table</code> for styling.
-                    </p>
+
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
