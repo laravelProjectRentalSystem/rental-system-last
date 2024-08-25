@@ -275,17 +275,17 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = this.getAttribute('data-target');
-                
+
                 document.querySelectorAll('.tab-content').forEach(tab => {
                     tab.classList.remove('active');
                 });
-                
+
                 document.querySelector(`.${target}`).classList.add('active');
-                
+
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                 });
-                
+
                 this.classList.add('active');
             });
         });
