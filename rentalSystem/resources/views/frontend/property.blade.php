@@ -232,7 +232,7 @@ select option{
 
             <div class="col-lg-4 col-md-6">
                 <div class="property-item">
-                    <div class="pi-pic set-bg" data-setbg="img/property/property-1.jpg">
+                    <div class="pi-pic set-bg" data-setbg="{{ asset('storage/' . $propertiy->photos->first()->photo_url) }}">
                         <div class="label" style="{{ $propertiy->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
                             {{ $propertiy->availability == 1 ? 'available' : 'rented' }}
                         </div>

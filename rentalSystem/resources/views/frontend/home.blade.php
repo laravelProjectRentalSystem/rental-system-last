@@ -108,8 +108,11 @@
 
             <div class="col-lg-4 col-md-6 mix all house">
                 <div class="property-item">
-                    <div class="pi-pic set-bg" data-setbg="img/property/property-1.jpg">
-                        <div class="pi-pic set-bg" data-setbg="img/property/property-1.jpg">
+
+                        <div class="pi-pic set-bg" data-setbg="{{ asset('storage/' . $property->photos->first()->photo_url) }}">
+
+                        <div class="pi-pic set-bg" data-setbg="">
+                            {{-- profile image --}}
                             <div class="label" style="{{ $property->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
                                 {{ $property->availability == 1 ? 'available' : 'rented' }}
                             </div>
@@ -265,7 +268,10 @@
 
                 <div class="fp-slider owl-carousel">
                     @foreach ( $properties as $property )
-                    <div class="fp-item set-bg" data-setbg="img/feature-property/fp-1.jpg">
+                    @foreach ($property->photos  as $photo )
+                    <div class="fp-item set-bg" data-setbg="{{ asset('storage/' . $photo->photo_url) }}">
+                        @break
+                    @endforeach
                         <div class="fp-text">
                             <h5 class="title">{{ $property->title }}y</h5>
                             <p><span class="icon_pin_alt"></span> {{ $property->location }}</p>
