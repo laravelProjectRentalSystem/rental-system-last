@@ -22,7 +22,7 @@
                             </div>
                             <div class="hc-widget">
                                 <ul>
-                                    <li><i class="fa fa-object-group"></i> 2, 283</li>
+                                    {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
                                     <li><i class="fa fa-bathtub"></i> 0{{ $properties[0]->number_of_bathrooms }}</li>
                                     <li><i class="fa fa-bed"></i> 0{{ $properties[0]->number_of_bedrooms }}</li>
                                     <li><i class="fa fa-automobile"></i> 0{{ $properties[0]->number_of_garage }}</li>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="hc-widget">
                                 <ul>
-                                    <li><i class="fa fa-object-group"></i> 2, 283</li>
+                                    {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
                                     <li><i class="fa fa-bathtub"></i> 0{{ $properties[1]->number_of_bathrooms }}</li>
                                     <li><i class="fa fa-bed"></i> 0{{ $properties[1]->number_of_bedrooms }}</li>
                                     <li><i class="fa fa-automobile"></i> 0{{ $properties[1]->number_of_garage }}</li>
@@ -70,7 +70,7 @@
                             </div>
                             <div class="hc-widget">
                                 <ul>
-                                    <li><i class="fa fa-object-group"></i> 2, 283</li>
+                                    {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
                                     <li><i class="fa fa-bathtub"></i> 0{{ $properties[2]->number_of_bathrooms }}</li>
                                     <li><i class="fa fa-bed"></i> 0{{ $properties[2]->number_of_bedrooms }}</li>
                                     <li><i class="fa fa-automobile"></i> 0{{ $properties[2]->number_of_garage }}</li>
@@ -287,7 +287,7 @@
                             </div>
                             <h5>{{ $property->price_per_day }}<span>/Day</span></h5>
                             <ul>
-                                <li><i class="fa fa-object-group"></i> 2, 283</li>
+                                {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
                                 <li><i class="fa fa-bathtub"></i>0{{ $property->number_of_bathrooms }}</li>
                                 <li><i class="fa fa-bed"></i> 0{{ $property->number_of_bedrooms }}</li>
                                 <li><i class="fa fa-automobile"></i>0{{ $property->number_of_garage }}</li>
@@ -296,20 +296,7 @@
                     </div>
                     @endforeach
 
-                   {{-- / <div class="fp-item set-bg" data-setbg="img/feature-property/fp-2.jpg"> --}}
-                        {{-- <div class="fp-text">
-                            <h5 class="title">Home in Merrick Way</h5>
-                            <p><span class="icon_pin_alt"></span> 3 Middle Winchendon Rd, Rindge, NH 03461</p>
-                            <div class="label">For Rent</div>
-                            <h5>$ 289.0<span>/month</span></h5>
-                            <ul>
-                                <li><i class="fa fa-object-group"></i> 2, 283</li>
-                                <li><i class="fa fa-bathtub"></i> 03</li>
-                                <li><i class="fa fa-bed"></i> 05</li>
-                                <li><i class="fa fa-automobile"></i> 01</li>
-                            </ul>
-                        </div>
-                    </div> --}}
+
                 </div>
 
             </div>

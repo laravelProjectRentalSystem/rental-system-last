@@ -109,7 +109,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="pd-title">
-                                <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                                {{-- <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a> --}}
                                 <div class="label" style="{{ $property->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
                                     {{ $property->availability == 1 ? 'available' : 'rented' }}
                                 </div>
@@ -118,7 +118,7 @@
                                 <p><span class="icon_pin_alt"></span> {{ $property->address }}</p>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        {{-- <div class="col-lg-6">
                             <div class="pd-social">
 
                                 <a href="#"><i class="fa fa-mail-forward"></i></a>
@@ -127,7 +127,7 @@
                                 <a href="#"><i class="fa fa-mail-forward"></i></a>
                                 <a href="#"><i class="fa fa-cloud-download"></i></a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="pd-board">
                         <div class="tab-board">
@@ -309,9 +309,9 @@
                             <div class="ta-item">
                                 <div class="ta-pic set-bg" data-setbg="{{ Storage::url($property->user->profile_picture) }}"></div>
                                 <div class="ta-text">
-                                    <h6><a href="#">{{ $property->user->name }}</a></h6>
+                                    <h6><a  style="text-decoration: none">{{ $property->user->name }}</a></h6>
                                     {{-- <span>Team Leader</span> --}}
-                                    <div class="ta-num">123-455-688</div>
+                                    <div class="ta-num">{{ $property->user->phone_number }}</div>
                                 </div>
                             </div>
 
@@ -343,7 +343,6 @@
         </ul>
     </div>
 @endif --}}<!-- Flatpickr CSS -->
-<link href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css' rel='stylesheet' />
 
 <!-- Booking Form -->
 <form action="{{ route('bookings.store', $property->id) }}" method="POST" class="calculator-form">
@@ -371,8 +370,23 @@
 
 <!-- Flatpickr JS -->
 <script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
+
+
+</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Property Details Section End -->
+
+
+<!-- Contact Section Begin -->
+<link href='https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css' rel='stylesheet' />
+
+    <script>
+         document.addEventListener('DOMContentLoaded', function () {
         var bookedDates = @json($bookedDates);
 
         var disabledDates = bookedDates.flatMap(dateRange => {
@@ -403,21 +417,6 @@
             disable: disabledDates
         });
     });
-</script>
-
-</div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Property Details Section End -->
-
-
-<!-- Contact Section Begin -->
-
-    <script>
 document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll('.rating .stars i');
     const ratingInput = document.getElementById('rating');

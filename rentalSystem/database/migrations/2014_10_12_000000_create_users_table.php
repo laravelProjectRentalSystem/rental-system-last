@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->string('address')->nullable();
             $table->string('phone_number')->nullable();
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
+            $table->string('verify')->nullable();
             $table->rememberToken(); // Adds the remember_token column
             $table->timestamps();
         });

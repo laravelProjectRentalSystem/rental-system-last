@@ -200,15 +200,15 @@ select option{
                         </div>
                                             </div>
                     <div class="pi-text">
-                        <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt" ></span></a>
+                        {{-- <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt" ></span></a> --}}
                         <div class="pt-price">{{ $propertiy->price_per_day }}<span>/Day</span></div>
                         <h5><a href="{{ route('viewProperty', ['id' => $propertiy->id]) }}"style="text-decoration: none;">{{ $propertiy->title }}</a></h5>
                         <p><span class="icon_pin_alt"></span> {{ $propertiy->location }}</p>
                         <ul>
-                            <li><i class="fa fa-object-group"></i> 2, 283</li>
-                            <li><i class="fa fa-bathtub"></i> 03</li>
-                            <li><i class="fa fa-bed"></i> 05</li>
-                            <li><i class="fa fa-automobile"></i> 01</li>
+                            {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
+                            <li><i class="fa fa-bathtub"></i> 0{{ $propertiy->number_of_bathrooms }}</li>
+                            <li><i class="fa fa-bed"></i> 0{{ $propertiy->number_of_bedrooms }}</li>
+                            <li><i class="fa fa-automobile"></i> 0{{ $propertiy->number_of_garage }}</li>
                         </ul>
                         <div class="pi-agent">
                             <div class="pa-item">
