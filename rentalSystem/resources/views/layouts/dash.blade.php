@@ -307,12 +307,12 @@
             <span class="menu-title">Manage Property</span>
           </a>
         </li>
-        {{-- <li class="nav-item">
-            <a class="nav-link" href="{{ route('destroy') }}">
+         <li class="nav-item">
+            <a class="nav-link" href="{{ route('u.create') }}">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Logout</span>
             </a>
-        </li> --}}
+        </li>
 
 
         </ul>

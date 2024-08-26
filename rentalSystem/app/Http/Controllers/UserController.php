@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -52,9 +53,43 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
+    public function uStatus()
+    {
+        $bookings =Booking::all();
+        $users = User::where('role', 'lessor')->get();
+
+
+        return view('frontend.admin.users_create', compact('users','bookings'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        // Find the user by ID
+        $user = User::find($id);
+
+        // Check if the user exists and has the role 'lessor'
+        if (!$user || $user->role !== 'lessor') {
+            return redirect()->back()->with('error', 'User not found or unauthorized.');
+        }
+
+        // Log the status update attempt
+        Log::info('Updating user status', ['id' => $id, 'status' => $request->input('status')]);
+
+        // Update the status
+        $user->status = $request->input('status');
+
+        // Attempt to save the user and check if it was successful
+        if ($user->save()) {
+            return redirect()->back()->with('success', 'User status updated successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update user status.');
+        }
+    }
+
+
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('frontend.admin.users.create', compact('user'));
     }
 
     public function edit(User $user)
