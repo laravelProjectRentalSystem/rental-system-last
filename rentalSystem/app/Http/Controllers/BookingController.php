@@ -20,12 +20,12 @@ class BookingController extends Controller
     $users = User::where('role', 'lessor')
     ->where('status', 'pending')
     ->get();
-    // Get the properties belonging to the authenticated user
+
     $properties = Property::where('user_id', Auth::id())->pluck('id');
 
-    // Fetch reviews with property name and renter name
+
     $reviews = Review::whereIn('property_id', $properties)
-                     ->with(['property', 'renter']) // Eager load the property and renter relationships
+                     ->with(['property', 'renter'])
                      ->get();
 
     // Fetch bookings related to the user's properties
