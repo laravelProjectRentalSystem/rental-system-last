@@ -115,9 +115,8 @@
                         margin-left: auto; /* Center horizontally */
                         margin-right: auto; /* Center horizontally */
                     ">{{ session('ErrorLessor') }}</p>
-                        <p class="alertError" >
-                        Please wait for admin approval
-                    </p>
+
+
                     @endif
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
