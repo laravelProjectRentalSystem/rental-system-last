@@ -159,10 +159,12 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/profileAdmin', [UserController::class, 'profile'])->name('profile.profileAdmin');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile.show');
     Route::get('/dashboard', [BookingController::class, 'showDashboard'])->name('dashboard');
+    Route::get('/admin/bookings', [PropertyController::class, 'indexBookingAdmin'])->name('admin.bookings');
 });
 Route::post('/Logout', [UserController::class, 'destroy'])->name('destroy');
 Route::get('/view_property', function () {
  return view('frontend.admin.property_create');
+
 })->name('property_admin');
 
 
@@ -187,6 +189,7 @@ Route::get('/bookings', [BookingController::class, 'index'])->name('bookings');
 
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews');
 
+Route::delete('/properties/delete/{id}', [PropertyController::class, 'removeProperty'])->name('properties.removeProperty');
 
 
 Route::patch('/bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');

@@ -34,15 +34,14 @@
                         <option value="admin">Admin</option>
                     </select>
                 </div>
+
+                <!-- Integrated Profile Picture Upload Field -->
                 <div class="form-group">
-                    <label>Profile Picture</label>
-                    <input type="file" name="profile_picture" class="file-upload-default">
-                    <div class="input-group col-xs-12">
-                        <input type="file" class="form-control file-upload-info" name="profile_picture"  placeholder="Upload Image">
-                        {{-- <span class="input-group-append">
-                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span> --}}
-                    </div>
+                    <label for="profilePicture">Profile Picture</label>
+                    <input type="file" class="form-control" id="profilePicture" name="profile_picture">
+                    @if ($errors->has('profile_picture'))
+                        <span class="text-danger">{{ $errors->first('profile_picture') }}</span>
+                    @endif
                 </div>
 
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>

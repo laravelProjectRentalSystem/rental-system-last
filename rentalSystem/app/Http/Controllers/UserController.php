@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -62,30 +63,38 @@ class UserController extends Controller
     }
 
     public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:lessor,renter,admin',
-            'profile_picture' => 'nullable|image|max:2048',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+        'password' => 'nullable|string|min:8|confirmed',
+        'role' => 'required|in:lessor,renter,admin',
+        'profile_picture' => 'nullable|image|max:2048',
+    ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->role = $request->role;
-
-        if ($request->hasFile('profile_picture')) {
-            $user->profile_picture = $request->file('profile_picture')->store('profile_pictures', 'public');
-        }
-
-        $user->save();
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+    // Update user details
+    $user->name = $request->input('name');
+    $user->email = $request->input('email');
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->input('password'));
     }
+    $user->role = $request->input('role');
+
+    if ($request->hasFile('profile_picture')) {
+        // Delete the old profile picture if it exists
+        if ($user->profile_picture) {
+            Storage::disk('public')->delete($user->profile_picture);
+        }
+
+        // Store the new profile picture
+        $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+        $user->profile_picture = $path;
+    }
+
+    $user->save();
+
+    return redirect()->route('users.index')->with('success', 'User updated successfully.');
+}
 
     public function destroy(User $user)
     {Auth::logout();

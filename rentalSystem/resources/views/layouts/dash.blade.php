@@ -290,6 +290,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.bookings') }}">
+                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
+              <span class="menu-title">Manage Booking</span>
+            </a>
+          </li>
+          <li class="nav-item">
            <a class="nav-link" href="{{ route('profile.profileAdmin', Auth::user()->id) }}">
             <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
                 <span class="menu-title">Manage Your Profile</span>

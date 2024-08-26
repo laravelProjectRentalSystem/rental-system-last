@@ -45,6 +45,7 @@
                                     <th>Location</th>
                                     <th>Price per Day</th>
                                     <th>Availability</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,6 +70,14 @@
                                             @else
                                                 <label class="badge badge-success">Available</label>
                                             @endif
+                                        </td>
+                                        <td>
+
+                                            <form action="{{ route('properties.removeProperty', $prop->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

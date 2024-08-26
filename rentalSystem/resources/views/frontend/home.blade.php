@@ -14,8 +14,8 @@
                         <div class="hc-inner-text">
                             <div class="hc-text">
                                 <h4>{{ $properties[0]->title }}</h4>
-                                <p><span class="icon_pin_alt"></span> {{ $properties[0]->location }}</p>
-                                <div class="label" style="{{ $properties[0]->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
+                             <p><span class="icon_pin_alt"></span> {{ $properties[0]->location }}</p>
+                               <div class="label" style="{{ $properties[0]->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
                                     {{ $properties[0]->availability == 1 ? 'available' : 'rented' }}
                                 </div>
                                 <h5>{{ $properties[0]->price_per_day }}<span>/day</span></h5>
