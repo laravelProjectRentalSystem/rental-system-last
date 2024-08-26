@@ -27,7 +27,7 @@ class AuthenticatedSessionController extends Controller
                     case 'admin':
                         return redirect()->intended('/dashboard');
                     case 'lessor':
-                        return redirect()->intended('/home');
+                        return redirect()->intended('/dashboardB');
                     case 'renter':
                         return redirect()->intended('/home');
                     default:

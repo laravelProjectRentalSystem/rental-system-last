@@ -29,7 +29,7 @@
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
        <div class="logo">
 
-                <img src="img/logo1.png" alt="">
+                <img src="{{ asset('img/logo1.png') }}" alt="">
 
         </div>
         <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}"><img src="{{ asset('images/logo-mini.svg') }}" alt="logo"/></a>
