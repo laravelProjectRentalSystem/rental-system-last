@@ -19,6 +19,56 @@ select option{
     overflow: auto;
 
 }
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    margin-top: 20px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    pointer-events: auto; /* Enable interaction */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #00c89e;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    position: relative;
+    z-index: 2;
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #00c89e;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    position: relative;
+    z-index: 2;
+}
+
+.range-fill {
+    position: absolute;
+    height: 10px;
+    background-color: #00c89e;
+    z-index: 1;
+    top: 0;
+}
+
+
 </style>
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section spad set-bg" data-setbg="img/breadcrumb-bg.jpg">
@@ -78,10 +128,20 @@ select option{
 
 
                 <div class="price-range-wrap sm-width">
-                    <label for="priceRange">Price:</label>
-                    <input type="number" name="min_price" style="width: 25%">
-                    <label for="priceRange">to</label>
-                    <input type="number" name="max_price" style="width: 25%">
+                   <div class="price-text">
+    <label for="priceRange">Price:</label>
+    <input type="text" id="priceRange" readonly>
+</div>
+<div class="slider-container">
+    <input type="range" id="minPriceRange" class="slider" min="0" max="2000" value="0" step="10">
+    <input type="range" id="maxPriceRange" class="slider" min="0" max="2000" value="2000" step="10">
+    <div class="range-fill"></div>
+</div>
+<input type="hidden" name="min_price" id="hiddenMinPrice">
+<input type="hidden" name="max_price" id="hiddenMaxPrice">
+
+
+
                     <div class="price-text">
 
                     </div>
@@ -233,5 +293,48 @@ select option{
         </div>
     </div>
 </section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const minPriceRange = document.getElementById('minPriceRange');
+    const maxPriceRange = document.getElementById('maxPriceRange');
+    const priceRangeLabel = document.getElementById('priceRange');
+    const rangeFill = document.querySelector('.range-fill');
+    const hiddenMinPrice = document.getElementById('hiddenMinPrice');
+    const hiddenMaxPrice = document.getElementById('hiddenMaxPrice');
+
+    function updateRange() {
+        let minValue = parseInt(minPriceRange.value);
+        let maxValue = parseInt(maxPriceRange.value);
+
+        if (minValue > maxValue) {
+            minValue = maxValue;
+            minPriceRange.value = minValue;
+        }
+        if (maxValue < minValue) {
+            maxValue = minValue;
+            maxPriceRange.value = maxValue;
+        }
+
+        const minPercent = (minValue / minPriceRange.max) * 100;
+        const maxPercent = (maxValue / maxPriceRange.max) * 100;
+
+        rangeFill.style.left = `${minPercent}%`;
+        rangeFill.style.width = `${maxPercent - minPercent}%`;
+
+        priceRangeLabel.value = `$${minValue} - $${maxValue}`;
+
+        // Update hidden inputs
+        hiddenMinPrice.value = minValue;
+        hiddenMaxPrice.value = maxValue;
+    }
+
+    minPriceRange.addEventListener('input', updateRange);
+    maxPriceRange.addEventListener('input', updateRange);
+
+    updateRange();  // Initialize the range and sync hidden inputs
+});
+
+
+</script>
 <!-- Property Section End -->
 @endsection
