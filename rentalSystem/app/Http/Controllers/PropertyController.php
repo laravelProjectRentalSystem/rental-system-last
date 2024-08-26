@@ -333,7 +333,7 @@ class PropertyController extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $availability = $request->input('availability');
-
+        // dd($minPrice);
         $query = Property::with(['user', 'amenities']);
 
         // Filter by location if provided
