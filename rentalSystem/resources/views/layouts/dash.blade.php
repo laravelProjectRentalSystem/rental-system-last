@@ -50,7 +50,7 @@
 
                     <!-- Bookings Notifications -->
                     @foreach($bookings as $booking)
-                    <a class="dropdown-item preview-item">
+                    <a class="dropdown-item preview-item" href="{{ route('admin.bookings') }}">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-success">
                                 <i class="ti-info-alt mx-0"></i>
@@ -70,7 +70,7 @@
                             </p>
                         </div>
                     </a>
-                    @endforeach
+                @endforeach
 
                     <!-- Divider -->
                     <div class="dropdown-divider"></div>
@@ -79,7 +79,7 @@
                     <p class="mb-0 font-weight-normal float-left dropdown-header">Pending Users</p>
                     @foreach($users as $user)
                     @if($user->role === 'lessor' && $user->status === 'pending')
-                    <a class="dropdown-item preview-item">
+                    <a class="dropdown-item preview-item" href="{{ route('u.create') }}">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-warning">
                                 <i class="ti-user mx-0"></i>
@@ -95,7 +95,7 @@
                         </div>
                     </a>
                     @endif
-                    @endforeach
+                @endforeach
                 </div>
             </li>
 
@@ -105,10 +105,7 @@
               {{-- this line to change img     --}}
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
+
               <form id="logout-form" action="{{ route('destroy') }}" method="POST" style="display: none;">
                 @csrf
             </form>
@@ -118,11 +115,7 @@
             </a>
             </div>
           </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
-          </li>
+
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
           <span class="icon-menu"></span>
@@ -335,6 +328,13 @@
             <span class="menu-title">Manage Property</span>
           </a>
         </li>
+
+         {{-- <li class="nav-item">
+            <a class="nav-link" href="{{ route('u.create') }}">
+                <i class="icon-grid mdi mdi-account-plus"></i>
+                <span class="menu-title">Manage New Users</span>
+            </a>
+        </li> --}}
 
 
         </ul>
