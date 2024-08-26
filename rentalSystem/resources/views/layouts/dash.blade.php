@@ -46,36 +46,37 @@
                   <span class="count"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-                  <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                    <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
 
-                  @foreach($bookings as $booking)
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-success">
-                        <i class="ti-info-alt mx-0"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <h6 class="preview-subject font-weight-normal">
-                        {{ $booking->renter->name }}
-                        @if($booking->status == 'pending')
-                          - Pending
-                        @else
-                          - {{ ucfirst($booking->status) }}
-                        @endif
-                      </h6>
-                      <p class="font-weight-light small-text mb-0 text-muted">
-                        {{ $booking->created_at->diffForHumans() }}
-                      </p>
-                    </div>
-                  </a>
-                  @endforeach
+                    <!-- Bookings Notifications -->
+                    @foreach($bookings as $booking)
+                    <a class="dropdown-item preview-item">
+                        <div class="preview-thumbnail">
+                            <div class="preview-icon bg-success">
+                                <i class="ti-info-alt mx-0"></i>
+                            </div>
+                        </div>
+                        <div class="preview-item-content">
+                            <h6 class="preview-subject font-weight-normal">
+                                {{ $booking->renter->name }}
+                                @if($booking->status == 'pending')
+                                  - Pending
+                                @else
+                                  - {{ ucfirst($booking->status) }}
+                                @endif
+                            </h6>
+                            <p class="font-weight-light small-text mb-0 text-muted">
+                                {{ $booking->created_at->diffForHumans() }}
+                            </p>
+                        </div>
+                    </a>
+                    @endforeach
 
-                </div>
-                <!-- Dropdown Menu -->
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                    <!-- Divider -->
+                    <div class="dropdown-divider"></div>
+
+                    <!-- Users Notifications -->
                     <p class="mb-0 font-weight-normal float-left dropdown-header">Pending Users</p>
-
                     @foreach($users as $user)
                     @if($user->role === 'lessor' && $user->status === 'pending')
                     <a class="dropdown-item preview-item">
@@ -95,10 +96,9 @@
                     </a>
                     @endif
                     @endforeach
-
                 </div>
+            </li>
 
-              </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="{{ Storage::url( Auth::user()->profile_picture) }}" alt="profile"/>
@@ -306,41 +306,34 @@
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">
-                <i class="icon-grid mdi mdi-view-dashboard"></i>
+                <i class="icon-grid mdi mdi-view-dashboard mdi-24px mr-2"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
-                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
+                <i class=" icon-grid mdi mdi-account-multiple-outline mdi-24px mr-2"></i>
               <span class="menu-title">Manage Users</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.bookings') }}">
-                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
+                <i class=" icon-grid mdi mdi-account-multiple-outline mdi-24px mr-2"></i>
               <span class="menu-title">Manage Booking</span>
             </a>
           </li>
           <li class="nav-item">
            <a class="nav-link" href="{{ route('profile.profileAdmin', Auth::user()->id) }}">
-            <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
+            <i class=" icon-grid mdi mdi-account-multiple-outline mdi-24px mr-2"></i>
                 <span class="menu-title">Manage Your Profile</span>
             </a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="{{ route('property.create') }}">
-            <i class=" icon-grid mdi mdi-home-modern"></i>
+            <i class=" icon-grid mdi mdi-home-modern mdi-24px mr-2"></i>
             <span class="menu-title">Manage Property</span>
           </a>
-        </li>
-
-         <li class="nav-item">
-            <a class="nav-link" href="{{ route('u.create') }}">
-                <i class="icon-grid mdi mdi-account-plus"></i>
-                <span class="menu-title">Manage New Users</span>
-            </a>
         </li>
 
 

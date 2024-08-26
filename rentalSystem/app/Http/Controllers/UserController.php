@@ -26,7 +26,10 @@ class UserController extends Controller
 
     public function create()
     { $bookings = Booking::all();
-        return view('users.create',compact('bookings'));
+        $users = User::where('role', 'lessor')
+        ->where('status', 'pending')
+        ->get();
+        return view('users.create',compact('bookings','users'));
     }
 
     public function store(Request $request)
@@ -95,7 +98,10 @@ class UserController extends Controller
 
     public function edit(User $user)
     {$bookings = Booking::all();
-        return view('users.edit', compact('user','bookings'));
+        $users = User::where('role', 'lessor')
+        ->where('status', 'pending')
+        ->get();
+        return view('users.edit', compact('user','bookings','users'));
     }
 
     public function update(Request $request, User $user)
