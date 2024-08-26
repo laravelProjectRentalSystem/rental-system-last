@@ -14,42 +14,7 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      */
-    // public function store(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'name' => ['required', 'string', 'max:255'],
-    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
-    //         'phone_number' => ['required_if:role,lessor'],
-    //         'address' => ['required_if:role,lessor'],
-    //         'role' => ['required', 'in:lessor,renter'],
-    //     ]);
 
-    //     if ($validator->fails()) {
-    //         return redirect('/login_register')
-    //             ->withErrors($validator)
-    //             ->withInput();
-    //     }
-
-    //     $defaultProfilePicture = 'profile_pictures/default-profile.jpg';
-
-    //     $user = User::create([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //         'role' => $request->role,
-    //         'profile_picture' => $defaultProfilePicture,
-    //         'phone_number' => $request->phone_number,
-    //         'address' => $request->address,
-    //         "status" => 'pending'
-
-    //     ]);
-
-    //     // Optionally, you can log in the user automatically after registration
-    //     // Auth::login($user);
-
-    //     return redirect('/login_register')->with('success', 'Registration successful.');
-    // }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

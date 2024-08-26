@@ -17,16 +17,20 @@ class AuthenticatedSessionController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            if($user->status == "pending"){
+                return redirect()->back()->with('ErrorLessor' , "Please wait for admin approval");
+            }else{
 
-            switch ($user->role) {
-                case 'admin':
-                    return redirect()->intended('/dashboard');
-                case 'lessor':
-                    return redirect()->intended('/home');
-                case 'renter':
-                    return redirect()->intended('/home');
-                default:
-                    return redirect()->intended('/error');
+                switch ($user->role) {
+                    case 'admin':
+                        return redirect()->intended('/dashboard');
+                    case 'lessor':
+                        return redirect()->intended('/home');
+                    case 'renter':
+                        return redirect()->intended('/home');
+                    default:
+                        return redirect()->intended('/error');
+                }
             }
 
         }
