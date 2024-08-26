@@ -164,7 +164,13 @@ Route::delete('/reviews/{id}', [BookingController::class, 'deleteReview'])->name
 
 
 
+Route::group(['middleware' => ['role:renter']], function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard')->middleware('auth');
 
+});
 
 
 Route::group(['middleware' => ['role:admin']], function () {
@@ -217,12 +223,9 @@ Route::resource('bookings', BookingController::class);
 
 // ProfileController
 
-Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 
-Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard')->middleware('auth');
+
 
 Route::get('/bookings', [BookingController::class, 'index'])->name('bookings');
 
