@@ -20,8 +20,8 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone_number' => ['required'],
-            'address' => ['required'],
+            'phone_number' => ['required_if:role,lessor'],
+            'address' => ['required_if:role,lessor'],
             'role' => ['required', 'in:lessor,renter'],
         ]);
 
