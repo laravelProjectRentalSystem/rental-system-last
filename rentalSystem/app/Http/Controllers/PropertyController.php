@@ -5,7 +5,9 @@ use App\Models\Booking;
 use App\Models\Property;
 use App\Models\PropertyPhoto;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
@@ -66,19 +68,23 @@ class PropertyController extends Controller
     }
     public function indexx(Request $request)
     {
+        $users = User::where('role', 'lessor')
+        ->where('status', 'pending')
+        ->get();
         $search = $request->input('search');
-
-        // Retrieve properties filtered by title
+                // Retrieve properties filtered by title
         $properties = Property::when($search, function ($query, $search) {
             return $query->where('title', 'like', '%' . $search . '%');
         })->get();
         $bookings = Booking::all();
 
         // Pass the filtered properties and bookings to the view
-        return view('frontend.admin.property_create', compact('properties', 'bookings'));
+        return view('frontend.admin.property_create', compact('properties', 'bookings','users'));
     }
     public function indexBookingAdmin(Request $request)
-{
+{   $users = User::where('role', 'lessor')
+    ->where('status', 'pending')
+    ->get();
     // Get the search term from the request
     $search = $request->input('search');
 
@@ -93,7 +99,7 @@ class PropertyController extends Controller
         ->get();
 
     // Pass the filtered bookings data and search term to the view
-    return view('users.bookings', compact('bookings','search'));
+    return view('users.bookings', compact('bookings','search','users'));
 }
 
     public function removeProperty($id)

@@ -16,6 +16,10 @@ class BookingController extends Controller
 
     public function showDashboard()
 {
+
+    $users = User::where('role', 'lessor')
+    ->where('status', 'pending')
+    ->get();
     // Get the properties belonging to the authenticated user
     $properties = Property::where('user_id', Auth::id())->pluck('id');
 
@@ -54,7 +58,9 @@ class BookingController extends Controller
         'totalBookingPrice' => $totalBookingPrice,
         'totalBookingPriceToday' => $totalBookingPriceToday,
         'bookings' => $bookings,
-        'reviews' => $reviews // Pass the reviews to the view
+        'reviews' => $reviews,
+        'users' =>$users
+        // Pass the reviews to the view
     ]);
 }
 public function deleteReview($id)
