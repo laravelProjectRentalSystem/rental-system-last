@@ -336,12 +336,6 @@
           </a>
         </li>
 
-         <li class="nav-item">
-            <a class="nav-link" href="{{ route('u.create') }}">
-                <i class="icon-grid mdi mdi-account-plus mdi-24px mr-2"></i>
-                <span class="menu-title">Manage New Users</span>
-            </a>
-        </li>
 
         </ul>
       </nav>
