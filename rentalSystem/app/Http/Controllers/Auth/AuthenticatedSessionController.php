@@ -19,8 +19,10 @@ class AuthenticatedSessionController extends Controller
             $user = Auth::user();
             if($user->status == "pending"){
                 return redirect()->back()->with('ErrorLessor' , "Please wait for admin approval");
-            }else{
+            }elseif($user->status == "rejected"){
+                return redirect()->back()->with('ErrorLessor' , "Your account rejected");
 
+            }else{
                 switch ($user->role) {
                     case 'admin':
                         return redirect()->intended('/dashboard');

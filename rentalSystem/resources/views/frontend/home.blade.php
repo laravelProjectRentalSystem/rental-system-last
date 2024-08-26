@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div class="col-lg-7">
-                <div class="property-controls">
+                {{-- <div class="property-controls">
                     <ul>
                         <li data-filter="all">All</li>
                         <li data-filter=".apart">Apartment</li>
@@ -107,7 +107,7 @@
                         <li data-filter=".hotel">Hotel</li>
                         <li data-filter=".restaurent">Restaurent</li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="row property-filter">
@@ -212,44 +212,7 @@
     </div>
 </section>
 <!-- Chooseus Section End -->
-<!-- Logo Carousel Begin -->
-<div class="logo-carousel">
-    <div class="container">
-        <div class="lc-slider owl-carousel">
-            <a href="#" class="lc-item">
-                <div class="lc-item-inner">
-                    <img src="img/logo-carousel/lc-1.png" alt="">
-                </div>
-            </a>
-            <a href="#" class="lc-item">
-                <div class="lc-item-inner">
-                    <img src="img/logo-carousel/lc-2.png" alt="">
-                </div>
-            </a>
-            <a href="#" class="lc-item">
-                <div class="lc-item-inner">
-                    <img src="img/logo-carousel/lc-3.png" alt="">
-                </div>
-            </a>
-            <a href="#" class="lc-item">
-                <div class="lc-item-inner">
-                    <img src="img/logo-carousel/lc-4.png" alt="">
-                </div>
-            </a>
-            <a href="#" class="lc-item">
-                <div class="lc-item-inner">
-                    <img src="img/logo-carousel/lc-5.png" alt="">
-                </div>
-            </a>
-            <a href="#" class="lc-item">
-                <div class="lc-item-inner">
-                    <img src="img/logo-carousel/lc-6.png" alt="">
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-<!-- Logo Carousel End -->
+
 <!-- Feature Property Section Begin -->
 <section class="feature-property-section spad">
     <div class="container">
@@ -304,9 +267,46 @@
     </div>
 </section>
 <!-- Feature Property Section End -->
-
+<!-- Logo Carousel Begin -->
+<div class="logo-carousel">
+    <div class="container">
+        <div class="lc-slider owl-carousel">
+            <a href="#" class="lc-item">
+                <div class="lc-item-inner">
+                    <img src="img/logo-carousel/lc-1.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="lc-item">
+                <div class="lc-item-inner">
+                    <img src="img/logo-carousel/lc-2.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="lc-item">
+                <div class="lc-item-inner">
+                    <img src="img/logo-carousel/lc-3.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="lc-item">
+                <div class="lc-item-inner">
+                    <img src="img/logo-carousel/lc-4.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="lc-item">
+                <div class="lc-item-inner">
+                    <img src="img/logo-carousel/lc-5.png" alt="">
+                </div>
+            </a>
+            <a href="#" class="lc-item">
+                <div class="lc-item-inner">
+                    <img src="img/logo-carousel/lc-6.png" alt="">
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Logo Carousel End -->
 <!-- Team Section Begin -->
-<section class="team-section spad">
+{{-- <section class="team-section spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-8">
@@ -368,11 +368,11 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- Team Section End -->
 
 <!-- Categories Section Begin -->
-<section class="categories-section">
+{{-- <section class="categories-section">
     <div class="cs-item-list">
         <div class="cs-item set-bg" data-setbg="img/categories/cat-1.jpg">
             <div class="cs-text">
@@ -405,11 +405,11 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- Categories Section End -->
 
 <!-- Testimonial Section Begin -->
-<section class="testimonial-section spad">
+{{-- <section class="testimonial-section spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -493,7 +493,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- Testimonial Section End -->
 
 
