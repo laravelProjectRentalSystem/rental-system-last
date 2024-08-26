@@ -306,32 +306,32 @@
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">
-                <i class="icon-grid mdi mdi-view-dashboard"></i>
+                <i class="icon-grid mdi mdi-view-dashboard mdi-24px mr-2"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ route('users.index') }}">
-                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
+                <i class=" icon-grid mdi mdi-account-multiple-outline mdi-24px mr-2"></i>
               <span class="menu-title">Manage Users</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.bookings') }}">
-                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
+                <i class=" icon-grid mdi mdi-account-multiple-outline mdi-24px mr-2"></i>
               <span class="menu-title">Manage Booking</span>
             </a>
           </li>
           <li class="nav-item">
            <a class="nav-link" href="{{ route('profile.profileAdmin', Auth::user()->id) }}">
-            <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
+            <i class=" icon-grid mdi mdi-account-multiple-outline mdi-24px mr-2"></i>
                 <span class="menu-title">Manage Your Profile</span>
             </a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="{{ route('property.create') }}">
-            <i class=" icon-grid mdi mdi-home-modern"></i>
+            <i class=" icon-grid mdi mdi-home-modern mdi-24px mr-2"></i>
             <span class="menu-title">Manage Property</span>
           </a>
         </li>

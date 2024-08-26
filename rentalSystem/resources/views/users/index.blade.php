@@ -33,8 +33,14 @@
                         </div>
                     </div>
                 </form>
+                <a href="{{ route('users.create') }}" class="btn btn-primary mb-4 ">Create New User</a>
+                <a href="{{ route('u.create') }}" class="btn btn-primary mb-4 align-items-center ">
+                    <span>Pending Users</span>
+                    <span class="badge badge-danger ml-2">
+                        {{ $users->where('role', 'lessor')->where('status', 'pending')->count() }}
+                    </span>
+                </a>
 
-                <a href="{{ route('users.create') }}" class="btn btn-primary mb-4">Create New User</a>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
