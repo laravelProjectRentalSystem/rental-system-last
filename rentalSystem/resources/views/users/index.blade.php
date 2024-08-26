@@ -33,13 +33,15 @@
                         </div>
                     </div>
                 </form>
-                <a href="{{ route('users.create') }}" class="btn btn-primary mb-4 ">Create New User</a>
-                <a href="{{ route('u.create') }}" class="btn btn-primary mb-4 align-items-center ">
-                    <span>Pending Users</span>
-                    <span class="badge badge-danger ml-2">
-                        {{ $users->where('role', 'lessor')->where('status', 'pending')->count() }}
-                    </span>
-                </a>
+                <div class="d-flex">
+                    <a href="{{ route('users.create') }}" class="btn btn-primary flex-grow-1 mr-2 mb-4">Create New User</a>
+                    <a href="{{ route('u.create') }}" class="btn btn-primary flex-grow-1 mb-4">
+                        <span>Pending Users</span>
+                        <span class="badge badge-danger ml-2">
+                            {{ $users->where('role', 'lessor')->where('status', 'pending')->count() }}
+                        </span>
+                    </a>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-striped">
