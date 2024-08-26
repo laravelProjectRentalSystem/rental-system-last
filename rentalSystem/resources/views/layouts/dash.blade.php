@@ -75,7 +75,8 @@
               </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="{{ asset('images/faces/face28.jpg') }}" alt="profile"/>
+              <img src="{{ Storage::url( Auth::user()->profile_picture) }}" alt="profile"/>
+              {{-- this line to change img     --}}
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
@@ -289,6 +290,7 @@
               <span class="menu-title">Manage Users</span>
             </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.bookings') }}">
                 <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
@@ -307,10 +309,11 @@
             <span class="menu-title">Manage Property</span>
           </a>
         </li>
+
          <li class="nav-item">
             <a class="nav-link" href="{{ route('u.create') }}">
-                <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Logout</span>
+                <i class="icon-grid mdi mdi-account-plus"></i>
+                <span class="menu-title">Manage New Users</span>
             </a>
         </li>
 

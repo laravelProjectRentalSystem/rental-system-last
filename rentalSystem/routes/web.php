@@ -134,7 +134,7 @@ Route::get('/sreview', [PropertyController::class, 'showReviews'])->name('srevie
 Route::put('/sprofile/update', [PropertyController::class, 'supdate'])->name('sprofile.update');
 
 Route::get('/sprofile', [PropertyController::class, 'showprof'])->name('sprofile.page')->middleware('auth');
-Route::get('/users_create', [UserController::class, 'uStatus'])->name('u.create');
+
 Route::put('/users_create/{id}', [UserController::class, 'updateStatus'])->name('updateUserStatus');
 Route::get('/property_index', [PropertyController::class, 'index'])->name('property.index');
 
@@ -159,6 +159,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile.show');
     Route::get('/dashboard', [BookingController::class, 'showDashboard'])->name('dashboard');
     Route::get('/admin/bookings', [PropertyController::class, 'indexBookingAdmin'])->name('admin.bookings');
+    Route::get('/users_create', [UserController::class, 'uStatus'])->name('u.create');
 });
 Route::post('/Logout', [UserController::class, 'destroy'])->name('destroy');
 Route::get('/view_property', function () {
