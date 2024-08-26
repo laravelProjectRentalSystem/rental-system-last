@@ -373,14 +373,13 @@ body {
             justify-content: center;
             align-items: center;
             width: 50%;
-            
         }
         .role-selection input[type="radio"] {
             display: none; /* Hide the default radio buttons */
             
         }
         .role-selection input[type="radio"]:checked + span {
-            color: rgb(255, 255, 255);
+            color: black;
                         width: 100%;
 
         }
