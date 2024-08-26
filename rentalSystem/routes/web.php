@@ -134,9 +134,8 @@ Route::get('/sreview', [PropertyController::class, 'showReviews'])->name('srevie
 Route::put('/sprofile/update', [PropertyController::class, 'supdate'])->name('sprofile.update');
 
 Route::get('/sprofile', [PropertyController::class, 'showprof'])->name('sprofile.page')->middleware('auth');
-
-
-
+Route::get('/users_create', [UserController::class, 'uStatus'])->name('u.create');
+Route::put('/users_create/{id}', [UserController::class, 'updateStatus'])->name('updateUserStatus');
 Route::get('/property_index', [PropertyController::class, 'index'])->name('property.index');
 
 Route::get('/property_admin/{property?}', [PropertyController::class, 'manage'])->name('properties.manage');
