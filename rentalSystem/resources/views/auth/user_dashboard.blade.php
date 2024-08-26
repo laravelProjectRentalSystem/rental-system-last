@@ -173,7 +173,7 @@
                                 @foreach($bookings as $booking)
                                     <tr>
                                         <td>{{ $booking->id }}</td>
-                                        <td>{{ $booking->property->title }}</td> <!-- سحب اسم العقار -->
+                                        <td>{{ $booking->property->title }}</td> 
                                         <td>{{ $booking->start_date }}</td>
                                         <td>{{ $booking->end_date }}</td>
                                         <td>{{ ucfirst($booking->status) }}</td>
