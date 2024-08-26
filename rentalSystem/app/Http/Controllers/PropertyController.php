@@ -319,7 +319,7 @@ class PropertyController extends Controller
     // Data for one property
     public function property(string $id)
     {
-        $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();// try get all
+        $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();
         // dd($propertPhoto[0]->photo_url);
         $bookedDates = Booking::where('property_id', $id)
         ->where('status', 'accepted')
@@ -328,8 +328,13 @@ class PropertyController extends Controller
         $property = Property::with('user')->findOrFail($id);
         $countOfReview = Review::where('property_id', $id)->count();
         $reviews = Review::with('renter')->where('property_id', $id)->get();
+        $ownerId = $property->user_id;
 
-        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates'));
+        $properties = Property::with('user')
+            ->where('user_id', $ownerId)
+            ->where('id', '!=', $id)
+            ->paginate(3);
+                    return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates','properties'));
     }
     public function AllProperty(Request $request)
     {
@@ -338,39 +343,28 @@ class PropertyController extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $availability = $request->input('availability');
-        $perPage = $request->input('per_page', 6); // Default to 6 per page
+        $perPage = $request->input('per_page', 6);
 
-        $query = Property::with(['user', 'amenities']);
+        $query = Property::with(['user']);
 
-        // Filter by location if provided
         if ($location) {
             $query->where('location', '=', $location);
         }
 
-        // Filter by search term if provided
         if ($search) {
             $query->where('title', 'like', '%' . $search . '%');
         }
 
-        // Filter by availability if provided
         if ($availability !== null && $availability !== '') {
             $query->where('availability', '=', $availability);
         }
 
-        // Filter by price range if both min and max prices are provided
         if ($minPrice !== null && $maxPrice !== null) {
             $query->whereBetween('price_per_day', [$minPrice, $maxPrice]);
         }
+        $properties = $query->get();
 
-        // Paginate the results
-        $properties = $query->paginate($perPage);
 
-        // Check if the request is an AJAX request
-        if ($request->ajax()) {
-            return view('frontend.partials.property-list', compact('properties'))->render();
-        }
-
-        // Return the properties to the main view
         return view('frontend.property', compact('properties'));
     }
 
