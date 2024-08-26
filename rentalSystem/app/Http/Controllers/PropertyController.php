@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
+
+ 
     public function updateBookingStatus(Request $request,string $id)
     {
 
