@@ -130,7 +130,7 @@
                         @if(auth()->user()->profile_picture)
                             <img src="{{ Storage::url(auth()->user()->profile_picture) }}" alt="Profile Picture">
                         {{-- @else
-                            <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Picture"> --}}
+                            <img src="{{ asset('profile_pictures/default-profile.jpg') }}" alt="Default Profile Picture"> --}}
                         @endif
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                                 @foreach($bookings as $booking)
                                     <tr>
                                         <td>{{ $booking->id }}</td>
-                                        <td>{{ $booking->property->title }}</td> <!-- سحب اسم العقار -->
+                                        <td>{{ $booking->property->title }}</td> 
                                         <td>{{ $booking->start_date }}</td>
                                         <td>{{ $booking->end_date }}</td>
                                         <td>{{ ucfirst($booking->status) }}</td>

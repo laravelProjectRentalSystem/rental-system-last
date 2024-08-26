@@ -72,6 +72,32 @@
                   @endforeach
 
                 </div>
+                <!-- Dropdown Menu -->
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                    <p class="mb-0 font-weight-normal float-left dropdown-header">Pending Users</p>
+
+                    @foreach($users as $user)
+                    @if($user->role === 'lessor' && $user->status === 'pending')
+                    <a class="dropdown-item preview-item">
+                        <div class="preview-thumbnail">
+                            <div class="preview-icon bg-warning">
+                                <i class="ti-user mx-0"></i>
+                            </div>
+                        </div>
+                        <div class="preview-item-content">
+                            <h6 class="preview-subject font-weight-normal">
+                                {{ $user->name }} - Pending
+                            </h6>
+                            <p class="font-weight-light small-text mb-0 text-muted">
+                                {{ $user->created_at->diffForHumans() }}
+                            </p>
+                        </div>
+                    </a>
+                    @endif
+                    @endforeach
+
+                </div>
+
               </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">

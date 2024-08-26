@@ -380,6 +380,58 @@
     </div>
 </section>
 <!-- Property Details Section End -->
+<section class="property-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h4>Related Proprty</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @if($properties->isNotEmpty())
+                @foreach ($properties as $property)
+                    <div class="col-lg-4 col-md-6">
+                        <div class="property-item">
+                            <div class="pi-pic set-bg" data-setbg="{{ asset('storage/' . $property->photos->first()->photo_url) }}">
+                                <div class="label" style="{{ $property->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
+                                    {{ $property->availability == 1 ? 'available' : 'rented' }}
+                                </div>
+                            </div>
+                            <div class="pi-text">
+                                <div class="pt-price">{{ $property->price_per_day }}<span>/Day</span></div>
+                                <h5><a href="{{ route('viewProperty', ['id' => $property->id]) }}" style="text-decoration: none;">{{ $property->title }}</a></h5>
+                                <p><span class="icon_pin_alt"></span> {{ $property->location }}</p>
+                                <ul>
+                                    <li><i class="fa fa-bathtub"></i> {{ $property->number_of_bathrooms }}</li>
+                                    <li><i class="fa fa-bed"></i> {{ $property->number_of_bedrooms }}</li>
+                                    <li><i class="fa fa-automobile"></i> {{ $property->number_of_garage }}</li>
+                                </ul>
+                                <div class="pi-agent">
+                                    <div class="pa-item">
+                                        <div class="pa-info">
+                                            <img src="{{ Storage::url($property->user->profile_picture) }}" alt="Profile Picture">
+                                            <h6>{{ $property->user->name }}</h6>
+                                        </div>
+                                        <div class="pa-text">
+                                            {{ $property->user->phone_number }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+            <p style="text-align: center; color: #999; font-size: 1.2rem; padding: 20px;">No Property Related to the Owner.</p>
+            @endif
+        </div>
+
+        {{-- Uncomment this if you want to add a Load More button later --}}
+        {{-- <div class="loadmore-btn">
+            <a href="#">Load more</a>
+        </div> --}}
 
 
 <!-- Contact Section Begin -->

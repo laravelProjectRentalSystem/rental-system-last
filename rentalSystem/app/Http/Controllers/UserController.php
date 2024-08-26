@@ -51,7 +51,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()->route('frontend.admin.users_create')->with('success', 'User created successfully.');
     }
 
     public function uStatus()
@@ -138,8 +138,13 @@ class UserController extends Controller
         return redirect('/login_register')->with('success', 'User deleted successfully.');
     }
     public function profile()
-{ $bookings = Booking::all();
+    {
+    $users = User::where('role', 'lessor')
+    ->where('status', 'pending')
+    ->get();
+ $bookings = Booking::all();
     $user = Auth::user();
-    return view('users.profile', compact('user','bookings'));
+
+    return view('users.profile', compact('user','bookings','users'));
 }
 }

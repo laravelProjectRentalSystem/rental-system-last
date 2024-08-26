@@ -5,7 +5,9 @@ use App\Models\Booking;
 use App\Models\Property;
 use App\Models\PropertyPhoto;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
@@ -66,19 +68,23 @@ class PropertyController extends Controller
     }
     public function indexx(Request $request)
     {
+        $users = User::where('role', 'lessor')
+        ->where('status', 'pending')
+        ->get();
         $search = $request->input('search');
-
-        // Retrieve properties filtered by title
+                // Retrieve properties filtered by title
         $properties = Property::when($search, function ($query, $search) {
             return $query->where('title', 'like', '%' . $search . '%');
         })->get();
         $bookings = Booking::all();
 
         // Pass the filtered properties and bookings to the view
-        return view('frontend.admin.property_create', compact('properties', 'bookings'));
+        return view('frontend.admin.property_create', compact('properties', 'bookings','users'));
     }
     public function indexBookingAdmin(Request $request)
-{
+{   $users = User::where('role', 'lessor')
+    ->where('status', 'pending')
+    ->get();
     // Get the search term from the request
     $search = $request->input('search');
 
@@ -93,7 +99,7 @@ class PropertyController extends Controller
         ->get();
 
     // Pass the filtered bookings data and search term to the view
-    return view('users.bookings', compact('bookings','search'));
+    return view('users.bookings', compact('bookings','search','users'));
 }
 
     public function removeProperty($id)
@@ -313,7 +319,7 @@ class PropertyController extends Controller
     // Data for one property
     public function property(string $id)
     {
-        $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();// try get all
+        $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();
         // dd($propertPhoto[0]->photo_url);
         $bookedDates = Booking::where('property_id', $id)
         ->where('status', 'accepted')
@@ -322,42 +328,43 @@ class PropertyController extends Controller
         $property = Property::with('user')->findOrFail($id);
         $countOfReview = Review::where('property_id', $id)->count();
         $reviews = Review::with('renter')->where('property_id', $id)->get();
+        $ownerId = $property->user_id;
 
-        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates'));
+        $properties = Property::with('user')
+            ->where('user_id', $ownerId)
+            ->where('id', '!=', $id)
+            ->paginate(3);
+                    return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates','properties'));
     }
-    // listing all property
-    public function AllProperty( Request $request )
+    public function AllProperty(Request $request)
     {
         $location = $request->input('location');
         $search = $request->input('search');
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $availability = $request->input('availability');
-        // dd($minPrice);
-        $query = Property::with(['user', 'amenities']);
+        $perPage = $request->input('per_page', 6);
 
-        // Filter by location if provided
+        $query = Property::with(['user']);
+
         if ($location) {
             $query->where('location', '=', $location);
         }
 
-        // Filter by search term if provided
         if ($search) {
             $query->where('title', 'like', '%' . $search . '%');
         }
-        if ($availability !== null && $availability !== '') {
-    $query->where('availability', '=', $availability);
-}
 
-        // Filter by price range if both min and max prices are provided
+        if ($availability !== null && $availability !== '') {
+            $query->where('availability', '=', $availability);
+        }
+
         if ($minPrice !== null && $maxPrice !== null) {
             $query->whereBetween('price_per_day', [$minPrice, $maxPrice]);
         }
-
-        // Execute the query and get the results
         $properties = $query->get();
 
-        // Return the properties to the view
+
         return view('frontend.property', compact('properties'));
     }
 

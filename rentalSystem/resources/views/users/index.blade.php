@@ -52,7 +52,8 @@
                             <tr>
                                 <td>{{ $user->id }}</td>
                                 <td class="py-1">
-                                    <img src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('images/default-avatar.png') }}" alt="profile picture"/>
+                                    <img src="{{   Storage::url($user->profile_picture)}}" alt="profile picture"/>
+
                                 </td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>

@@ -287,9 +287,9 @@ select option{
             @endforeach
 
         </div>
-        <div class="loadmore-btn">
+        {{-- <div class="loadmore-btn">
             <a href="#">Load more</a>
-        </div>
+        </div> --}}
         </div>
     </div>
 </section>
