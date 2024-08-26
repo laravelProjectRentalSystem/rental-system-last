@@ -325,15 +325,15 @@ class PropertyController extends Controller
 
         return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates'));
     }
-    // listing all property
-    public function AllProperty( Request $request )
+    public function AllProperty(Request $request)
     {
         $location = $request->input('location');
         $search = $request->input('search');
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $availability = $request->input('availability');
-        // dd($minPrice);
+        $perPage = $request->input('per_page', 6); // Default to 6 per page
+
         $query = Property::with(['user', 'amenities']);
 
         // Filter by location if provided
@@ -345,19 +345,26 @@ class PropertyController extends Controller
         if ($search) {
             $query->where('title', 'like', '%' . $search . '%');
         }
+
+        // Filter by availability if provided
         if ($availability !== null && $availability !== '') {
-    $query->where('availability', '=', $availability);
-}
+            $query->where('availability', '=', $availability);
+        }
 
         // Filter by price range if both min and max prices are provided
         if ($minPrice !== null && $maxPrice !== null) {
             $query->whereBetween('price_per_day', [$minPrice, $maxPrice]);
         }
 
-        // Execute the query and get the results
-        $properties = $query->get();
+        // Paginate the results
+        $properties = $query->paginate($perPage);
 
-        // Return the properties to the view
+        // Check if the request is an AJAX request
+        if ($request->ajax()) {
+            return view('frontend.partials.property-list', compact('properties'))->render();
+        }
+
+        // Return the properties to the main view
         return view('frontend.property', compact('properties'));
     }
 
