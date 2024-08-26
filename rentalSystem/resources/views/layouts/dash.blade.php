@@ -336,12 +336,12 @@
           </a>
         </li>
 
-         <li class="nav-item">
+         {{-- <li class="nav-item">
             <a class="nav-link" href="{{ route('u.create') }}">
                 <i class="icon-grid mdi mdi-account-plus"></i>
                 <span class="menu-title">Manage New Users</span>
             </a>
-        </li>
+        </li> --}}
 
 
         </ul>
