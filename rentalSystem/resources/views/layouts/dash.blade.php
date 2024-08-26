@@ -53,29 +53,23 @@
                     <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
 
                     <!-- Bookings Notifications -->
-                    @foreach($bookings as $booking)
-                    <a class="dropdown-item preview-item" href="{{ route('admin.bookings') }}">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-success">
-                                <i class="ti-info-alt mx-0"></i>
+                    @foreach($pendingBookings as $booking)
+                        <a class="dropdown-item preview-item" href="{{ route('admin.bookings') }}">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-success">
+                                    <i class="ti-info-alt mx-0"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">
-                                {{ $booking->renter->name }}
-                                @if($booking->status == 'pending')
-                                  - Pending
-                                @else
-                                  - {{ ucfirst($booking->status) }}
-                                @endif
-                            </h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                {{ $booking->created_at->diffForHumans() }}
-                            </p>
-                        </div>
-                    </a>
-                @endforeach
-
+                            <div class="preview-item-content">
+                                <h6 class="preview-subject font-weight-normal">
+                                    {{ $booking->renter->name }} - Pending
+                                </h6>
+                                <p class="font-weight-light small-text mb-0 text-muted">
+                                    {{ $booking->created_at->diffForHumans() }}
+                                </p>
+                            </div>
+                        </a>
+                    @endforeach
                     <!-- Divider -->
                     <div class="dropdown-divider"></div>
 
