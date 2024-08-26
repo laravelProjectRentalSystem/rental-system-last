@@ -286,36 +286,37 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboardB') }}">
-                <i class="icon-grid mdi mdi-view-dashboard"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('properties.manage') }}">
-                <i class=" icon-grid mdi mdi-home"></i>
-              <span class="menu-title">Add New Property</span>
-            </a>
-          </li>
-          <li class="nav-item">
-           <a class="nav-link" href="{{ route('property.index') }}">
-            <i class=" icon-grid mdi mdi-home-modern"></i>
-              <span class="menu-title">Manage Property</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('sprofile.page') }}">
-                <i class=" icon-grid mdi mdi-account-multiple-outline"></i>
-               <span class="menu-title">Manage profile</span>
-             </a>
-           </li>
-           <li class="nav-item">
-            <a class="nav-link" href="{{ route('sreview') }}">
-                <i class=" icon-grid mdi mdi-thumb-up"></i>
-               <span class="menu-title">Reviews</span>
-             </a>
-           </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('dashboardB') }}">
+                  <i class="icon-grid mdi mdi-view-dashboard mdi-24px mr-2"></i>
+                  <span class="menu-title">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('properties.manage') }}">
+                  <i class="icon-grid mdi mdi-home mdi-24px mr-2"></i>
+                  <span class="menu-title">Add New Property</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('property.index') }}">
+                  <i class="icon-grid mdi mdi-home-modern mdi-24px mr-2"></i>
+                  <span class="menu-title">Manage Property</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('sprofile.page') }}">
+                  <i class="icon-grid mdi mdi-account-multiple-outline mdi-24px mr-2"></i>
+                  <span class="menu-title">Manage profile</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('sreview') }}">
+                  <i class="icon-grid mdi mdi-thumb-up mdi-24px mr-2"></i>
+                  <span class="menu-title">Reviews</span>
+                </a>
+              </li>
+
 
         </ul>
       </nav>

@@ -90,9 +90,11 @@
                                 @csrf
                                 <button type="submit" class="hw-btn" style="text-decoration: none; border :0">Logout</button>
                             </form>
+
+
                             @endif
                             @if (!Auth::user())
-                                <a href="{{ route('login_register') }}" class="hw-btn"style="text-decoration: none">login</a>
+                            <a href="{{ route('login_register') }}" class="hw-btn"style="text-decoration: none">login</a>
                             @endif
                         </div>
                     </div>
@@ -127,11 +129,16 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="hn-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            @if (Auth::user())
+                            <a href="{{ route('user.dashboard') }}"><i class="fa fa-user"></i></a>
+                            @else
+                            <a href="{{ route('login_register') }}"><i class="fa fa-user"></i></a>
+                            @endif
                             <a href="#"><i class="fa fa-twitter"></i></a>
                             <a href="#"><i class="fa fa-youtube-play"></i></a>
                             <a href="#"><i class="fa fa-instagram"></i></a>
                             <a href="#"><i class="fa fa-pinterest-p"></i></a>
+
                         </div>
                     </div>
                 </div>

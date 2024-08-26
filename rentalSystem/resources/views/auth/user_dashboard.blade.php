@@ -114,6 +114,7 @@
         <a href="#" class="nav-link" data-target="bookings">Your Bookings</a>
         <a href="#" class="nav-link" data-target="reviews">Your Reviews</a>
         <a href="#" class="nav-link" data-target="edit-profile">Edit Profile</a>
+        <a href="{{ route('home') }}" >Back To Home</a>
     </div>
 
     <div class="main-content">
@@ -173,7 +174,7 @@
                                 @foreach($bookings as $booking)
                                     <tr>
                                         <td>{{ $booking->id }}</td>
-                                        <td>{{ $booking->property->title }}</td> 
+                                        <td>{{ $booking->property->title }}</td>
                                         <td>{{ $booking->start_date }}</td>
                                         <td>{{ $booking->end_date }}</td>
                                         <td>{{ ucfirst($booking->status) }}</td>
