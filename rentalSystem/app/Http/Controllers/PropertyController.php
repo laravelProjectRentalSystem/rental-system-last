@@ -27,6 +27,7 @@ class PropertyController extends Controller
 
         return redirect()->back()->with('success', 'Booking status updated successfully.');
     }
+    //profile view
     public function showprof()
     {
 
@@ -39,7 +40,7 @@ class PropertyController extends Controller
         // Pass both $user and $bookings to the view
         return view('frontend.admin.sprofile', compact('user', 'bookings'));
     }
-
+    //update profile
     public function supdate(Request $request)
     {
         $request->validate([
@@ -68,6 +69,7 @@ class PropertyController extends Controller
 
         return redirect()->route('sprofile.page')->with('success', 'Profile updated successfully!');
     }
+    // accept user and notf
     public function indexx(Request $request)
     {
         $users = User::where('role', 'lessor')
@@ -133,11 +135,11 @@ class PropertyController extends Controller
         })
         ->get();
 
-
+        //notf
     $bookings = Booking::whereHas('property', function ($query) {
         $query->where('user_id', auth()->user()->id);
     })->get();
-    
+
 
     return view('frontend.admin.property_index', compact('properties', 'bookings', 'search'));
 }
@@ -145,15 +147,17 @@ class PropertyController extends Controller
 
 
 
-   public function showReviews()
+public function showReviews()
 {
     // Fetch properties owned by the authenticated user
     $properties = Property::where('user_id', Auth::id())->pluck('id');
 
     // Fetch reviews where property_id matches the user's properties
-    $reviews = Review::whereIn('property_id', $properties)
+    $reviews = Review::whereIn('property_id', $properties) // Filter reviews by the specified property IDs
                      ->with('renter') // Eager load the renter relationship
-                     ->get();
+                     ->orderBy('created_at', 'desc') // Order reviews by creation date in descending order (most recent first)
+                     ->get(); // Retrieve the results
+                   
 
     // Fetch bookings related to the user's properties
     $bookings = Booking::whereHas('property', function ($query) {
@@ -318,8 +322,8 @@ class PropertyController extends Controller
     // Fetching data for home page
     public function home()
     {
-        $properties = Property::with(['user', 'amenities'])->paginate(6);
-        $oneProperty = Property::with(['user', 'amenities'])->paginate(1);
+        $properties = Property::with(['user'])->paginate(6);
+        $oneProperty = Property::with(['user'])->paginate(1);
 
         return view('frontend.home', compact('properties' ,'oneProperty' ));
     }
@@ -351,7 +355,7 @@ class PropertyController extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $availability = $request->input('availability');
-        $perPage = $request->input('per_page', 6);
+
 
         $query = Property::with(['user']);
 

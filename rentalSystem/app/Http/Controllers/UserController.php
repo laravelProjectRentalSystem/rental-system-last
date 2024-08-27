@@ -108,8 +108,10 @@ class UserController extends Controller
         $users = User::where('role', 'lessor')
         ->where('status', 'pending')
         ->get();
+        $pendingBookings = Booking::where('status', 'pending')->get();
 
-        return view('users.edit', compact('user','bookings','users'));
+
+        return view('users.edit', compact('user','bookings','users' ,'pendingBookings'));
     }
 
     public function update(Request $request, User $user)

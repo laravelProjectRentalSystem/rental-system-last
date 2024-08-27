@@ -163,7 +163,7 @@
                             <thead>
                                 <tr>
                                     <th>Booking ID</th>
-                                    <th>Property</th> <!-- عمود لاسم العقار -->
+                                    <th>Property</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Status</th>

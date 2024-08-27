@@ -40,6 +40,7 @@
                     <tr>
                       <th>#</th>
                       <th>Property ID</th>
+                      <th>Property Name</th>
                       <th>Renter Name</th>
                       <th>Start Date</th>
                       <th>End Date</th>
@@ -53,6 +54,7 @@
                     <tr>
                       <td>{{ $booking->id }}</td>
                       <td>{{ $booking->property->id }}</td>
+                      <td>{{ $booking->property->title }}</td>
                       <td>{{ $booking->renter->name }}</td>
                       <td>{{ $booking->start_date }}</td>
                       <td>{{ $booking->end_date }}</td>

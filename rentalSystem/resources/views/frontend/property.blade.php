@@ -5,6 +5,26 @@
 
 @section('content')
 <style>
+    #search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #555;
+    background-color: #fff;
+    box-shadow: none;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#search-input:focus {
+    border-color: #00c89e;
+    box-shadow: 0 0 5px rgba(0, 200, 158, 0.5);
+}
+
 .newcont{
     display: flex;
     gap: 2%;
@@ -68,10 +88,84 @@ select option{
     top: 0;
 }
 
+.property-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.pi-pic {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease; /* Increased duration for smoother zoom */
+}
+
+.pi-pic::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Ensure it doesn’t interfere with clicking */
+}
+
+.pi-pic:hover {
+    transform: scale(1.03); /* Softer zoom effect */
+}
+
+.pi-pic:hover::before {
+    opacity: 1; /* Show the shadow on hover */
+}
+
+.pi-text-overlay {
+    position: absolute;
+    bottom: -100%; /* Hide below the container */
+    left: 10px;
+    width: calc(100% - 20px); /* Adjust width with padding */
+    color: white; /* Text color */
+    padding: 10px; /* Padding around the text */
+    margin-left: 15px; /* Add left margin to the text */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: bottom 0.3s ease, opacity 0.3s ease; /* Smooth slide-in effect */
+    opacity: 0; /* Hidden initially */
+}
+
+.pi-pic:hover .pi-text-overlay {
+    bottom: 10px; /* Move up into view on hover */
+    opacity: 1; /* Show text on hover */
+}
+
+.pi-text-overlay i {
+    margin-right: 5px; /* Space between icon and text */
+}
+
+/* Example icon styles if needed */
+.pi-text-overlay .icon_price::before {
+    content: "\f154"; /* FontAwesome icon code (example) */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+.pi-text-overlay .icon_location::before {
+    content: "\f041"; /* FontAwesome icon code (example) */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+/* Lighter neon light effect for the shadow on hover */
+.property-item:hover {
+    box-shadow: 0 0 10px 4px rgba(0, 200, 158, 0.6); /* Lighter neon light shadow */
+}
 
 </style>
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section spad set-bg" data-setbg="img/breadcrumb-bg.jpg">
+{{-- <section class="breadcrumb-section spad set-bg" data-setbg="img/breadcrumb-bg.jpg">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -85,10 +179,10 @@ select option{
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- Breadcrumb Section End -->
 <!-- Search Section Begin -->
-<section class="search-section spad">
+<section class="search-section spad" style="height: 67vh;">
     <div class="container">
         <div class="row">
             <div class="col-lg-7">
@@ -118,7 +212,7 @@ select option{
                     <option value="jerash">Jerash</option>
                     <option value="al-Salt">Al-Salt</option>
                 </select>
-                    <input value=""class="sm-width" placeholder="search" name="search">
+                <input value="" id="search-input" class="sm-width" placeholder="search" name="search">
 
                 <select class="sm-width" name="availability">
                     <option value="">Property Status</option>
@@ -250,40 +344,48 @@ select option{
             </div>
         </div>
         <div class="row">
-            @foreach ( $properties as $propertiy )
+            @foreach ( $properties as $property )
 
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6 mix all house">
                 <div class="property-item">
-                    <div class="pi-pic set-bg" data-setbg="{{ asset('storage/' . $propertiy->photos->first()->photo_url) }}">
-                        <div class="label" style="{{ $propertiy->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
-                            {{ $propertiy->availability == 1 ? 'available' : 'rented' }}
+                    <div class="pi-pic set-bg" data-setbg="{{ asset('storage/' . $property->photos->first()->photo_url) }}">
+                        <div class="pi-pic profile-pic set-bg">
+                            {{-- profile image --}}
+                            <div class="label" style="{{ $property->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
+                                {{ $property->availability == 1 ? 'available' : 'rented' }}
+                            </div>
                         </div>
-                                            </div>
-                    <div class="pi-text">
-                        {{-- <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt" ></span></a> --}}
-                        <div class="pt-price">{{ $propertiy->price_per_day }}<span>/Day</span></div>
-                        <h5><a href="{{ route('viewProperty', ['id' => $propertiy->id]) }}"style="text-decoration: none;">{{ $propertiy->title }}</a></h5>
-                        <p><span class="icon_pin_alt"></span> {{ $propertiy->location }}</p>
+                        <!-- Overlay text with icons -->
+                        <div class="pi-text-overlay">
+                            <p>{{ $property->description }}</p>
+                        </div>
+                    </div>
+                    <div class="pi-text" style="margin:12px">
+                        {{-- <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt"></span></a> --}}
+                        <div class="pt-price">{{ $property->price_per_day }}<span>/Day</span></div>
+                        <h5><a href="{{ route('viewProperty', ['id' => $property->id]) }}" style="text-decoration: none">{{ $property->title }}</a></h5>
+                        <p><span class="icon_pin_alt"></span> {{ $property->location }}</p>
                         <ul>
-                            {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
-                            <li><i class="fa fa-bathtub"></i> 0{{ $propertiy->number_of_bathrooms }}</li>
-                            <li><i class="fa fa-bed"></i> 0{{ $propertiy->number_of_bedrooms }}</li>
-                            <li><i class="fa fa-automobile"></i> 0{{ $propertiy->number_of_garage }}</li>
+                            <li><i class="fa fa-bathtub"></i> 0{{ $property->number_of_bathrooms }}</li>
+                            <li><i class="fa fa-bed"></i> 0{{ $property->number_of_bedrooms }}</li>
+                            <li><i class="fa fa-automobile"></i> 0{{ $property->number_of_garage }}</li>
                         </ul>
                         <div class="pi-agent">
                             <div class="pa-item">
                                 <div class="pa-info">
-                                    <img src="{{ Storage::url($propertiy->user->profile_picture) }}" alt="Profile Picture">
-                                    <h6>{{ $propertiy->user->name }}</h6>
+                                    <img src="{{ Storage::url($property->user->profile_picture) }}" alt="">
+                                    <h6>{{ $property->user->name }}</h6>
                                 </div>
                                 <div class="pa-text">
-                                    {{ $propertiy->user->phone_number }}
+                                    {{ $property->user->phone_number }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
             @endforeach
 
         </div>

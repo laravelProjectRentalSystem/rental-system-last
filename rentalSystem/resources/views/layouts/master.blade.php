@@ -51,18 +51,26 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="om-widget">
-            <ul>
-                <li><i class="icon_mail_alt"></i> Aler.support@gmail.com</li>
-                <li><i class="fa fa-mobile-phone"></i> 125-711-811 <span>125-668-886</span></li>
-            </ul>
-            <a href="#" class="hw-btn">Submit property</a>
+
+            @if (Auth::user())
+
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="hw-btn" style="text-decoration: none; border :0">Logout</button>
+                            </form>
+
+
+                            @endif
+                            @if (!Auth::user())
+                            <a href="{{ route('login_register') }}" class="hw-btn"style="text-decoration: none">login</a>
+                            @endif
         </div>
         <div class="om-social">
             <a href="#"><i class="fa fa-facebook"></i></a>
             <a href="#"><i class="fa fa-twitter"></i></a>
             <a href="#"><i class="fa fa-youtube-play"></i></a>
             <a href="#"><i class="fa fa-instagram"></i></a>
-            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+
         </div>
     </div>
     <!-- Offcanvas Menu Wrapper End -->
@@ -137,7 +145,7 @@
                             <a href="#"><i class="fa fa-twitter"></i></a>
                             <a href="#"><i class="fa fa-youtube-play"></i></a>
                             <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+
 
                         </div>
                     </div>
@@ -171,7 +179,7 @@
                             <a href="#"><i class="fa fa-twitter"></i></a>
                             <a href="#"><i class="fa fa-youtube-play"></i></a>
                             <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+
                         </div>
                     </div>
                 </div>

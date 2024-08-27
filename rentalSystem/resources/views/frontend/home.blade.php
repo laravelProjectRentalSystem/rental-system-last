@@ -4,6 +4,85 @@
 @section('title', 'Home')
 
 @section('content')
+<style>
+.property-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.pi-pic {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease; /* Increased duration for smoother zoom */
+}
+
+.pi-pic::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Ensure it doesn’t interfere with clicking */
+}
+
+.pi-pic:hover {
+    transform: scale(1.03); /* Softer zoom effect */
+}
+
+.pi-pic:hover::before {
+    opacity: 1; /* Show the shadow on hover */
+}
+
+.pi-text-overlay {
+    position: absolute;
+    bottom: -100%; /* Hide below the container */
+    left: 10px;
+    width: calc(100% - 20px); /* Adjust width with padding */
+    color: white; /* Text color */
+    padding: 10px; /* Padding around the text */
+    margin-left: 15px; /* Add left margin to the text */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: bottom 0.3s ease, opacity 0.3s ease; /* Smooth slide-in effect */
+    opacity: 0; /* Hidden initially */
+}
+
+.pi-pic:hover .pi-text-overlay {
+    bottom: 10px; /* Move up into view on hover */
+    opacity: 1; /* Show text on hover */
+}
+
+.pi-text-overlay i {
+    margin-right: 5px; /* Space between icon and text */
+}
+
+/* Example icon styles if needed */
+.pi-text-overlay .icon_price::before {
+    content: "\f154"; /* FontAwesome icon code (example) */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+.pi-text-overlay .icon_location::before {
+    content: "\f041"; /* FontAwesome icon code (example) */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+/* Lighter neon light effect for the shadow on hover */
+.property-item:hover {
+    box-shadow: 0 0 10px 4px rgba(0, 200, 158, 0.6); /* Lighter neon light shadow */
+}
+
+
+
+</style>
 <!-- Hero Section Begin -->
 <section class="hero-section">
     <div class="container">
@@ -113,27 +192,28 @@
         <div class="row property-filter">
             @foreach ($properties as $property)
 
+
             <div class="col-lg-4 col-md-6 mix all house">
                 <div class="property-item">
-
-                        <div class="pi-pic set-bg" data-setbg="{{ asset('storage/' . $property->photos->first()->photo_url) }}">
-
-                        <div class="pi-pic set-bg" data-setbg="">
+                    <div class="pi-pic set-bg" data-setbg="{{ asset('storage/' . $property->photos->first()->photo_url) }}">
+                        <div class="pi-pic profile-pic set-bg">
                             {{-- profile image --}}
                             <div class="label" style="{{ $property->availability == 1 ? 'background-color:green;' : 'background-color:red;' }}">
                                 {{ $property->availability == 1 ? 'available' : 'rented' }}
                             </div>
-                                                </div>                    </div>
-                    <div class="pi-text">
-                        <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt"></span></a>
+                        </div>
+                        <!-- Overlay text with icons -->
+                        <div class="pi-text-overlay">
+                            <p>{{ $property->description }}</p>
+                        </div>
+                    </div>
+                    <div class="pi-text" style="margin:12px">
+                        {{-- <a href="#" class="heart-icon" style="text-decoration: none"><span class="icon_heart_alt"></span></a> --}}
                         <div class="pt-price">{{ $property->price_per_day }}<span>/Day</span></div>
-                        <h5><a href="{{ route('viewProperty', ['id' => $property->id]) }}"  style="text-decoration: none">{{ $property->title }}</a></h5>
+                        <h5><a href="{{ route('viewProperty', ['id' => $property->id]) }}" style="text-decoration: none">{{ $property->title }}</a></h5>
                         <p><span class="icon_pin_alt"></span> {{ $property->location }}</p>
                         <ul>
-                            {{-- <li><i class="fa fa-object-group"></i> 2, 283</li> --}}
-
-                                <li><i class="fa fa-bathtub"></i> 0{{ $property->number_of_bathrooms }}</li>
-
+                            <li><i class="fa fa-bathtub"></i> 0{{ $property->number_of_bathrooms }}</li>
                             <li><i class="fa fa-bed"></i> 0{{ $property->number_of_bedrooms }}</li>
                             <li><i class="fa fa-automobile"></i> 0{{ $property->number_of_garage }}</li>
                         </ul>
@@ -268,7 +348,7 @@
 </section>
 <!-- Feature Property Section End -->
 <!-- Logo Carousel Begin -->
-<div class="logo-carousel">
+{{-- <div class="logo-carousel">
     <div class="container">
         <div class="lc-slider owl-carousel">
             <a href="#" class="lc-item">
@@ -303,7 +383,7 @@
             </a>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- Logo Carousel End -->
 <!-- Team Section Begin -->
 {{-- <section class="team-section spad">

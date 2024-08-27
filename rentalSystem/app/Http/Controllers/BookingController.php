@@ -20,13 +20,14 @@ class BookingController extends Controller
     $users = User::where('role', 'lessor')
     ->where('status', 'pending')
     ->get();
-  
-    $properties = Property::where('user_id', Auth::id())->pluck('id');
+
+    $properties = Property::pluck('id');
 
 
     $reviews = Review::whereIn('property_id', $properties)
-                     ->with(['property', 'renter'])
-                     ->get();
+    ->with(['property', 'renter'])
+    ->orderBy('created_at', 'desc')
+    ->paginate(10);
 
     // Fetch bookings related to the user's properties
     $bookings = Booking::whereHas('property', function ($query) {
@@ -73,7 +74,7 @@ public function deleteReview($id)
         $review->delete();
 
         // Redirect back with a success message
-        return redirect()->back()->with('success', 'Review deleted successfully.');
+        return redirect()->back()->with('successDelete', 'Review deleted successfully.');
     }
 
     /**
@@ -128,7 +129,7 @@ public function deleteReview($id)
 
     if ($overlappingBooking) {
         return redirect()->route('viewProperty', $request->property_id)
-                         ->with('bookingError', 'The property is already booked for the selected dates.');
+                ->with('bookingError', 'The property is already booked for the selected dates.');
     }
 
     $bookingData = $request->all();
@@ -197,11 +198,21 @@ public function deleteReview($id)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Booking $booking)
+    public function destroy(Booking $booking ,string $id)
 {
     $booking->delete();
 
     return redirect()->route('bookings.index')->with('success', 'Booking deleted successfully.');
 }
+public function cancel(string $id)
+{
+    // Find the booking by its ID
+    $booking = Booking::findOrFail($id);
 
+    // Update the status to 'canceled'
+    $booking->update(['status' => 'canceled']);
+
+    // Redirect with success message
+    return redirect()->back()->with('success', 'Booking status updated to canceled.');
+}
 }
