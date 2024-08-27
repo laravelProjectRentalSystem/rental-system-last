@@ -27,7 +27,11 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" class="mr-2" alt="logo"/></a>
+       <div class="logo">
+
+                <img src="{{ asset('img/logo1.png') }}" alt="">
+
+        </div>
         <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}"><img src="{{ asset('images/logo-mini.svg') }}" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -49,29 +53,23 @@
                     <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
 
                     <!-- Bookings Notifications -->
-                    @foreach($bookings as $booking)
-                    <a class="dropdown-item preview-item" href="{{ route('admin.bookings') }}">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-success">
-                                <i class="ti-info-alt mx-0"></i>
+                    @foreach($pendingBookings as $booking)
+                        <a class="dropdown-item preview-item" href="{{ route('admin.bookings') }}">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-success">
+                                    <i class="ti-info-alt mx-0"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <h6 class="preview-subject font-weight-normal">
-                                {{ $booking->renter->name }}
-                                @if($booking->status == 'pending')
-                                  - Pending
-                                @else
-                                  - {{ ucfirst($booking->status) }}
-                                @endif
-                            </h6>
-                            <p class="font-weight-light small-text mb-0 text-muted">
-                                {{ $booking->created_at->diffForHumans() }}
-                            </p>
-                        </div>
-                    </a>
-                @endforeach
-
+                            <div class="preview-item-content">
+                                <h6 class="preview-subject font-weight-normal">
+                                    {{ $booking->renter->name }} - Pending
+                                </h6>
+                                <p class="font-weight-light small-text mb-0 text-muted">
+                                    {{ $booking->created_at->diffForHumans() }}
+                                </p>
+                            </div>
+                        </a>
+                    @endforeach
                     <!-- Divider -->
                     <div class="dropdown-divider"></div>
 

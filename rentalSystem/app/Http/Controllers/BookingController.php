@@ -16,11 +16,11 @@ class BookingController extends Controller
 
     public function showDashboard()
 {
-
+    $pendingBookings = Booking::where('status', 'pending')->get();
     $users = User::where('role', 'lessor')
     ->where('status', 'pending')
     ->get();
-
+  
     $properties = Property::where('user_id', Auth::id())->pluck('id');
 
 
@@ -59,7 +59,8 @@ class BookingController extends Controller
         'totalBookingPriceToday' => $totalBookingPriceToday,
         'bookings' => $bookings,
         'reviews' => $reviews,
-        'users' =>$users
+        'users' =>$users,
+        'pendingBookings'=>$pendingBookings
         // Pass the reviews to the view
     ]);
 }

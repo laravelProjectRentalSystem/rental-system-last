@@ -12,6 +12,10 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
+        $pendingBookings = Booking::where('status', 'pending')->get();
+        $users = User::where('role', 'lessor')
+        ->where('status', 'pending')
+        ->get();
 
         $search = $request->input('search');
 
@@ -21,7 +25,7 @@ class UserController extends Controller
         $bookings = Booking::all();
 
         // Pass both users and bookings to the view
-        return view('users.index', compact('users', 'bookings', 'search'));
+        return view('users.index', compact('users', 'bookings', 'search','pendingBookings'));
     }
 
     public function create()
@@ -61,9 +65,12 @@ class UserController extends Controller
     {
         $bookings =Booking::all();
         $users = User::where('role', 'lessor')->get();
+        $pendingBookings = Booking::where('status', 'pending')->get();
+        $users = User::where('role', 'lessor')
+        ->where('status', 'pending')
+        ->get();
 
-
-        return view('frontend.admin.users_create', compact('users','bookings'));
+        return view('frontend.admin.users_create', compact('users','bookings','pendingBookings'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -101,6 +108,7 @@ class UserController extends Controller
         $users = User::where('role', 'lessor')
         ->where('status', 'pending')
         ->get();
+
         return view('users.edit', compact('user','bookings','users'));
     }
 
@@ -150,7 +158,11 @@ class UserController extends Controller
     ->get();
  $bookings = Booking::all();
     $user = Auth::user();
+    $pendingBookings = Booking::where('status', 'pending')->get();
+    $users = User::where('role', 'lessor')
+    ->where('status', 'pending')
+    ->get();
 
-    return view('users.profile', compact('user','bookings','users'));
+    return view('users.profile', compact('user','bookings','users','pendingBookings'));
 }
 }

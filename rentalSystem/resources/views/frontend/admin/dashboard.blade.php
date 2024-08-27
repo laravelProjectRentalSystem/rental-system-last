@@ -139,7 +139,7 @@
 
 
      </div>
-        </div>
-    </div>
+
+
     <!-- content-wrapper ends -->
 @endsection

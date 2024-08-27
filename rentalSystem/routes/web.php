@@ -61,9 +61,9 @@ Route::get('/property-submit', function () {
 
 
 
-Route::get('/dashboard', function () {
-    return view('frontend.admin.dashboard');
-})->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('frontend.admin.dashboard');
+// })->name('dashboard');
 
 
 
@@ -97,7 +97,7 @@ Route::post('/check-email', [RegisteredUserController::class, 'checkEmail'])->na
 
 
 
-Route::resource('users', UserController::class);
+
 
 // ------------------------------------ for home----------------------------------
 Route::get('/home', [PropertyController::class, 'home'])->name('home');
@@ -111,17 +111,17 @@ Route::post('/property-details/{id}/review', [PropertyController::class, 'addCom
 //Route::get('/dashboardB', function () {
 //    return view('frontend.admin.dashboardB');
 //})->name('dashboardB');
-Route::get('/dashboardB', [PropertyController::class, 'indexbooking'])->name('dashboardB');
+
 Route::put('/dashboardB/{id}/update-status', [PropertyController::class, 'updateBookingStatus'])->name('updateBookingStatus');
 
 // ------------------------------------ for sillar----------------------------------
 
 // ------------------------------------ for sillar----------------------------------
-Route::get('/create_property', [PropertyController::class, 'indexx'])->name('property.create');
+
 
 // Route for viewing a list of properties
 // Property routes
-Route::get('/sreview', [PropertyController::class, 'showReviews'])->name('sreview');
+
 
 
 Route::put('/sprofile/update', [PropertyController::class, 'supdate'])->name('sprofile.update');
@@ -129,10 +129,10 @@ Route::put('/sprofile/update', [PropertyController::class, 'supdate'])->name('sp
 Route::get('/sprofile', [PropertyController::class, 'showprof'])->name('sprofile.page')->middleware('auth');
 
 Route::put('/users_create/{id}', [UserController::class, 'updateStatus'])->name('updateUserStatus');
-Route::get('/property_index', [PropertyController::class, 'index'])->name('property.index');
+
 
 Route::get('/property_admin/{property?}', [PropertyController::class, 'manage'])->name('properties.manage');
-Route::post('/property_admin', [PropertyController::class, 'store'])->name('properties.store');
+
 Route::put('/property_index/{property}', [PropertyController::class, 'update'])->name('properties.update');
 Route::delete('/property_admin/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
 Route::delete('/reviews/{id}', [BookingController::class, 'deleteReview'])->name('delete');
@@ -142,6 +142,29 @@ Route::delete('/reviews/{id}', [BookingController::class, 'deleteReview'])->name
 // })->name('property_admin');
 
 // Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::group(['middleware' => ['role:renter']], function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard')->middleware('auth');
+
+});
+
 
 Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/dashboard', function () {
@@ -153,7 +176,29 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/dashboard', [BookingController::class, 'showDashboard'])->name('dashboard');
     Route::get('/admin/bookings', [PropertyController::class, 'indexBookingAdmin'])->name('admin.bookings');
     Route::get('/users_create', [UserController::class, 'uStatus'])->name('u.create');
+    Route::get('/create_property', [PropertyController::class, 'indexx'])->name('property.create');
+    Route::resource('users', UserController::class);
 });
+
+Route::group(['middleware' => ['role:lessor']], function () {
+    Route::get('/dashboardB', [PropertyController::class, 'indexbooking'])->name('dashboardB');
+    Route::post('/property_admin', [PropertyController::class, 'store'])->name('properties.store');
+    Route::get('/property_index', [PropertyController::class, 'index'])->name('property.index');
+    Route::get('/sprofile', [PropertyController::class, 'showprof'])->name('sprofile.page')->middleware('auth');
+    Route::get('/sreview', [PropertyController::class, 'showReviews'])->name('sreview');
+});
+
+
+
+
+
+
+
+
+
+
+
+
 Route::post('/Logout', [UserController::class, 'destroy'])->name('destroy');
 Route::get('/view_property', function () {
  return view('frontend.admin.property_create');
@@ -171,12 +216,9 @@ Route::resource('bookings', BookingController::class);
 
 // ProfileController
 
-Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 
-Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard')->middleware('auth');
+
 
 Route::get('/bookings', [BookingController::class, 'index'])->name('bookings');
 

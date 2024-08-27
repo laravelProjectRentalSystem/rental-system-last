@@ -28,7 +28,11 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" class="mr-2" alt="logo"/></a>
+        <div class="logo">
+
+            <img src="img/logo1.png" alt="">
+
+    </div>
         <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}"><img src="{{ asset('images/logo-mini.svg') }}" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -37,14 +41,7 @@
         </button>
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
-            </div>
+
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
@@ -56,28 +53,27 @@
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                   <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
 
+                  <!-- Bookings Notifications -->
                   @foreach($bookings as $booking)
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-success">
-                        <i class="ti-info-alt mx-0"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <h6 class="preview-subject font-weight-normal">
-                        {{ $booking->renter->name }}
-                        @if($booking->status == 'pending')
-                          - Pending
-                        @else
-                          - {{ ucfirst($booking->status) }}
-                        @endif
-                      </h6>
-                      <p class="font-weight-light small-text mb-0 text-muted">
-                        {{ $booking->created_at->diffForHumans() }}
-                      </p>
-                    </div>
-                  </a>
+                      @if($booking->status == 'pending')
+                          <a class="dropdown-item preview-item" href="{{ route('admin.bookings') }}">
+                              <div class="preview-thumbnail">
+                                  <div class="preview-icon bg-success">
+                                      <i class="ti-info-alt mx-0"></i>
+                                  </div>
+                              </div>
+                              <div class="preview-item-content">
+                                  <h6 class="preview-subject font-weight-normal">
+                                      {{ $booking->renter->name }} - Pending
+                                  </h6>
+                                  <p class="font-weight-light small-text mb-0 text-muted">
+                                      {{ $booking->created_at->diffForHumans() }}
+                                  </p>
+                              </div>
+                          </a>
+                      @endif
                   @endforeach
+
 
                 </div>
               </li>
@@ -94,17 +90,16 @@
                 <i class="ti-settings text-primary"></i>
                 Settings
               </a>
-              <a class="dropdown-item" href="{{ route('logout') }}">
+              <form id="logout-form" action="{{ route('destroy') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
+                <span class="menu-title">Logout</span>
+            </a>
             </div>
           </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="icon-ellipsis"></i>
-            </a>
-          </li>
+
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
           <span class="icon-menu"></span>

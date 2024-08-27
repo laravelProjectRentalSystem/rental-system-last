@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class PropertyController extends Controller
 {
 
- 
+
     public function updateBookingStatus(Request $request,string $id)
     {
 
@@ -79,9 +79,12 @@ class PropertyController extends Controller
             return $query->where('title', 'like', '%' . $search . '%');
         })->get();
         $bookings = Booking::all();
-
+        $pendingBookings = Booking::where('status', 'pending')->get();
+        $users = User::where('role', 'lessor')
+        ->where('status', 'pending')
+        ->get();
         // Pass the filtered properties and bookings to the view
-        return view('frontend.admin.property_create', compact('properties', 'bookings','users'));
+        return view('frontend.admin.property_create', compact('properties', 'bookings','users','pendingBookings'));
     }
     public function indexBookingAdmin(Request $request)
 {   $users = User::where('role', 'lessor')
@@ -89,7 +92,10 @@ class PropertyController extends Controller
     ->get();
     // Get the search term from the request
     $search = $request->input('search');
-
+    $pendingBookings = Booking::where('status', 'pending')->get();
+    $users = User::where('role', 'lessor')
+    ->where('status', 'pending')
+    ->get();
     // Retrieve all bookings with eager loading for property and renter relationships
     $bookings = Booking::with(['property', 'renter'])
         ->when($search, function ($query, $search) {
@@ -101,7 +107,7 @@ class PropertyController extends Controller
         ->get();
 
     // Pass the filtered bookings data and search term to the view
-    return view('users.bookings', compact('bookings','search','users'));
+    return view('users.bookings', compact('bookings','search','users','pendingBookings'));
 }
 
     public function removeProperty($id)
@@ -131,7 +137,7 @@ class PropertyController extends Controller
     $bookings = Booking::whereHas('property', function ($query) {
         $query->where('user_id', auth()->user()->id);
     })->get();
-
+    
 
     return view('frontend.admin.property_index', compact('properties', 'bookings', 'search'));
 }

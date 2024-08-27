@@ -24,11 +24,11 @@
                     <div class="col-md-12 grid-margin">
                         <div class="row">
                     <div class="table-responsive">
-                        <table class="table">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Profile Picture</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
@@ -41,6 +41,13 @@
                                     @if($user->role == 'lessor')
                                         <tr>
                                             <td>{{ $user->id }}</td>
+                                            <td>
+                                                @if($user->verify)
+                                                    <img src="{{ asset('storage/' . $user->verify) }}" alt="profile picture" width="50" height="50" class="rounded-circle">
+                                                @else
+                                                <img src="{{ asset('storage/profile_pictures/default-profile.jpg') }}" alt="default profile picture" width="50" height="50" class="rounded-circle">
+                                                @endif
+                                            </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ ucfirst($user->role) }}</td>
