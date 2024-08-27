@@ -72,22 +72,15 @@ Route::get('/login_register', function () {
     return view('login_register');
 })->name('login_register');
 
-// تسجيل مستخدم جديد
+
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 
-// تسجيل الدخول
+
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
-// لوحة تحكم الـ Admin
-// Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
-// لوحة تحكم الـ Lessor
-// Route::get('/lessor/dashboard', [LessorController::class, 'index'])->name('lessor.dashboard');
 
-// لوحة تحكم الـ Renter
-// Route::get('/renter/dashboard', [RenterController::class, 'index'])->name('renter.dashboard');
 
-// تسجيل الخروج
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 
