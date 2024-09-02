@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Storage;
 class PropertyController extends Controller
 {
 
@@ -157,7 +157,7 @@ public function showReviews()
                      ->with('renter') // Eager load the renter relationship
                      ->orderBy('created_at', 'desc') // Order reviews by creation date in descending order (most recent first)
                      ->get(); // Retrieve the results
-                   
+
 
     // Fetch bookings related to the user's properties
     $bookings = Booking::whereHas('property', function ($query) {
@@ -173,9 +173,14 @@ public function showReviews()
      * Show the form for creating a new resource or editing an existing one.
      */
     public function manage(Property $property = null)
-    {  $bookings = Booking::all();
+    {
+        $bookings = Booking::all();
         $properties = Property::all();
-        return view('frontend.admin.property_admin', compact('properties', 'property','bookings'));
+
+        // Retrieve property photos if editing an existing property
+        $propertyPhotos = $property ? $property->photos : collect();
+
+        return view('frontend.admin.property_admin', compact('properties', 'property', 'bookings', 'propertyPhotos'));
     }
 
     /**
@@ -261,52 +266,67 @@ public function showReviews()
      * Update the specified resource in storage.
      */
     public function update(Request $request, Property $property)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required',
-        'address' => 'required|string|max:255',
-        'location' => 'required|string|max:255',
-        'price_per_day' => 'required|numeric',
-        'availability' => 'boolean',
-        'number_of_rooms' => 'nullable|integer',
-        'number_of_bathrooms' => 'nullable|integer',
-        'number_of_bedrooms' => 'nullable|integer',
-        'number_of_garage' => 'nullable|integer',
-        'AC' => 'boolean',
-        'WIFI' => 'boolean',
-        'pool' => 'boolean',
-        'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required',
+            'address' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'price_per_day' => 'required|numeric',
+            'availability' => 'boolean',
+            'number_of_rooms' => 'nullable|integer',
+            'number_of_bathrooms' => 'nullable|integer',
+            'number_of_bedrooms' => 'nullable|integer',
+            'number_of_garage' => 'nullable|integer',
+            'AC' => 'boolean',
+            'WIFI' => 'boolean',
+            'pool' => 'boolean',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    $property->update($request->only([
-        'title',
-        'description',
-        'address',
-        'location',
-        'price_per_day',
-        'availability',
-        'number_of_rooms',
-        'number_of_bathrooms',
-        'number_of_bedrooms',
-        'number_of_garage',
-        'AC',
-        'WIFI',
-        'pool',
-    ]));
+        // Update property details
+        $property->update($request->only([
+            'title',
+            'description',
+            'address',
+            'location',
+            'price_per_day',
+            'availability',
+            'number_of_rooms',
+            'number_of_bathrooms',
+            'number_of_bedrooms',
+            'number_of_garage',
+            'AC',
+            'WIFI',
+            'pool',
+        ]));
 
-    if ($request->hasFile('photos')) {
-        foreach ($request->file('photos') as $photo) {
-            $path = $photo->store('property_photos', 'public');
-            PropertyPhoto::create([
-                'property_id' => $property->id,
-                'photo_url' => $path,
-            ]);
+        // Handle photo updates (replace or delete)
+        if ($request->has('photos')) {
+            foreach ($request->file('photos') as $key => $photo) {
+                if (is_numeric($key)) {
+                    // Replace existing photo
+                    $existingPhoto = PropertyPhoto::find($key);
+                    if ($existingPhoto) {
+                        Storage::disk('public')->delete($existingPhoto->photo_url);
+                        $existingPhoto->update([
+                            'photo_url' => $photo->store('property_photos', 'public'),
+                        ]);
+                    }
+                } else {
+                    // Add new photo
+                    $path = $photo->store('property_photos', 'public');
+                    PropertyPhoto::create([
+                        'property_id' => $property->id,
+                        'photo_url' => $path,
+                    ]);
+                }
+            }
         }
+
+        return redirect()->route('properties.manage', $property->id)->with('success', 'Property updated successfully.');
     }
 
-    return redirect()->route('property.index')->with('success', 'Property updated successfully.');
-}
 
 
     /**
@@ -402,5 +422,6 @@ public function showReviews()
             return redirect()->route('viewProperty', $id)->with('commentError', 'You need to craete account or Login to add a comment.');
         }
     }
+
 
 }
