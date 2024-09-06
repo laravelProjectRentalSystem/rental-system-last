@@ -468,7 +468,7 @@
 <form action="{{ route('bookings.store', $property->id) }}" method="POST" class="calculator-form">
     @csrf
     <input type="hidden" id="property_id" name="property_id" value="{{ $property->id }}">
-
+    <input type="hidden" id="property_price" name="property_price" value="{{ $property->price_per_day }}" />
 
     <div class="filter-input">
         <p>Start Date</p>
@@ -482,17 +482,16 @@
 
     <div class="filter-input">
         <p>Total Price</p>
-        <input type="text" id="total_price" name="total_price" placeholder="$" value="{{ $property->price_per_day }}" required>
+        <input type="text" id="total_price" name="total_price" value="{{ $property->price_per_day }}" readonly required>
     </div>
+
     @if(auth()->user())
-
-    <button type="submit" class="site-btn">Book</button>
-
+        <button type="submit" class="site-btn">Book</button>
     @else
-    <button type="submit" class="site-btn" disabled style="background-color: gray; cursor:not-allowed">Book</button>
-
+        <button type="submit" class="site-btn" disabled style="background-color: gray; cursor:not-allowed">Book</button>
     @endif
 </form>
+
 
 <!-- Flatpickr JS -->
 <script src='https://cdn.jsdelivr.net/npm/flatpickr'></script>
@@ -645,10 +644,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 document.addEventListener('DOMContentLoaded', function () {
-    const propertyPrice = parseFloat('{{ $property->price_per_day  }}');
+    const propertyPriceInput = document.getElementById('property_price');
     const startDateInput = document.getElementById('start_date');
     const endDateInput = document.getElementById('end_date');
     const totalPriceInput = document.getElementById('total_price');
+
+    // Ensure the price is valid
+    if (!propertyPriceInput || isNaN(parseFloat(propertyPriceInput.value))) {
+        console.error("Invalid property price.");
+        return;
+    }
+
+    const propertyPrice = parseFloat(propertyPriceInput.value);
 
     function calculateTotalPrice() {
         const startDateValue = startDateInput.value;

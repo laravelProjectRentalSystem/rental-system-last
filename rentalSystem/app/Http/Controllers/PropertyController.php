@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
@@ -14,13 +15,13 @@ class PropertyController extends Controller
 {
 
 
-    public function updateBookingStatus(Request $request,string $id)
+    public function updateBookingStatus(Request $request, string $id)
     {
 
         $booking = Booking::findOrFail($id);
         $booking->status = $request->input('status');
 
-         if ($booking->status == 'accepted') {
+        if ($booking->status == 'accepted') {
             Property::where('id', $booking->status)->update(['availability' => 0]);
         }
         $booking->save();
@@ -73,44 +74,45 @@ class PropertyController extends Controller
     public function indexx(Request $request)
     {
         $users = User::where('role', 'lessor')
-        ->where('status', 'pending')
-        ->get();
+            ->where('status', 'pending')
+            ->get();
         $search = $request->input('search');
-                // Retrieve properties filtered by title
+        // Retrieve properties filtered by title
         $properties = Property::when($search, function ($query, $search) {
             return $query->where('title', 'like', '%' . $search . '%');
         })->get();
         $bookings = Booking::all();
         $pendingBookings = Booking::where('status', 'pending')->get();
         $users = User::where('role', 'lessor')
-        ->where('status', 'pending')
-        ->get();
+            ->where('status', 'pending')
+            ->get();
         // Pass the filtered properties and bookings to the view
-        return view('frontend.admin.property_create', compact('properties', 'bookings','users','pendingBookings'));
+        return view('frontend.admin.property_create', compact('properties', 'bookings', 'users', 'pendingBookings'));
     }
     public function indexBookingAdmin(Request $request)
-{   $users = User::where('role', 'lessor')
-    ->where('status', 'pending')
-    ->get();
-    // Get the search term from the request
-    $search = $request->input('search');
-    $pendingBookings = Booking::where('status', 'pending')->get();
-    $users = User::where('role', 'lessor')
-    ->where('status', 'pending')
-    ->get();
-    // Retrieve all bookings with eager loading for property and renter relationships
-    $bookings = Booking::with(['property', 'renter'])
-        ->when($search, function ($query, $search) {
-            // Filter bookings by renter's name if a search term is provided
-            return $query->whereHas('renter', function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
-            });
-        })
-        ->get();
+    {
+        $users = User::where('role', 'lessor')
+            ->where('status', 'pending')
+            ->get();
+        // Get the search term from the request
+        $search = $request->input('search');
+        $pendingBookings = Booking::where('status', 'pending')->get();
+        $users = User::where('role', 'lessor')
+            ->where('status', 'pending')
+            ->get();
+        // Retrieve all bookings with eager loading for property and renter relationships
+        $bookings = Booking::with(['property', 'renter'])
+            ->when($search, function ($query, $search) {
+                // Filter bookings by renter's name if a search term is provided
+                return $query->whereHas('renter', function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                });
+            })
+            ->get();
 
-    // Pass the filtered bookings data and search term to the view
-    return view('users.bookings', compact('bookings','search','users','pendingBookings'));
-}
+        // Pass the filtered bookings data and search term to the view
+        return view('users.bookings', compact('bookings', 'search', 'users', 'pendingBookings'));
+    }
 
     public function removeProperty($id)
     {
@@ -123,49 +125,49 @@ class PropertyController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
+    {
 
-    $search = $request->input('search');
+        $search = $request->input('search');
 
 
-    $properties = Property::with('bookings')
-        ->where('user_id', auth()->user()->id)
-        ->when($search, function ($query, $search) {
-            return $query->where('title', 'like', '%' . $search . '%');
-        })
-        ->get();
+        $properties = Property::with('bookings')
+            ->where('user_id', auth()->user()->id)
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%');
+            })
+            ->get();
 
         //notf
-    $bookings = Booking::whereHas('property', function ($query) {
-        $query->where('user_id', auth()->user()->id);
-    })->get();
+        $bookings = Booking::whereHas('property', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })->get();
 
 
-    return view('frontend.admin.property_index', compact('properties', 'bookings', 'search'));
-}
+        return view('frontend.admin.property_index', compact('properties', 'bookings', 'search'));
+    }
 
 
 
 
-public function showReviews()
-{
-    // Fetch properties owned by the authenticated user
-    $properties = Property::where('user_id', Auth::id())->pluck('id');
+    public function showReviews()
+    {
+        // Fetch properties owned by the authenticated user
+        $properties = Property::where('user_id', Auth::id())->pluck('id');
 
-    // Fetch reviews where property_id matches the user's properties
-    $reviews = Review::whereIn('property_id', $properties) // Filter reviews by the specified property IDs
-                     ->with('renter') // Eager load the renter relationship
-                     ->orderBy('created_at', 'desc') // Order reviews by creation date in descending order (most recent first)
-                     ->get(); // Retrieve the results
-                   
+        // Fetch reviews where property_id matches the user's properties
+        $reviews = Review::whereIn('property_id', $properties) // Filter reviews by the specified property IDs
+            ->with('renter') // Eager load the renter relationship
+            ->orderBy('created_at', 'desc') // Order reviews by creation date in descending order (most recent first)
+            ->get(); // Retrieve the results
 
-    // Fetch bookings related to the user's properties
-    $bookings = Booking::whereHas('property', function ($query) {
-        $query->where('user_id', auth()->user()->id);
-    })->get();
 
-    return view('frontend.admin.sreview', compact('reviews', 'bookings'));
-}
+        // Fetch bookings related to the user's properties
+        $bookings = Booking::whereHas('property', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        return view('frontend.admin.sreview', compact('reviews', 'bookings'));
+    }
 
 
 
@@ -173,9 +175,10 @@ public function showReviews()
      * Show the form for creating a new resource or editing an existing one.
      */
     public function manage(Property $property = null)
-    {  $bookings = Booking::all();
+    {
+        $bookings = Booking::all();
         $properties = Property::all();
-        return view('frontend.admin.property_admin', compact('properties', 'property','bookings'));
+        return view('frontend.admin.property_admin', compact('properties', 'property', 'bookings'));
     }
 
     /**
@@ -247,9 +250,9 @@ public function showReviews()
                 $query->whereHas('property', function ($query) use ($search) {
                     $query->where('title', 'like', '%' . $search . '%');
                 })
-                ->orWhereHas('renter', function ($query) use ($search) {
-                    $query->where('name', 'like', '%' . $search . '%');
-                });
+                    ->orWhereHas('renter', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
             })
             ->get();
 
@@ -261,52 +264,52 @@ public function showReviews()
      * Update the specified resource in storage.
      */
     public function update(Request $request, Property $property)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required',
-        'address' => 'required|string|max:255',
-        'location' => 'required|string|max:255',
-        'price_per_day' => 'required|numeric',
-        'availability' => 'boolean',
-        'number_of_rooms' => 'nullable|integer',
-        'number_of_bathrooms' => 'nullable|integer',
-        'number_of_bedrooms' => 'nullable|integer',
-        'number_of_garage' => 'nullable|integer',
-        'AC' => 'boolean',
-        'WIFI' => 'boolean',
-        'pool' => 'boolean',
-        'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required',
+            'address' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'price_per_day' => 'required|numeric',
+            'availability' => 'boolean',
+            'number_of_rooms' => 'nullable|integer',
+            'number_of_bathrooms' => 'nullable|integer',
+            'number_of_bedrooms' => 'nullable|integer',
+            'number_of_garage' => 'nullable|integer',
+            'AC' => 'boolean',
+            'WIFI' => 'boolean',
+            'pool' => 'boolean',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    $property->update($request->only([
-        'title',
-        'description',
-        'address',
-        'location',
-        'price_per_day',
-        'availability',
-        'number_of_rooms',
-        'number_of_bathrooms',
-        'number_of_bedrooms',
-        'number_of_garage',
-        'AC',
-        'WIFI',
-        'pool',
-    ]));
+        $property->update($request->only([
+            'title',
+            'description',
+            'address',
+            'location',
+            'price_per_day',
+            'availability',
+            'number_of_rooms',
+            'number_of_bathrooms',
+            'number_of_bedrooms',
+            'number_of_garage',
+            'AC',
+            'WIFI',
+            'pool',
+        ]));
 
-    if ($request->hasFile('photos')) {
-        foreach ($request->file('photos') as $photo) {
-            $path = $photo->store('property_photos', 'public');
-            PropertyPhoto::create([
-                'property_id' => $property->id,
-                'photo_url' => $path,
-            ]);
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('property_photos', 'public');
+                PropertyPhoto::create([
+                    'property_id' => $property->id,
+                    'photo_url' => $path,
+                ]);
+            }
         }
-    }
 
-    return redirect()->route('property.index')->with('success', 'Property updated successfully.');
-}
+        return redirect()->route('property.index')->with('success', 'Property updated successfully.');
+    }
 
 
     /**
@@ -325,17 +328,24 @@ public function showReviews()
         $properties = Property::with(['user'])->paginate(6);
         $oneProperty = Property::with(['user'])->paginate(1);
 
-        return view('frontend.home', compact('properties' ,'oneProperty' ));
+        return view('frontend.home', compact('properties', 'oneProperty'));
+    }
+    public function tohome()
+    {
+        $properties = Property::with(['user'])->paginate(6);
+        $oneProperty = Property::with(['user'])->paginate(1);
+
+        return view('frontend.home', compact('properties', 'oneProperty'));
     }
 
     // Data for one property
     public function property(string $id)
     {
-        $propertPhoto  = PropertyPhoto::with('property')->where("property_id" , $id)->get();
+        $propertPhoto  = PropertyPhoto::with('property')->where("property_id", $id)->get();
         // dd($propertPhoto[0]->photo_url);
         $bookedDates = Booking::where('property_id', $id)
-        ->where('status', 'accepted')
-        ->get(['start_date', 'end_date']);
+            ->where('status', 'accepted')
+            ->get(['start_date', 'end_date']);
 
         $property = Property::with('user')->findOrFail($id);
         $countOfReview = Review::where('property_id', $id)->count();
@@ -346,7 +356,7 @@ public function showReviews()
             ->where('user_id', $ownerId)
             ->where('id', '!=', $id)
             ->paginate(3);
-                    return view('frontend.property-details', compact('property', 'countOfReview', 'reviews','propertPhoto', 'bookedDates','properties'));
+        return view('frontend.property-details', compact('property', 'countOfReview', 'reviews', 'propertPhoto', 'bookedDates', 'properties'));
     }
     public function AllProperty(Request $request)
     {
@@ -402,5 +412,4 @@ public function showReviews()
             return redirect()->route('viewProperty', $id)->with('commentError', 'You need to craete account or Login to add a comment.');
         }
     }
-
 }

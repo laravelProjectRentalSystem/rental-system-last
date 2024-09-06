@@ -101,7 +101,7 @@ Route::post('/check-email', [RegisteredUserController::class, 'checkEmail'])->na
 
 // ------------------------------------ for home----------------------------------
 Route::get('/home', [PropertyController::class, 'home'])->name('home');
-Route::get('/property-details/{id}', [PropertyController::class, 'property' ])->name('viewProperty');
+Route::get('/property-details/{id}', [PropertyController::class, 'property'])->name('viewProperty');
 Route::get('/property', [PropertyController::class, 'AllProperty'])->name('property');
 Route::post('/property', [PropertyController::class, 'AllProperty'])->name('searchProperty');
 // Route::post('/property', [PropertyController::class, 'search'])->name('searchProperty');
@@ -162,7 +162,6 @@ Route::group(['middleware' => ['role:renter']], function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard')->middleware('auth');
-
 });
 
 
@@ -201,8 +200,7 @@ Route::group(['middleware' => ['role:lessor']], function () {
 
 Route::post('/Logout', [UserController::class, 'destroy'])->name('destroy');
 Route::get('/view_property', function () {
- return view('frontend.admin.property_create');
-
+    return view('frontend.admin.property_create');
 })->name('property_admin');
 
 

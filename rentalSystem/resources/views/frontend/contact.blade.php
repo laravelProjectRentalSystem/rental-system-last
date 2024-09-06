@@ -33,13 +33,14 @@
                         <h4>Contact form</h4>
                         <p>We would appreciate your feedback on how we can improve the flexibility of our current system/process. Your insights will help us make necessary adjustments and enhancements to better meet your needs.</p>
                     </div>
-                    <form action="#" class="cc-form">
+                    <form action="{{ route('tohome') }}" method="GET" class="cc-form" id="contactForm">
+                        @csrf
                         <div class="group-input">
-                            <input type="text" placeholder="Name">
-                            <input type="text" placeholder="Email">
-                            <input type="text" placeholder="Website">
+                            <input type="text" style="width: 48%" placeholder="Name" id="name" required>
+                            <input type="email" style="width: 48%" placeholder="Email" id="email" required>
+                            {{-- <input type="text" placeholder="Website" id="website"> --}}
                         </div>
-                        <textarea placeholder="Comment"></textarea>
+                        <textarea placeholder="Comment" id="comment" required></textarea>
                         <button type="submit" class="site-btn">Submit</button>
                     </form>
                 </div>
@@ -97,5 +98,24 @@
 
     </div>
 </section>
-<!-- Contact Section End -->
+<script>
+     document.getElementById('contactForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        // Optional: Add your own form validation logic here
+
+        // Display SweetAlert confirmation message
+        Swal.fire({
+            title: 'Thank You!',
+            text: 'Thanks for reaching out to us',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+
+        // Optionally, you could reset the form after showing the alert
+        document.getElementById('contactForm').reset();
+    });
+</script>
+ <!-- Contact Section End -->
 @endsection
+

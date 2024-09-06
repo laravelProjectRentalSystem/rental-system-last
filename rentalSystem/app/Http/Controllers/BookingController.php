@@ -15,57 +15,57 @@ class BookingController extends Controller
 {
 
     public function showDashboard()
-{
-    $pendingBookings = Booking::where('status', 'pending')->get();
-    $users = User::where('role', 'lessor')
-    ->where('status', 'pending')
-    ->get();
+    {
+        $pendingBookings = Booking::where('status', 'pending')->get();
+        $users = User::where('role', 'lessor')
+            ->where('status', 'pending')
+            ->get();
 
-    $properties = Property::pluck('id');
+        $properties = Property::pluck('id');
 
 
-    $reviews = Review::whereIn('property_id', $properties)
-    ->with(['property', 'renter'])
-    ->orderBy('created_at', 'desc')
-    ->paginate(10);
+        $reviews = Review::whereIn('property_id', $properties)
+            ->with(['property', 'renter'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-    // Fetch bookings related to the user's properties
-    $bookings = Booking::whereHas('property', function ($query) {
-        $query->where('user_id', auth()->user()->id);
-    })->get();
+        // Fetch bookings related to the user's properties
+        $bookings = Booking::whereHas('property', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })->get();
 
-    $acceptedTotal = Booking::where('status', 'accepted')
-                            ->whereDate('updated_at', Carbon::today())
-                            ->count();
+        $acceptedTotal = Booking::where('status', 'accepted')
+            ->whereDate('updated_at', Carbon::today())
+            ->count();
 
-    $acceptedTotalLongTime = Booking::where('status', 'accepted')
-                                    ->count();
+        $acceptedTotalLongTime = Booking::where('status', 'accepted')
+            ->count();
 
-    $adminCount = User::where('role', 'lessor')->count();
-    $renterCount = User::where('role', 'renter')->count();
+        $adminCount = User::where('role', 'lessor')->count();
+        $renterCount = User::where('role', 'renter')->count();
 
-    $totalBookingPrice = Booking::where('status', 'accepted')
-                                ->sum('total_price');
+        $totalBookingPrice = Booking::where('status', 'accepted')
+            ->sum('total_price');
 
-    $totalBookingPriceToday = Booking::where('status', 'accepted')
-                                     ->whereDate('updated_at', Carbon::today())
-                                     ->sum('total_price');
+        $totalBookingPriceToday = Booking::where('status', 'accepted')
+            ->whereDate('updated_at', Carbon::today())
+            ->sum('total_price');
 
-    return view('frontend.admin.dashboard', [
-        'acceptedTotal' => $acceptedTotal,
-        'acceptedTotalLongTime' => $acceptedTotalLongTime,
-        'adminCount' => $adminCount,
-        'renterCount' => $renterCount,
-        'totalBookingPrice' => $totalBookingPrice,
-        'totalBookingPriceToday' => $totalBookingPriceToday,
-        'bookings' => $bookings,
-        'reviews' => $reviews,
-        'users' =>$users,
-        'pendingBookings'=>$pendingBookings
-        // Pass the reviews to the view
-    ]);
-}
-public function deleteReview($id)
+        return view('frontend.admin.dashboard', [
+            'acceptedTotal' => $acceptedTotal,
+            'acceptedTotalLongTime' => $acceptedTotalLongTime,
+            'adminCount' => $adminCount,
+            'renterCount' => $renterCount,
+            'totalBookingPrice' => $totalBookingPrice,
+            'totalBookingPriceToday' => $totalBookingPriceToday,
+            'bookings' => $bookings,
+            'reviews' => $reviews,
+            'users' => $users,
+            'pendingBookings' => $pendingBookings
+            // Pass the reviews to the view
+        ]);
+    }
+    public function deleteReview($id)
     {
         // Find the review by ID
         $review = Review::findOrFail($id);
@@ -101,52 +101,52 @@ public function deleteReview($id)
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'property_id' => 'required|exists:properties,id',
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'total_price' => 'required|numeric|min:0',
-    ]);
+    {
+        $request->validate([
+            'property_id' => 'required|exists:properties,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'total_price' => 'required|numeric|min:0',
+        ]);
+        dd($request->input('total_price'));
+        if (!auth()->check()) {
+            return redirect()->route('viewProperty', $request->property_id)
+                ->with('loginError', 'You need to create an account or log in to book.');
+        }
 
-    if (!auth()->check()) {
-        return redirect()->route('viewProperty', $request->property_id)
-                         ->with('loginError', 'You need to create an account or log in to book.');
-    }
-
-    // Check if the property is already booked during the requested dates with status 'accepted'
-    $overlappingBooking = Booking::where('property_id', $request->property_id)
-        ->where('status', 'accepted')
-        ->where(function ($query) use ($request) {
-            $query->whereBetween('start_date', [$request->start_date, $request->end_date])
-                  ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
-                  ->orWhere(function ($query) use ($request) {
-                      $query->where('start_date', '<=', $request->start_date)
+        // Check if the property is already booked during the requested dates with status 'accepted'
+        $overlappingBooking = Booking::where('property_id', $request->property_id)
+            ->where('status', 'accepted')
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('start_date', [$request->start_date, $request->end_date])
+                    ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('start_date', '<=', $request->start_date)
                             ->where('end_date', '>=', $request->end_date);
-                  });
-        })
-        ->exists();
+                    });
+            })
+            ->exists();
 
-    if ($overlappingBooking) {
-        return redirect()->route('viewProperty', $request->property_id)
+        if ($overlappingBooking) {
+            return redirect()->route('viewProperty', $request->property_id)
                 ->with('bookingError', 'The property is already booked for the selected dates.');
+        }
+
+        $bookingData = $request->all();
+        $bookingData['renter_id'] = auth()->id();
+
+        // Create the booking
+        $booking = Booking::create($bookingData);
+
+        // Update property availability (if applicable)
+        $property = Property::find($booking->property_id);
+        if ($property) {
+            $property->updateAvailability();
+        }
+
+        return redirect()->route('viewProperty', $request->property_id)
+            ->with('successBook', 'Booking created successfully.');
     }
-
-    $bookingData = $request->all();
-    $bookingData['renter_id'] = auth()->id();
-
-    // Create the booking
-    $booking = Booking::create($bookingData);
-
-    // Update property availability (if applicable)
-    $property = Property::find($booking->property_id);
-    if ($property) {
-        $property->updateAvailability();
-    }
-
-    return redirect()->route('viewProperty', $request->property_id)
-                     ->with('successBook', 'Booking created successfully.');
-}
     /**
      * Display the specified resource.
      */
@@ -198,21 +198,21 @@ public function deleteReview($id)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Booking $booking ,string $id)
-{
-    $booking->delete();
+    public function destroy(Booking $booking, string $id)
+    {
+        $booking->delete();
 
-    return redirect()->route('bookings.index')->with('success', 'Booking deleted successfully.');
-}
-public function cancel(string $id)
-{
-    // Find the booking by its ID
-    $booking = Booking::findOrFail($id);
+        return redirect()->route('bookings.index')->with('success', 'Booking deleted successfully.');
+    }
+    public function cancel(string $id)
+    {
+        // Find the booking by its ID
+        $booking = Booking::findOrFail($id);
 
-    // Update the status to 'canceled'
-    $booking->update(['status' => 'canceled']);
+        // Update the status to 'canceled'
+        $booking->update(['status' => 'canceled']);
 
-    // Redirect with success message
-    return redirect()->back()->with('success', 'Booking status updated to canceled.');
-}
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Booking status updated to canceled.');
+    }
 }

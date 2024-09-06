@@ -14,6 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/elegant-icons.css') }}" type="text/css">
@@ -132,19 +134,24 @@
                                 <li><a href="{{ route('about') }}" style="text-decoration: none">About</a></li>
                                 {{-- <li><a href="{{ route('blog') }}" style="text-decoration: none">Blog</a></li> --}}
                                 <li><a href="{{ route('contact') }}" style="text-decoration: none">Contact</a></li>
+                                @if (Auth::user())
+                                <li><a href="{{ route('login_register') }}" style="text-decoration: none">profile</a></li>
+                                @else
+                                <li><a href="{{ route('login_register') }}" style="text-decoration: none">profile</a></li>
+                                @endif
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3">
                         <div class="hn-social">
-                            @if (Auth::user())
-                            <a href="{{ route('user.dashboard') }}"><i class="fa fa-user"></i></a>
+                            {{-- @if (Auth::user())
+                            <a style="width: 50px" href="{{ route('user.dashboard') }}"><i class="fa fa-user"></i></a>
                             @else
                             <a href="{{ route('login_register') }}"><i class="fa fa-user"></i></a>
-                            @endif
-                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            @endif --}}
+                            {{-- <a href="#"><i class="fa fa-twitter"></i></a>
                             <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a> --}}
 
 
                         </div>
