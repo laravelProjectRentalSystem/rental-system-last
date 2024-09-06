@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PropertyController extends Controller
 {
@@ -161,6 +162,7 @@ class PropertyController extends Controller
             ->get(); // Retrieve the results
 
 
+
         // Fetch bookings related to the user's properties
         $bookings = Booking::whereHas('property', function ($query) {
             $query->where('user_id', auth()->user()->id);
@@ -178,7 +180,11 @@ class PropertyController extends Controller
     {
         $bookings = Booking::all();
         $properties = Property::all();
-        return view('frontend.admin.property_admin', compact('properties', 'property', 'bookings'));
+
+        // Retrieve property photos if editing an existing property
+        $propertyPhotos = $property ? $property->photos : collect();
+
+        return view('frontend.admin.property_admin', compact('properties', 'property', 'bookings', 'propertyPhotos'));
     }
 
     /**
@@ -282,6 +288,7 @@ class PropertyController extends Controller
             'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Update property details
         $property->update($request->only([
             'title',
             'description',
@@ -298,18 +305,32 @@ class PropertyController extends Controller
             'pool',
         ]));
 
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('property_photos', 'public');
-                PropertyPhoto::create([
-                    'property_id' => $property->id,
-                    'photo_url' => $path,
-                ]);
+        // Handle photo updates (replace or delete)
+        if ($request->has('photos')) {
+            foreach ($request->file('photos') as $key => $photo) {
+                if (is_numeric($key)) {
+                    // Replace existing photo
+                    $existingPhoto = PropertyPhoto::find($key);
+                    if ($existingPhoto) {
+                        Storage::disk('public')->delete($existingPhoto->photo_url);
+                        $existingPhoto->update([
+                            'photo_url' => $photo->store('property_photos', 'public'),
+                        ]);
+                    }
+                } else {
+                    // Add new photo
+                    $path = $photo->store('property_photos', 'public');
+                    PropertyPhoto::create([
+                        'property_id' => $property->id,
+                        'photo_url' => $path,
+                    ]);
+                }
             }
         }
 
-        return redirect()->route('property.index')->with('success', 'Property updated successfully.');
+        return redirect()->route('properties.manage', $property->id)->with('success', 'Property updated successfully.');
     }
+
 
 
     /**

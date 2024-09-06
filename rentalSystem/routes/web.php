@@ -226,3 +226,4 @@ Route::delete('/properties/delete/{id}', [PropertyController::class, 'removeProp
 
 
 Route::patch('/bookings/{id}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+Route::delete('/properties/{property}/delete-img', [PropertyController::class, 'DeleteImg'])->name('properties.DeleteImg');
