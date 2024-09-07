@@ -74,6 +74,7 @@ Route::get('/login_register', function () {
 
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
+Route::post('/checlemail', [RegisteredUserController::class, 'checkEmail'])->name('checkEmail');
 
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');

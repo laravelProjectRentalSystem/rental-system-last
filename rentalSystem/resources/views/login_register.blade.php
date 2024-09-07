@@ -50,17 +50,44 @@
     </script>
     @endif
 
-    <!-- Test SweetAlert -->
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+            @if (session('error'))
             Swal.fire({
-                title: 'Test Alert',
-                text: "{{ session('status') }}",
-                icon: 'info',
+                title: 'Error!',
+                text: "{{ session('error') }}",
+                icon: 'error',
                 confirmButtonText: 'OK'
             });
+            @endif
         });
-    </script> --}}
+        // Swal.fire({
+        //     title: 'Error!',
+        //     text: "{{ session('error') }}",
+        //     icon: 'error',
+        //     confirmButtonText: 'OK'
+        // });
+        // Optional: Example usage to check email
+        function checkEmail(email) {
+            $.ajax({
+                url: '{{ route('checkEmail') }}', // Adjust to your route
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    email: email
+                },
+                success: function(response) {
+                    // Handling based on response if needed
+                }
+            });
+        }
+
+        // Optional: Event handler to check email
+        $('#registerEmail').on('blur', function() {
+            const email = $(this).val();
+            checkEmail(email);
+        });
+    </script>
 
     <div id="container" class="container">
         <!-- FORM SECTION -->

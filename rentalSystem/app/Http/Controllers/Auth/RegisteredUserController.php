@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
         $user->status = 'pending'; // Explicitly set default status
         $user->save();
 
-        return redirect()->route('users.index')->with('status', 'User successfully created!');
+        return redirect()->back()->with('status', 'you created your account successfully!');
     }
 
     /**
@@ -54,6 +54,10 @@ class RegisteredUserController extends Controller
         $email = $request->input('email');
         $exists = User::where('email', $email)->exists();
 
-        return response()->json(['exists' => $exists]);
+        if ($exists) {
+            return redirect()->back()->with('error', 'Email already exists.');
+        }
+
+        return redirect()->back();
     }
 }
