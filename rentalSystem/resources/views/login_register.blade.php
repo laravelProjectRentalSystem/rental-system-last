@@ -7,6 +7,7 @@
 
     <title>Login & Register</title>
     <link rel="stylesheet" href="{{ asset('css/login_register.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         .error-message {
@@ -21,10 +22,46 @@
         .pointer {
             cursor: pointer;
         }
-
+        .alertError {
+            font-size: 16px;
+            color: #721c24; /* Text color */
+            background-color: #f8d7da; /* Background color */
+            border: 1px solid #f5c6cb; /* Border color */
+            padding: 15px; /* Padding around the text */
+            border-radius: 5px; /* Rounded corners */
+            margin-top: 20px; /* Top margin */
+            max-width: 600px; /* Max width */
+            margin-left: auto; /* Center horizontally */
+            margin-right: auto; /* Center horizontally */
+        }
     </style>
 </head>
 <body>
+    @if (session('status'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Success!',
+                text: "{{ session('status') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+    @endif
+
+    <!-- Test SweetAlert -->
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Test Alert',
+                text: "{{ session('status') }}",
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script> --}}
+
     <div id="container" class="container">
         <!-- FORM SECTION -->
         <div class="row">
@@ -98,26 +135,11 @@
             <!-- SIGN IN -->
             <div class="col align-items-center flex-col sign-in">
                 <div class="form-wrapper align-items-center">
-
                     <form id="loginForm" method="POST" action="{{ route('login') }}" class="form sign-in">
                         @csrf
                         @if(session('ErrorLessor'))
-
-                        <p class="alertError"style="
-                        font-size: 16px;
-                        color: #721c24; /* Text color */
-                        background-color: #f8d7da; /* Background color */
-                        border: 1px solid #f5c6cb; /* Border color */
-                        padding: 15px; /* Padding around the text */
-                        border-radius: 5px; /* Rounded corners */
-                        margin-top: 20px; /* Top margin */
-                        max-width: 600px; /* Max width */
-                        margin-left: auto; /* Center horizontally */
-                        margin-right: auto; /* Center horizontally */
-                    ">{{ session('ErrorLessor') }}</p>
-
-
-                    @endif
+                        <p class="alertError">{{ session('ErrorLessor') }}</p>
+                        @endif
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
                             <input type="text" name="email" id="loginEmail" placeholder="Email" required>
@@ -164,7 +186,7 @@
     </div>
 
     <script src="{{ asset('js/login_register.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -29,6 +30,7 @@ class RegisteredUserController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         $defaultProfilePicture = 'profile_pictures/default-profile.jpg';
         $user = new User();
         $user->name = $request->input('name');
@@ -41,7 +43,7 @@ class RegisteredUserController extends Controller
         $user->status = 'pending'; // Explicitly set default status
         $user->save();
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('status', 'User successfully created!');
     }
 
     /**

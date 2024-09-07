@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,11 +19,13 @@ class AuthenticatedSessionController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            
+            if ($user->role === 'renter') {
+                User::where('role', 'renter')->update(['status' => 'accepted']);
+            }
             if ($user->role === 'lessor') {
-                if($user->status == "pending"){
+                if ($user->status == "pending") {
                     return redirect()->back()->with('ErrorLessor', "Please wait for admin approval");
-                } elseif($user->status == "rejected"){
+                } elseif ($user->status == "rejected") {
                     return redirect()->back()->with('ErrorLessor', "Your account has been rejected");
                 }
             }
