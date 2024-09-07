@@ -102,9 +102,9 @@
                                 <div class="row">
                                     @foreach($propertyPhotos as $photo)
                                         <div class="col-md-2">
-                                            <img src="{{ Storage::url($photo->photo_url) }}" alt="Property Image" class="img-fluid mb-2">
+                                            <img width="350px" height="250px" src="{{ Storage::url($photo->photo_url) }}" alt="Property Image" class="img-fluid mb-2">
                                             <!-- Option to delete or replace image -->
-                                            <button class="btn btn-danger btn-sm btn-block" type="button">Delete</button>
+                                            {{-- <button class="btn btn-danger btn-sm btn-block" type="button">Delete</button> --}}
                                             <input type="file" name="photos[{{ $photo->id }}]" class="form-control file-upload-info">
                                         </div>
                                     @endforeach

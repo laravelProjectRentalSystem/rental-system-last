@@ -179,7 +179,7 @@ color: rgb(185, 184, 184) ;
         <div class="row">
             <div class="col-lg-5">
                 <div class="section-title">
-                    <h4>Latest PROPERTY</h4>
+                    <h4>PROPERTIES</h4>
                 </div>
             </div>
             <div class="col-lg-7">
