@@ -144,6 +144,12 @@
                                 @else
                                 <li><a href="{{ route('login_register') }}" style="text-decoration: none">profile</a></li>
                                 @endif
+                                @if (Auth::user())
+
+                                @if (Auth::user()->role == 'lessor')
+                                    <li><a href="{{ route('dashboardB') }}" style="text-decoration: none">my dashboard</a></li>
+                                @endif
+                                @endif
                             </ul>
                         </nav>
                     </div>
@@ -184,8 +190,8 @@
                                 <img src="img/f-logo.png" alt="">
                             </a>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua ut aliquip ex ea</p>
+                        <p>Fun Chalets offers an exceptional experience, combining luxury and leisure for you and your
+                            family or friends. The chalets are carefully designed to provide an atmosphere full of excitement and activities, with modern amenities and spaces perfect for enjoying memorable times.</p>
                         <div class="fs-social">
                             <a href="#"><i class="fa fa-facebook"></i></a>
                             <a href="#"><i class="fa fa-twitter"></i></a>
@@ -211,28 +217,35 @@
                     <div class="fs-widget">
                         <h5>Links</h5>
                         <ul>
-                            <li><a href="#" style="text-decoration: none">Contact</a></li>
-                            <li><a href="#" style="text-decoration: none">Create Property</a></li>
-                            <li><a href="#" style="text-decoration: none">My Properties</a></li>
-                            <li><a href="#" style="text-decoration: none">Register</a></li>
-                            <li><a href="#" style="text-decoration: none">Login</a></li>
+                            <li><a href="{{ route('contact') }}" style="text-decoration: none">Contact</a></li>
+                            @if (Auth::user())
+                            @if (Auth::user()->role == 'lessor')
+                            <li><a href="{{ route('property.index') }}" style="text-decoration: none">My Properties</a></li>
+                            @endif
+                            @endif
+
+
+                            <li><a href="{{ route('login_register') }}" style="text-decoration: none">Register or Login</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="fs-widget">
                         <h5>Newsletter</h5>
-                        <p>Deserunt mollit anim id est laborum.</p>
-                        <form action="#" class="subscribe-form">
-                            <input type="text" placeholder="Email">
+                        <p>Subscribe to our newsletter to receive the latest updates, exclusive offers, and insider news directly to your inbox. Don't miss out!</p>
+
+                        <form id="subscribe-form" action="#" class="subscribe-form">
+                            <input type="email" placeholder="Email" name="email" required>
                             <button type="submit" class="site-btn">Subscribe</button>
                         </form>
+
+
                     </div>
                 </div>
             </div>
             <div class="copyright-text">
                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
             </div>
         </div>
@@ -256,6 +269,22 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.getElementById('subscribe-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+
+        // Show SweetAlert notification
+        Swal.fire({
+            title: 'Subscribed!',
+            text: 'Thank you for subscribing to our newsletter.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+
+        // Optionally, you can add code here to actually submit the form data to your server
+        // For example, using fetch or XMLHttpRequest
+    });
+</script>
 
 
 
