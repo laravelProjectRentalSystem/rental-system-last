@@ -28,9 +28,9 @@
             <div class="col-lg-6">
                 <div class="about-text">
                     <div class="at-title">
-                        <h3>Welcom to Aler REAL</h3>
-                        <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
-                            unknown printer took a galley of type.</p>
+                        <h3>Welcome to Fun Chalets</h3>
+                        <p>Fun Chalets offers an exceptional experience, combining luxury and leisure for you and your family or friends. The chalets are carefully
+                            designed to provide an atmosphere full of excitement and activities, with modern amenities and spaces perfect for enjoying memorable times</p>
                     </div>
                     <div class="at-feature">
                         <div class="af-item">
@@ -38,8 +38,9 @@
                                 <img src="img/chooseus/chooseus-icon-1.png" alt="">
                             </div>
                             <div class="af-text">
-                                <h6>Find your future home</h6>
-                                <p>We help you find a new home by offering a smart real estate.</p>
+                                <h6>Enjoy a Fun-Filled Atmosphere</h6>
+                                <p>We help you find the perfect chalet for spending joyful moments with your loved ones.
+                                </p>
                             </div>
                         </div>
                         <div class="af-item">
@@ -47,8 +48,8 @@
                                 <img src="img/chooseus/chooseus-icon-2.png" alt="">
                             </div>
                             <div class="af-text">
-                                <h6>Experienced agents</h6>
-                                <p>Find an agent who knows your market best</p>
+                                <h6>Professional Services</h6>
+                                <p>Find the best experts who know every detail of the chalet market</p>
                             </div>
                         </div>
                         <div class="af-item">
@@ -56,8 +57,8 @@
                                 <img src="img/chooseus/chooseus-icon-3.png" alt="">
                             </div>
                             <div class="af-text">
-                                <h6>Buy or rent homes</h6>
-                                <p>Millions of houses and apartments in your favourite cities</p>
+                                <h6>Rent Chalets</h6>
+                                <p>Hundreds of chalets equipped with the latest entertainment facilities are waiting for you in top locations</p>
                             </div>
                         </div>
                         <div class="af-item">
@@ -65,8 +66,8 @@
                                 <img src="img/chooseus/chooseus-icon-4.png" alt="">
                             </div>
                             <div class="af-text">
-                                <h6>List your own property</h6>
-                                <p>Sign up now and sell or rent your own properties</p>
+                                <h6>List Your Own Chalet</h6>
+                                <p>Sign up now and list your chalet for sale or rent with ease</p>
                             </div>
                         </div>
                     </div>

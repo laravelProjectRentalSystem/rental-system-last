@@ -33,7 +33,7 @@
                         <h4>Contact form</h4>
                         <p>We would appreciate your feedback on how we can improve the flexibility of our current system/process. Your insights will help us make necessary adjustments and enhancements to better meet your needs.</p>
                     </div>
-                    <form action="{{ route('tohome') }}" method="GET" class="cc-form" id="contactForm">
+                    <form action="{{ route('home') }}" method="GET" class="cc-form" id="contactForm">
                         @csrf
                         <div class="group-input">
                             <input type="text" style="width: 48%" placeholder="Name" id="name" required>

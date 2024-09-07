@@ -252,8 +252,9 @@ color: rgb(185, 184, 184) ;
                     <div class="section-title">
                         <h4>Why choose us</h4>
                     </div>
-                    <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown
-                        printer took a galley of type and scrambled it to make a type specimen book.</p>
+                    <p>Fun Chalets offers an exceptional experience, combining luxury and leisure for you and your
+                        family or friends. The chalets are carefully designed to provide an atmosphere full of excitement and activities, with modern amenities and spaces perfect for enjoying memorable times.
+                   </p>
                 </div>
                 <div class="chooseus-features">
                     <div class="cf-item">
@@ -261,8 +262,8 @@ color: rgb(185, 184, 184) ;
                             <img src="img/chooseus/chooseus-icon-1.png" alt="">
                         </div>
                         <div class="cf-text">
-                            <h5>Find your future home</h5>
-                            <p>We help you find a new home by offering a smart real estate.</p>
+                            <h5 {{-- style="font-size: 1rem" --}}>Enjoy a Fun-Filled Atmosphere</h5>
+                            <p>We help you find the perfect chalet .</p>
                         </div>
                     </div>
                     <div class="cf-item">
@@ -270,8 +271,8 @@ color: rgb(185, 184, 184) ;
                             <img src="img/chooseus/chooseus-icon-2.png" alt="">
                         </div>
                         <div class="cf-text">
-                            <h5>Buy or rent homes</h5>
-                            <p>Millions of houses and apartments in your favourite cities</p>
+                            <h5>Professional Services</h5>
+                            <p>Find the best experts who know every detail of the chalet market.</p>
                         </div>
                     </div>
                     <div class="cf-item">
@@ -279,8 +280,8 @@ color: rgb(185, 184, 184) ;
                             <img src="img/chooseus/chooseus-icon-3.png" alt="">
                         </div>
                         <div class="cf-text">
-                            <h5>Experienced agents</h5>
-                            <p>Find an agent who knows your market best</p>
+                            <h5> Rent Chalets</h5>
+                            <p>Hundreds of chalets equipped with the latest entertainment facilities are waiting for you in top locations</p>
                         </div>
                     </div>
                     <div class="cf-item">
@@ -288,8 +289,8 @@ color: rgb(185, 184, 184) ;
                             <img src="img/chooseus/chooseus-icon-4.png" alt="">
                         </div>
                         <div class="cf-text">
-                            <h5>List your own property</h5>
-                            <p>Sign up now and sell or rent your own properties</p>
+                            <h5>List Your Own Chalet</h5>
+                            <p>Sign up now and list your chalet for rent with ease</p>
                         </div>
                     </div>
                 </div>

@@ -86,10 +86,10 @@
                 <img src="{{ Storage::url( Auth::user()->profile_picture) }}" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="{{ route('sprofile.page') }}">
+              {{-- <a class="dropdown-item" href="{{ route('sprofile.page') }}">
                 <i class="ti-settings text-primary"></i>
                 Settings
-              </a>
+              </a> --}}
               <form id="logout-form" action="{{ route('destroy') }}" method="POST" style="display: none;">
                 @csrf
             </form>

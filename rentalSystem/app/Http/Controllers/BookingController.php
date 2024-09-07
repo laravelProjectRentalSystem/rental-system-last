@@ -108,7 +108,7 @@ class BookingController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'total_price' => 'required|numeric|min:0',
         ]);
-        dd($request->input('total_price'));
+        // dd($request->input('total_price'));
         if (!auth()->check()) {
             return redirect()->route('viewProperty', $request->property_id)
                 ->with('loginError', 'You need to create an account or log in to book.');
