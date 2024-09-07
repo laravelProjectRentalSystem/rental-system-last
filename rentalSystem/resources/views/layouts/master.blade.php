@@ -9,6 +9,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Aler | Template')</title>
 
+    <!-- SEO -->
+    <meta name="description" content="Discover the best chalets for rent in Jordan. Browse our wide selection of luxury, affordable, and family-friendly chalets, with amenities to make your stay perfect. Book now!">
+    <meta name="keywords" content="chalets for rent in Jordan, chalet rentals, Jordan chalets, rent chalet Amman, family-friendly chalets Jordan, luxury chalets Jordan, chalet booking Jordan, chalets with pool, vacation rentals Jordan, chalet holiday Jordan">
+    <meta name="author" content="Your Name or Company">
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
