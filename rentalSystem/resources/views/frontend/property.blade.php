@@ -162,7 +162,12 @@ select option{
 .property-item:hover {
     box-shadow: 0 0 10px 4px rgba(0, 200, 158, 0.6); /* Lighter neon light shadow */
 }
+p {
 
+    font-family: "Montserrat", sans-serif;
+    color: rgb(185, 184, 184) ;
+
+}
 </style>
 <!-- Breadcrumb Section Begin -->
 {{-- <section class="breadcrumb-section spad set-bg" data-setbg="img/breadcrumb-bg.jpg">
@@ -357,7 +362,8 @@ select option{
                         </div>
                         <!-- Overlay text with icons -->
                         <div class="pi-text-overlay">
-                            <p>{{ $property->description }}</p>
+                            <p>{{ \Illuminate\Support\Str::words($property->description, 20) }}</p>
+
                         </div>
                     </div>
                     <div class="pi-text" style="margin:12px">

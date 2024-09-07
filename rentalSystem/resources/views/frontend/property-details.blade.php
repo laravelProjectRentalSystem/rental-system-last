@@ -5,7 +5,12 @@
 
 @section('content')
 <style>
+p {
 
+font-family: "Montserrat", sans-serif;
+color: rgb(185, 184, 184) ;
+
+}
     .pr-item {
     position: relative; /* Ensure the container is positioned relative to allow absolute positioning of children */
 }
@@ -528,7 +533,7 @@
                             </div>
                             <!-- Overlay text with icons -->
                             <div class="pi-text-overlay">
-                                <p>{{ $property->description }}</p>
+                                <p>{{ \Illuminate\Support\Str::words($property->description, 20) }}</p>
                             </div>
                         </div>
                         <div class="pi-text" style="margin:12px">
