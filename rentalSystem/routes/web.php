@@ -172,7 +172,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     })->name('dashboard');
     Route::resource('users', UserController::class);
     Route::get('/profileAdmin', [UserController::class, 'profile'])->name('profile.profileAdmin');
-    Route::get('/profile', [UserController::class, 'profile'])->name('profile.show');
+    // Route::get('/profile', [UserController::class, 'profile'])->name('profile.show');
     Route::get('/dashboard', [BookingController::class, 'showDashboard'])->name('dashboard');
     Route::get('/admin/bookings', [PropertyController::class, 'indexBookingAdmin'])->name('admin.bookings');
     Route::get('/users_create', [UserController::class, 'uStatus'])->name('u.create');

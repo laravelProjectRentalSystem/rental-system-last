@@ -140,7 +140,7 @@
                                 {{-- <li><a href="{{ route('blog') }}" style="text-decoration: none">Blog</a></li> --}}
                                 <li><a href="{{ route('contact') }}" style="text-decoration: none">Contact</a></li>
                                 @if (Auth::user())
-                                <li><a href="{{ route('login_register') }}" style="text-decoration: none">profile</a></li>
+                                <li><a href="{{ route('user.dashboard') }}" style="text-decoration: none">profile</a></li>
                                 @else
                                 <li><a href="{{ route('login_register') }}" style="text-decoration: none">profile</a></li>
                                 @endif

@@ -311,6 +311,12 @@
                   <span class="menu-title">Reviews</span>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ route('home') }}">
+                    <i class="icon-grid mdi mdi-home mdi-24px mr-2"></i>
+                    <span class="menu-title">Back To Home</span>
+                </a>
+              </li>
 
 
         </ul>
